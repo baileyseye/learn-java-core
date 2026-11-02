@@ -115,11 +115,7 @@ public class HumanWithExceptions {
         try {
             validateAge(age);
 
-            return Human.builder()
-                .name(name)
-                .age(age)
-                .isAlive(isAlive)
-                .build();
+            return new Human(name, age, isAlive);
         } catch (IllegalArgumentException e) {
             System.out.println("Ошибка валидации: " + e.getMessage());
             return null;
@@ -133,9 +129,9 @@ public class HumanWithExceptions {
         System.out.println("=== Демонстрация исключений с классом Human ===");
 
         Human[] humans = {
-            Human.builder().name("Иван").age(25).isAlive(true).build(),
-            Human.builder().name("Мария").age(30).isAlive(true).build(),
-            Human.builder().name("Петр").age(35).isAlive(false).build()
+            new Human("Иван", 25, true),
+            new Human("Мария", 30, true),
+            new Human("Петр", 35, false)
         };
 
         // Демонстрация поиска человека

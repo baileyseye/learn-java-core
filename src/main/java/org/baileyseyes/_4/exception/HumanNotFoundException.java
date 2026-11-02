@@ -11,4 +11,7 @@ import lombok.experimental.StandardException;
 @StandardException
 public class HumanNotFoundException extends RuntimeException{
     //из-за @StandardException внутри нет никакой логики, аннотация сама добавит
+    public HumanNotFoundException(String message) {
+        super(message);
+    }
 }
