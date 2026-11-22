@@ -1,0 +1,16 @@
+---
+const { lessonId, todo = 'Отметить пройденным', done = 'Пройдено — снять отметку' } = Astro.props;
+---
+
+<button
+  type="button"
+  class="progress-toggle"
+  data-progress-toggle
+  data-lesson-id={lessonId}
+  data-label-todo={todo}
+  data-label-done={done}
+  aria-pressed="false"
+>
+  <span class="progress-toggle-icon" aria-hidden="true"></span>
+  <span data-progress-label>{todo}</span>
+</button>

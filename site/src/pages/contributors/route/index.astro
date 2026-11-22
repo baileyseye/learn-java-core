@@ -1,0 +1,20 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import RouteMap from '../../../components/RouteMap.astro';
+import { sidebar } from '../../../data/sidebar.mjs';
+
+const headings = [{ depth: 2, slug: 'route', text: 'Модули и уроки' }];
+---
+
+<StarlightPage
+  frontmatter={{
+    title: 'Карта маршрута',
+    description: 'Последовательность модулей, уроков и дополнительных материалов курса Learn Java Core.'
+  }}
+  headings={headings}
+  sidebar={sidebar}
+>
+  <div id="route">
+    <RouteMap />
+  </div>
+</StarlightPage>

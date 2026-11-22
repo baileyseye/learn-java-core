@@ -1,0 +1,24 @@
+---
+import { moduleUrl } from '../utils/url.js';
+import ProgressSummary from './ProgressSummary.astro';
+
+const { module, lessons, extras = [] } = Astro.props;
+const lessonIds = lessons.map((lesson) => lesson.id);
+---
+
+<a class="module-card" href={moduleUrl(module)} style={`--module-color:${module.color}`}>
+  <div class="module-card-head">
+    <span class="module-number">{module.number}</span>
+    <div>
+      <h3>{module.title}</h3>
+      <p>{module.description}</p>
+    </div>
+  </div>
+  <ul class="module-outcomes">
+    {module.outcomes.slice(0, 3).map((outcome) => <li>{outcome}</li>)}
+  </ul>
+  <div class="module-card-footer">
+    <span class="module-count">{lessons.length} уроков{extras.length ? ` · ${extras.length} доп.` : ''}</span>
+    <ProgressSummary lessonIds={lessonIds} label="Модуль" compact />
+  </div>
+</a>

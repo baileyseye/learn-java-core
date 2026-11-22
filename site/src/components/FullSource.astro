@@ -1,0 +1,20 @@
+---
+import { Code } from 'astro-expressive-code/components';
+import generated from '../data/generated.json';
+import { basename } from '../utils/url.js';
+
+const { file } = Astro.props;
+const entry = generated.files[file];
+
+if (!entry) {
+  throw new Error(`FullSource: файл ${file} не найден в generated.json`);
+}
+---
+
+<details class="full-source">
+  <summary>
+    <span>Показать весь файл</span>
+    <span class="full-source-meta">{entry.lines} строк · {basename(file)}</span>
+  </summary>
+  <Code code={entry.code} lang="java" title={basename(file)} frame="code" showLineNumbers wrap />
+</details>

@@ -1,0 +1,82 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import CourseManifest from '../../components/CourseManifest.astro';
+import ProgressSummary from '../../components/ProgressSummary.astro';
+import ProgressToggle from '../../components/ProgressToggle.astro';
+import { modules, lessons, lessonsOfModule } from '../../data/course.mjs';
+import { sidebar } from '../../data/sidebar.mjs';
+import { lessonUrl } from '../../utils/url.js';
+
+const lessonIds = lessons.map((lesson) => lesson.id);
+const headings = [
+  { depth: 2, slug: 'overall', text: 'Общий прогресс' },
+  { depth: 2, slug: 'lessons', text: 'Уроки по модулям' }
+];
+---
+
+<StarlightPage
+  frontmatter={{
+    title: 'Мой прогресс',
+    description: 'Прогресс по урокам курса Learn Java Core. Хранится локально в браузере.'
+  }}
+  headings={headings}
+  sidebar={sidebar}
+>
+  <CourseManifest />
+
+  <div class="progress-page">
+    <p class="lesson-lead">
+      Отмечайте уроки после того, как разобрали код, сделали упражнение и ответили на вопросы.
+      Прогресс хранится в <code>localStorage</code> этого браузера.
+    </p>
+
+    <section class="progress-overall">
+      <h2 id="overall">Общий прогресс</h2>
+      <ProgressSummary lessonIds={lessonIds} label="Пройдено уроков" />
+    </section>
+
+    <section class="progress-controls">
+      <h2>Перенос и сброс</h2>
+      <p class="section-note">
+        Экспорт копирует JSON в буфер обмена и в поле ниже. Импорт принимает такой же JSON-массив id уроков.
+      </p>
+      <div class="progress-buttons">
+        <button type="button" class="course-btn course-btn-ghost" data-progress-export>Экспортировать</button>
+        <button type="button" class="course-btn course-btn-ghost" data-progress-import>Импортировать</button>
+        <button type="button" class="course-btn course-btn-danger" data-progress-reset>Сбросить прогресс</button>
+      </div>
+      <label class="progress-io-label" for="progress-io">JSON прогресса</label>
+      <textarea id="progress-io" data-progress-io rows="3" spellcheck="false" placeholder='["hello-world", "primitive-types"]'></textarea>
+      <p class="progress-status" data-progress-status role="status"></p>
+    </section>
+
+    <section class="progress-lessons">
+      <h2 id="lessons">Уроки по модулям</h2>
+      {
+        modules.map((module) => (
+          <div class="progress-module">
+            <h3>
+              <span class="module-number" style={`--module-color:${module.color}`}>{module.number}</span>
+              {module.title}
+            </h3>
+            <ul>
+              {lessonsOfModule(module.number).map((lesson) => (
+                <li>
+                  <a href={lessonUrl(lesson)}>
+                    <span class="progress-lesson-order">{String(lesson.order).padStart(2, '0')}</span>
+                    <span>{lesson.title}</span>
+                  </a>
+                  <ProgressToggle
+                    lessonId={lesson.id}
+                    todo="Отметить"
+                    done="Пройдено"
+                  />
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </section>
+  </div>
+</StarlightPage>

@@ -1,0 +1,43 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import LessonView from '../../../components/LessonView.astro';
+import outputs from '../../../data/outputs.json';
+import { lessons, moduleOfLesson, adjacentLessons } from '../../../data/course.mjs';
+import { sidebar } from '../../../data/sidebar.mjs';
+
+export function getStaticPaths() {
+  return lessons.map((lesson) => ({
+    params: { slug: lesson.id },
+    props: { lesson }
+  }));
+}
+
+const { lesson } = Astro.props;
+const module = moduleOfLesson(lesson);
+const { prev, next } = adjacentLessons(lesson.id);
+const runs = outputs[lesson.id]?.runs ?? [];
+const hasFullSource = lesson.sources.some(
+  (source) => !(source.focus ?? []).some((focus) => focus.full)
+);
+
+const headings = [
+  { depth: 2, slug: 'goal', text: 'Цель урока' },
+  { depth: 2, slug: 'ideas', text: 'Ключевые идеи' },
+  { depth: 2, slug: 'code', text: 'Код' },
+  ...(runs.length ? [{ depth: 2, slug: 'output', text: 'Что выводит программа' }] : []),
+  { depth: 2, slug: 'practice', text: 'Практика' },
+  { depth: 2, slug: 'quiz', text: 'Проверь себя' },
+  ...(hasFullSource ? [{ depth: 2, slug: 'full', text: 'Полный исходник' }] : [])
+];
+---
+
+<StarlightPage
+  frontmatter={{
+    title: lesson.title,
+    description: lesson.summary
+  }}
+  headings={headings}
+  sidebar={sidebar}
+>
+  <LessonView lesson={lesson} module={module} prev={prev} next={next} hasFullSource={hasFullSource} />
+</StarlightPage>

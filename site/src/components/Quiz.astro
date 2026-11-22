@@ -1,0 +1,51 @@
+---
+const { questions } = Astro.props;
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function inline(value) {
+  return escapeHtml(value).replace(/`([^`]+)`/g, '<code>$1</code>');
+}
+---
+
+<div class="quiz" data-quiz>
+  {
+    questions.map((question, questionIndex) => (
+      <fieldset class="quiz-question" data-quiz-question data-explanation={question.explain}>
+        <legend>
+          <span class="quiz-number">{questionIndex + 1}</span>
+          <span set:html={inline(question.q)}></span>
+        </legend>
+        <div class="quiz-options">
+          {question.options.map((option, optionIndex) => (
+            <label class="quiz-option">
+              <input
+                type="radio"
+                name={`quiz-${questionIndex}`}
+                value={optionIndex}
+                data-correct={optionIndex === question.answer ? 'true' : 'false'}
+              />
+              <span set:html={inline(option)}></span>
+            </label>
+          ))}
+        </div>
+        <p class="quiz-feedback" data-quiz-feedback aria-live="polite"></p>
+      </fieldset>
+    ))
+  }
+  <div class="quiz-actions">
+    <button type="button" class="course-btn course-btn-primary" data-quiz-check>Проверить</button>
+    <button type="button" class="course-btn course-btn-ghost" data-quiz-reset>Сбросить</button>
+    <span class="quiz-summary" data-quiz-summary aria-live="polite"></span>
+  </div>
+</div>
+
+<script>
+  import '../scripts/quiz.js';
+</script>

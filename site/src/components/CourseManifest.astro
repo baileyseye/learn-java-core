@@ -1,0 +1,15 @@
+---
+import { lessons } from '../data/course.mjs';
+import { lessonUrl } from '../utils/url.js';
+
+const manifest = lessons.map((lesson) => ({
+  id: lesson.id,
+  order: lesson.order,
+  module: lesson.module,
+  title: lesson.title,
+  url: lessonUrl(lesson)
+}));
+const json = JSON.stringify(manifest).replace(/</g, '\\u003c');
+---
+
+<script type="application/json" id="course-manifest" set:html={json}></script>

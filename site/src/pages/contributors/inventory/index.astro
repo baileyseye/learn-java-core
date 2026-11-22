@@ -1,0 +1,20 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import Inventory from '../../../components/Inventory.astro';
+import { sidebar } from '../../../data/sidebar.mjs';
+
+const headings = [{ depth: 2, slug: 'inventory', text: 'Все файлы' }];
+---
+
+<StarlightPage
+  frontmatter={{
+    title: 'Инвентарь файлов',
+    description: 'Все Java-файлы репозитория, их размер, методы и связи с уроками курса.'
+  }}
+  headings={headings}
+  sidebar={sidebar}
+>
+  <div id="inventory">
+    <Inventory />
+  </div>
+</StarlightPage>

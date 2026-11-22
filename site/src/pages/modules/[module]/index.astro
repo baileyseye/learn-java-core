@@ -1,0 +1,41 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import ModuleOverview from '../../../components/ModuleOverview.astro';
+import { modules, moduleByNumber, lessonsOfModule, extrasOfModule } from '../../../data/course.mjs';
+import { sidebar } from '../../../data/sidebar.mjs';
+
+export function getStaticPaths() {
+  return modules.map((module) => ({
+    params: { module: String(module.number) },
+    props: { module }
+  }));
+}
+
+const { module } = Astro.props;
+const lessons = lessonsOfModule(module.number);
+const extras = extrasOfModule(module.number);
+const prevModule = moduleByNumber.get(module.number - 1) ?? null;
+const nextModule = moduleByNumber.get(module.number + 1) ?? null;
+
+const headings = [
+  { depth: 2, slug: 'lessons', text: 'Уроки' },
+  ...(extras.length ? [{ depth: 2, slug: 'extras', text: 'Дополнительно' }] : [])
+];
+---
+
+<StarlightPage
+  frontmatter={{
+    title: `Модуль ${module.number}. ${module.title}`,
+    description: module.description
+  }}
+  headings={headings}
+  sidebar={sidebar}
+>
+  <ModuleOverview
+    module={module}
+    lessons={lessons}
+    extras={extras}
+    prevModule={prevModule}
+    nextModule={nextModule}
+  />
+</StarlightPage>

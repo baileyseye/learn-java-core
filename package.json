@@ -1,0 +1,23 @@
+{
+  "name": "learn-java-core-course",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Learn Java Core — интерактивный курс по Java с исходниками из этого же репозитория",
+  "scripts": {
+    "sync": "node scripts/sync-course-data.mjs",
+    "dev": "npm run sync && astro dev",
+    "prebuild": "npm run sync",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check:data": "node scripts/sync-course-data.mjs --check",
+    "capture": "node scripts/capture-outputs.mjs"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "0.37.6",
+    "@expressive-code/plugin-line-numbers": "^0.44.4",
+    "@fontsource-variable/inter": "^5.2.8",
+    "@fontsource/jetbrains-mono": "^5.2.8",
+    "astro": "5.16.6"
+  }
+}

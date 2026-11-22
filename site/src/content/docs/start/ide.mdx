@@ -1,0 +1,72 @@
+---
+title: Запуск в IntelliJ IDEA
+description: "Пошаговая инструкция по запуску курса в IntelliJ IDEA: JDK, Gradle, Lombok и первый main."
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<Aside type="note" title="Короткая версия">
+  Установите JDK 21, откройте папку репозитория в IntelliJ IDEA, дождитесь Gradle Sync, откройте `HelloWorld.java` и нажмите зелёную стрелку рядом с `main`.
+</Aside>
+
+## 1. Установите JDK
+
+Курс использует `record`, `var`, switch-выражения и другие возможности современных версий Java. Рекомендуется **JDK 21** (подойдёт 17+).
+
+Скачайте, например, Eclipse Temurin 21 или Amazon Corretto 21. После установки проверьте в терминале:
+
+```bash
+java -version
+```
+
+В выводе должна быть версия 17 или выше.
+
+## 2. Установите IntelliJ IDEA
+
+Подойдёт **IntelliJ IDEA Community Edition**. При первом запуске выберите тему и установите настройки по умолчанию.
+
+## 3. Откройте репозиторий
+
+1. Склонируйте репозиторий или скачайте ZIP и распакуйте.
+2. В IntelliJ IDEA выберите **Open** и укажите папку `learn-java-core`.
+3. Дождитесь окончания **Gradle Sync**. Если появился запрос о доверии проекту — подтвердите.
+4. Проверьте, что **Gradle JVM** указывает на JDK 17+: `Settings → Build, Execution, Deployment → Build Tools → Gradle → Gradle JVM`.
+
+Если Gradle не синхронизируется, проверьте интернет и версию JDK. Проект использует Gradle Wrapper, отдельно устанавливать Gradle не нужно.
+
+## 4. Запустите первый пример
+
+Откройте:
+
+```text
+src/main/java/org/baileyseyes/_1/__start_from_here__/HelloWorld.java
+```
+
+Нажмите зелёную стрелку рядом с методом `main` и выберите **Run 'HelloWorld.main()'**. В консоли должно появиться:
+
+```text
+Hello World
+```
+
+Поздравляем — вы запустили первую программу курса. Дальше переходите к [уроку 1](../../lessons/hello-world/).
+
+## Lombok
+
+В проекте используется Lombok. В IntelliJ IDEA плагин Lombok обычно уже включён. Если аннотации `@Getter`, `@Setter` или `@Builder` подсвечиваются как ошибки:
+
+1. Проверьте, что плагин **Lombok** включён: `Settings → Plugins`.
+2. Включите annotation processing: `Settings → Build, Execution, Deployment → Compiler → Annotation Processors → Enable annotation processing`.
+3. Выполните **Reload All from Disk** и дождитесь повторной сборки.
+
+## Если что-то не работает
+
+| Симптом | Что проверить |
+| --- | --- |
+| `class file has wrong version` | Gradle JVM и Project SDK должны быть 17+ |
+| Не находятся классы проекта | Дождитесь Gradle Sync и проверьте, что открыта корневая папка репозитория |
+| Не генерируются геттеры Lombok | Включите annotation processing и плагин Lombok |
+| `Cannot resolve symbol` у своих классов | Проверьте, что файл лежит в правильном пакете и проект собран |
+
+<Aside type="tip" title="Полезные горячие клавиши">
+  `Shift + F10` — запустить последнюю конфигурацию, `Ctrl + B` — перейти к объявлению, `Ctrl + Alt + L` — отформатировать код, `sout` + Tab — вставить `System.out.println`.
+</Aside>

@@ -1,0 +1,189 @@
+{
+  "hello-world": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._1.__start_from_here__.HelloWorld",
+        "output": "Hello World"
+      }
+    ]
+  },
+  "primitive-types": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._1.types.PrimitiveTypes",
+        "output": "\n=== Methods ===\nByte value: 10\nShort value: 1000\nInt value: 100000\nLong value: 1000000000000\nFloat value: 3.14\nDouble value: 3.14159265359\nChar value: A\nUnicode Char value: A\nEscape Char value (new line): \n\nBoolean true: true\nBoolean false: false\n\n=== Tricks ===\n2147483647 -2147483648 from Tricks.class"
+      }
+    ]
+  },
+  "strings": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._1.types.StringType",
+        "output": "=== Basics ===\nString literals: Hello Hello\nString object: World\nAre str1 and str3 equal? true\nAre str1 and str2 equal? false\nLength of 'Hello': 5\nFirst character of 'Hello': H\nConcatenated: Hello World\nConcatenated with .concat() : HelloWorld\n\n=== Methods ===\nLength: 16\nTrimmed: 'Hello World!'\nLowercase:   hello world!  \nUppercase:   HELLO WORLD!  \nContains 'World': true\nReplaced:   Hello Java!  \nSubstring from 2 to 7: 'Hello'\n\n=== Immutability ===\nOriginal before operations: 'Hello'\nOriginal after operations: 'Hello'\nUpper case: 'HELLO'\nTrimmed: 'Hello'\nConcatenated: 'Hello World'\n\n=== Comparison ===\nstr1 == str2: false\nstr1 == str3: true\nstr1.equals(str2): true\nstr1.equals(str3): true\nIgnoring case: true\n\n=== Special Characters ===\nTab: Hello\tWorld\nNewline:\nHello\nWorld\nQuote: He said \"Hello\"\nBackslash: Path: C:\\Users\\Name\n\n=== Formatting ===\nName: Alice, Age: 30, Score: 95,50\nName: Alice, Age: 30, Score: 95,50\nName: Alice, Age: 30, Score: 95,50\n\n=== Tricks ===\nIs nullStr null? true\nIs emptyStr empty? true\nIs blankStr empty? false\nIs blankStr blank? true\nRepeated: Java Java Java \nJoined: Hello beautiful world"
+      }
+    ]
+  },
+  "arrays": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._1.types.IntArray",
+        "output": "=== Basics ===\nLength of arr3: 5\n\n=== Arrays Class ===\nArrays equal: true\nArrays equal: true\n\n=== Operations ===\nMin in arr1: 1\nMax in arr1: 5\nSum of arr1 elements: 15\n\n=== Tricks ===\narr1 == arr2: false\narr1 == arr3: true\nArray as string: [1, 2, 3, 4, 5]"
+      }
+    ]
+  },
+  "if-else": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._1.if_else.IfElse",
+        "output": "=== Basic If ===\nx is less than y\nx equals 10\n\n=== If-Else ===\nPassed\n7 is odd\n\n=== If-Else-If ===\nGrade: B\nAdult\n\n=== Nested If ===\nBoth x and y are positive\nWarm\n\n=== Logical Operators ===\nCan drive legally\nHas means to travel\nDoes not have a car\nEligible for driving or transportation\n\n=== Ternary Operator ===\nMaximum of 10 and 20 is 20\nb is greater or equal\nGreatest among 10, 20, 30 is 30\n15 is odd\n\n=== Switch ===\nWednesday\nDay name using switch expression: Wednesday\n\n=== Patterns ===\nString is null\nString is null or empty\nValue is in range [0, 100]\nCalculated grade: 4\n\n=== Tricks ===\nToday (WEDNESDAY) is Midweek"
+      }
+    ]
+  },
+  "for-loop": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._1.cycles.For",
+        "output": "=== Basic For ===\nBasic for loop (1 to 5):\n1 2 3 4 5 \nCountdown from 5 to 1:\n5 4 3 2 1 \nEven numbers from 2 to 10:\n2 4 6 8 10 \n\n=== For with Arrays ===\nNumbers array:\nIndex 0: 1\nIndex 1: 2\nIndex 2: 3\nIndex 3: 4\nIndex 4: 5\nNames array:\nIndex 0: Alice\nIndex 1: Bob\nIndex 2: Charlie\nIndex 3: David\nSum of array elements: 15\nMaximum element: 5\n\n=== Enhanced For ===\nEnhanced for loop with numbers:\n10 20 30 40 50 \nEnhanced for loop with fruits:\nApple Banana Cherry Date \n\n=== Nested For ===\nMultiplication table (5x5):\n  1   2   3   4   5 \n  2   4   6   8  10 \n  3   6   9  12  15 \n  4   8  12  16  20 \n  5  10  15  20  25 \nNested loop with different counters:\nOuter loop iteration 0\n  Inner loop iteration 0\n  Inner loop iteration 1\nOuter loop iteration 1\n  Inner loop iteration 0\n  Inner loop iteration 1\nOuter loop iteration 2\n  Inner loop iteration 0\n  Inner loop iteration 1\n\n=== Break Continue ===\nUsing break:\n1 2 3 4 \nUsing continue:\n1 3 5 7 9 \nCombined break and continue:\n1 3 5 7 \n\n=== Different Types ===\nCharacters from A to E:\nA B C D E \n\n=== Patterns ===\nElement 7 found at index 3\nOriginal array: [64, 34, 25, 12, 22, 11, 90]\nSorted array: [11, 12, 22, 25, 34, 64, 90]\nFibonacci sequence (first 10 terms):\n0 1 1 2 3 5 8 13 21 34 \n\n=== Tricks ===\nBuilt string with for loop: 1 2 3 4 5 \nIterations before stopping: 52"
+      }
+    ]
+  },
+  "while-loop": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._1.cycles.While",
+        "output": "=== Basic While ===\nBasic while loop (1 to 5):\n1 2 3 4 5 \nCountdown from 5 to 1:\n5 4 3 2 1 \nWhile loop with increment condition:\nIteration 1\nIteration 2\nIteration 3\n\n=== While with Arrays ===\nWhile loop with numbers array:\nIndex 0: 10\nIndex 1: 20\nIndex 2: 30\nIndex 3: 40\nIndex 4: 50\n\n=== While Break Continue ===\nWhile loop with break:\n1 2 3 4 \nWhile loop with continue:\n1 3 5 7 9 \n\n=== Do-While ===\nDo-while loop (1 to 5):\n1 2 3 4 5 \nDo-while for input validation:\nAttempt 1 (minimum 1 attempt guaranteed)\nAttempt 2 (minimum 1 attempt guaranteed)\n\n=== Do-While Examples ===\nBasic do-while with counter:\n1 2 3 4 5 \nDo-while for menu selection:\nMenu:\n1. Option 1\n2. Option 2\n3. Exit\nEnter your choice (1-3):\nExiting...\nDo-while for input validation:\nValid input received: 15"
+      }
+    ]
+  },
+  "methods": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._1.methods.Methods",
+        "output": "=== ����� ��� ������������� �������� � ��� ���������� ===\n���� ����� ������ �� ���������� � �� ��������� ���������\n�� ������ ��������� ��������\n\n=== ����� ��� ������������� ��������, �� � ����������� ===\n����� � �����������:\n���: �������\n�������: 25\n\n=== ����� � ������������ ��������� � ��� ���������� ===\n���� ����� ���������� ����� ����� \n������������ ��������: 42\n\n=== ����� � ������������ ��������� � ����������� ===\n����� � ����������� � ������������ ���������\n�������� �������: 30\n��������� �������: 60\n������������ ��������: 60\n\n=== ����� � ����������� ����������� � ������������ ��������� ===\n����� � ����������� �����������:\n���: �����\n�������: 28\n���: true\n������������ ��������: �������: �����, ������� 28, ���\n\n=== ����� �������� ���������� ===\n�������� ���������� ��� ��������: 25\n���������: true\n������� ��������: true\n\n=== ����� ���������� �������� ===\n���������� ��������:\n������: 30\n�����: 31\n����� �������: 31\n\n=== ����� ��������� ������ ���������� ===\n��������� ������ ���������� � ��������:\n���: ����\n�������: 32\n����: 170 ��\n���: 65 ��\n���: true\n������ ����������: ������� ����, ������� 32 ���, ���� 170 ��, ��� 65 ��, ���\n\n=== ����� �������� ����� ===\n�������� �����:\n����� 1: 15\n����� 2: 25\n�����: 40\n�����: 40\n\n=== ����� ������ ��������� ===\n����� ���������:\n��� �������� ���������"
+      }
+    ]
+  },
+  "human-main": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._2.main.HumanMain",
+        "output": "�������������� ������\n \n=== �������� �������� ����� ����� createSimpleHuman ===\n������ �������: Human info - Name: John, Age: 25, Alive: true\n\n=== �������� �������� ����� ����� createHuman ===\n������ �������: Human info - Name: Alice, Age: 30, Alive: true\n\n=== ��������� ������ �������� ===\n����������: Human info - Name: John, Age: 25, Alive: true\n����� ���������: Human info - Name: Bob, Age: 28, Alive: true\n\n=== �������� ���������� ===\n������� 1 (������� 28) ��������: true\n������� 2 (������� 30) ��������: true\n\n=== ������������ ��� �������� ===\n�� ��� ��������: Human info - Name: Bob, Age: 28, Alive: true\n����� ��� ��������: Human info - Name: Bob, Age: 29, Alive: true\n\n=== �������� ��������� � ������� �������������� ===\n������� � ������ � ���������: Human info - Name: Charlie, Age: 22, Alive: false\n������� ������ � ���������: Human info - Name: null, Age: 35, Alive: false\n\n=== �������� �������� � ������� Builder ===\n������� ����� Builder: Human info - Name: Diana, Age: 27, Alive: true\n\n=== ���������� ���������� ���������� ===\n����������: Human info - Name: null, Age: 35, Alive: false\n����� ����������: Human info - Name: Eve, Age: 40, Alive: false"
+      }
+    ]
+  },
+  "interfaces": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._3.main.Main",
+        "output": "No."
+      }
+    ]
+  },
+  "enum-practice": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._3.enum_class.EnumPractice",
+        "output": "=== ������� ������������� ������������ ===\n�������: MONDAY\n�������� ���: MONDAY\n���������� �����: 0\n������� �����������\n��� ��� ������:\nMONDAY (���������� �����: 0)\nTUESDAY (���������� �����: 1)\nWEDNESDAY (���������� �����: 2)\nTHURSDAY (���������� �����: 3)\nFRIDAY (���������� �����: 4)\nSATURDAY (���������� �����: 5)\nSUNDAY (���������� �����: 6)\n\n=== �������� ������������� ===\n\n=== ������������� � �������� ���������� ===\n������� ����\n������� ������� ����\n\n=== ������������� ��� ��������� ===\n\n=== ������������� ��� ��������� ===\n�����������: MONDAY\n�������: FRIDAY\n�����������: SUNDAY\n����������� == �����������: true\n������� != �����������: true\n\n=== ���������� ������� ===\n\n=== ���������� ������� � ������ ===\n��������� ���: MONDAY\n��������� ���: WEDNESDAY - �����\n��������� ���: FRIDAY - ������� (������� ����: true)\n\n=== ������ ������������ ===\n\n=== ������ ������������ ===\n�������: THURSDAY\n��������: THURSDAY\n���������� �����: 3\n���������� ��������: 7\n������� ����: true\n��������� ����: FRIDAY"
+      }
+    ]
+  },
+  "exceptions-intro": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._4.try_catch_finally.TryCatchFinally",
+        "output": "=== ������������ ���������� try-catch ===\n=== ������� ������������� try-catch ===\n��������� �������������� ����������: / by zero\n���������� ����: ArithmeticException\n��������� ���������� ������ ����� ��������� ����������\n\n=== ��������� ���������� ����� ���������� ===\n������ ������� �������: Index 10 out of bounds for length 5\n\n=== ���� finally ===\n� ����� try\n���������: 5\n���� finally ������ �����������\n��������� ���������� ������\n\n=== ����������� ���������� IOException ===\n������ �����-������: nonexistent.txt (�� ������� ����� ��������� ����)\n��� ����������: FileNotFoundException\n\n=== ��������� ���������� ����������� ���������� ===\n������ ������� �������: Index 5 out of bounds for length 3\n\n=== ������ � ���������������� ������ ===\n������� �����: ������ �����: null\n����������, ������� ���������� �����\n\n=== ����������� ���������� ===\n������� 150 ���������\n\n=== Try-with-resources ===\n������ ��� ������ � ������: example.txt (�� ������� ����� ��������� ����)\n\n=== ��������� try-catch ����� ===\n������� try\n���������� try\n��������� ����������� ����������: / by zero\n��������� �������� ����������: / by zero\n\n=== Multi-catch (��������� ���������� ���������� � ����� �����) ===\n����� ��������� ���������� ����������: NullPointerException\n���������: Cannot invoke \"String.length()\" because \"str\" is null\n\n=== �������� ����� throw ===\n����������� ����������: ������� �� ����� ���� �������������: -5\n\n=== ����������� ���������� � ������� ===\n���������� ���������� � ������: test.txt (�� ������� ����� ��������� ����)"
+      }
+    ]
+  },
+  "try-with-resources": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._4.try_catch_finally.TryWithResources",
+        "output": "=== ������������ try-with-resources ===\n=== ������� ������������� try-with-resources ===\n������ ��� ������ � ������: example.txt (�� ������� ����� ��������� ����)\n\n\n=== Try-with-resources � ����������� ��������� ===\n������ ��� ������ � �������: input.txt (�� ������� ����� ��������� ����)\n\n=== Try-with-resources � ���������������� �������� ===\nCustomResource ������\nCustomResource ��������� ��������\n������ � ���������������� �������� ���������\nCustomResource ������ �������������\n\n=== BufferedReader � PrintWriter ===\n������ ��� ������ � �������: input.txt (�� ������� ����� ��������� ����)\n\n=== ��������� ���������� � try-with-resources ===\n����������� ����������: FileNotFoundException - nonexistent.txt (�� ������� ����� ��������� ����)\n\n=== �������������� �������� �������� ===\n������ 1 ������\n������ 2 ������\n������� ������� � ������������\n������ 1 ��������� ������\n������ 2 ��������� ������\n������ � ��������� ���������\n������ 2 ������\n������ 1 ������\n\n=== InputStream � OutputStream ===\n������ ��� ������ � ��������: input.dat (�� ������� ����� ��������� ����)\n\n=== ������ �������� try-with-resources ===\n������ ������ �����: data.txt (�� ������� ����� ��������� ����)"
+      }
+    ]
+  },
+  "custom-exceptions": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._4.exception.HumanWithExceptions",
+        "output": "=== ������������ ���������� � ������� Human ===\n\n=== ����� �������� ===\n������ �������: ����, �������: 25\n������: ������ ��� ������ ��������: ������� � ������ '����' �� ������\n\n=== ��������� �������� ===\n������ ���������: ������� �� ����� ���� �������������: -5\n������ ���������: ������� �� ����� ���� ������ 150: 200\n\n=== ���������� ��������� �������� ===\n�������: 25\n������ ��������� ��������: ������� �� ����� ���� null\n������� null ��������: 0\n\n=== �������� �������� � ���������� ===\n������ �������: ����, �������: 28\n������ ���������: ������� �� ����� ���� �������������: -10\n�� ������� ������� �������� ��-�� ������ ���������\n\n=== ������ � ������� ===\n������� ������� � ����"
+      }
+    ]
+  },
+  "list": {
+    "note": "Время выполнения в блоке Performance зависит от машины.",
+    "runs": [
+      {
+        "class": "org.baileyseyes._5.list.CollectionList",
+        "output": "=== Basics ===\nInitial list: [10, 1, 2, 3]\nSize: 4\nElement at index 1: 1\nElement at index 0: 10\nAfter setting index 1 to 20: [10, 20, 2, 3]\nAfter removing index 0: [20, 2, 3]\nAfter removing value 20: [2, 3]\n\n=== Methods ===\nContains 'Banana': true\nIs empty: false\n\n=== Iterator ===\nIterator traversal: 1 2 3 4 5 \nAfter removing 3: [1, 2, 4, 5]\nEnhanced for loop: 10 20 30 40 50 \n\n=== Iteration ===\nStandard for loop: A B C D E \nEnhanced for loop: A B C D E \nIterator: A B C D E \nListIterator: A B C D E \nStream API: A B C D E \n\n=== Sorting ===\nOriginal list: [5, 2, 8, 1, 9]\nSorted ascending: [1, 2, 5, 8, 9]\nSorted descending: [9, 8, 5, 2, 1]\nSorted case-insensitive: [apple, banana, cherry]\n\n=== Null Handling ===\nList with null: [First, null, Third]\nElement at index 1 (should be null): null\nFound null at index 1\nAfter removing null: [First, Third]\n\n=== Performance ===\nArrayList add time for 1000000 elements: 9.8113 ms\nArrayList get time for 100 accesses: 0.0421 ms\nArrayList insert in middle time: 124.8 ns\n\n=== Tricks ===\nFixed list: [1, 2, 3, 4, 5]\nCannot modify fixed list: null\nShuffled list: [2, 3, 1, 4, 5]\nCopied array: [1, 2, 3, 4, 5]\nList from array: [A, B, C]\nEven numbers: [2, 4, 6, 8, 10]\nAfter removing some fruits: [Apple, Cherry]\n\n=== Why LinkedList is Bad ===\n=== Why LinkedList is considered the worst collection ===\nLinkedList get time for 100 accesses: 4738.6 ns\nArrayList get time for 100 accesses: 34.0 ns\nArrayList is 139.37058823529412 times faster for get operations\n\n--- Cases where LinkedList might be better ---\n1. Frequent insertion/deletion at beginning/end\n2. Implementation of Deque interface (ArrayDeque often preferred)\n3. Complex list manipulation algorithms\n\nLinkedList addFirst time: 330.5 ns\nArrayList addFirst time: 2677.4 ns\nLinkedList is faster for addFirst operations\n\n--- Conclusion ---\nWhile LinkedList has advantages in specific cases (insertion/deletion at ends),\nit generally performs worse than ArrayList for most common operations.\nArrayList is recommended for general use unless specific characteristics of LinkedList are needed."
+      }
+    ]
+  },
+  "set": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._5.set.CollectionSet",
+        "output": "=== Basics ===\nSet after adding elements: [Apple, Cherry, Banana]\nSize: 3\nContains 'Banana': true\nContains 'Grape': false\nRemoved 'Banana': true\nSet after removal: [Apple, Cherry]\nRemoved 'NonExistent': false\n\n=== Getting Value With Contains ===\nFound value: Banana\nProcessed value: BANANA\nFound number: 20\nDoubled value: 40\n\n=== Null Handling ===\nSet with null: [null, Third, First]\nContains null: true\nAdded second null: false\nSet after second null attempt: [null, Third, First]"
+      }
+    ]
+  },
+  "map": {
+    "note": "Время выполнения в блоке Performance зависит от машины.",
+    "runs": [
+      {
+        "class": "org.baileyseyes._5.map.CollectionMap",
+        "output": "=== Basics ===\nInitial map: {Apple=5, Cherry=8, Date=12, Banana=3}\nSize: 4\nApples count: 5\nGrapes count: null\nContains key 'Banana': true\nContains value 8: true\nAfter updating apples: {Apple=10, Cherry=8, Date=12, Banana=3}\nRemoved Cherry value: 8\nAfter removal: {Apple=10, Date=12, Banana=3}\nRemoved NonExistent: null\n\n=== Methods ===\nIs empty: false\nSize: 3\nKeys: [A, B, C]\nValues: [1, 2, 3]\nEntries: [A=1, B=2, C=3]\nAfter clear: {}\nIs empty after clear: true\n\n=== Iteration ===\nIterating by keys: A=1 B=2 C=3 D=4 \nIterating by values: 1 2 3 4 \nIterating by entrySet: A=1 B=2 C=3 D=4 \nStream API: A=1 B=2 C=3 D=4 \n\n=== Null Handling ===\nMap with nulls: {null=NullKey, Key2=null, Key1=Value1, Key3=Value3}\nValue for null key: NullKey\nValue for Key2 (null): null\nContains null key: true\nContains null value: true\n\n=== Map Operations ===\nMerged map: {A=1, B=20, C=30, D=4}\nMaps equal: false\nCopy of map1: {A=1, B=2, C=3}\n\n=== Tricks ===\nEven numbers: {Four=4, Two=2}\nDefault value for missing key: Default Value\nUpdated scores: {Player2=200, Player1=150}\n\n=== HashMap Advantages ===\n=== Advantages of HashMap ===\n1. Fast access (O(1) average case):\n   Adding 100,000 elements took: 17.6294 ms\n\n2. Unique keys guarantee:\n   Map with duplicate key: {Key2=2, Key1=3}\n   Size after duplicate key: 2\n\n3. Fast lookup (containsKey, containsValue):\n   Found element in 100,000 element map: true (in 8.6 ns)\n\n4. Efficient for large datasets:\n   Created map of 1,000,000 key-value pairs\n\n5. Simple and intuitive API:\n   Basic operations: put, get, remove, containsKey, size\n\n6. Integration with Stream API:\n   Count of even values in map: 2\n\n7. Common in algorithms:\n   Frequency map of array: {1=1, 2=2, 3=2, 4=2, 5=2, 6=1}\n   Original array: [1, 2, 3, 4, 5, 2, 3, 4, 5, 6]\n\n8. Null support:\n   Map with null key and value: {null=NullKey, Key2=null, Key1=Value1}\n\n9. Cache implementation:\n   Cached data retrieval: UserData123\n\n10. Flexible key/value types:\n   Complex map with List values: {1=[Item1, Item2], 2=[Item3, Item4, Item5]}"
+      }
+    ]
+  },
+  "thread-vs-runnable": {
+    "note": "Порядок строк может отличаться при каждом запуске.",
+    "runs": [
+      {
+        "class": "org.baileyseyes._6.extends_thread.ExtendsThread",
+        "output": "Thread-1 - Iteration 1\nThread-2 - Iteration 1\nThread-2 - Iteration 2\nThread-1 - Iteration 2\nThread-2 - Iteration 3\nThread-2 - Iteration 4\nThread-1 - Iteration 3\nThread-2 - Iteration 5\nThread-1 - Iteration 4\nThread-2 finished execution\nThread-1 - Iteration 5\nThread-1 finished execution\nAll threads completed"
+      },
+      {
+        "class": "org.baileyseyes._6.implements_runnable.ImplementsRunnable",
+        "output": "Runnable-1 - Iteration 1\nRunnable-2 - Iteration 1\nRunnable-2 - Iteration 2\nRunnable-1 - Iteration 2\nRunnable-2 - Iteration 3\nRunnable-2 - Iteration 4\nRunnable-1 - Iteration 3\nRunnable-2 - Iteration 5\nRunnable-1 - Iteration 4\nRunnable-2 finished execution\nRunnable-1 - Iteration 5\nRunnable-1 finished execution\nAll threads completed"
+      }
+    ]
+  },
+  "callable-future": {
+    "note": "Порядок выполнения задач может отличаться.",
+    "runs": [
+      {
+        "class": "org.baileyseyes._6.implements_callable.ImplementsCallable",
+        "output": "Callable-1 - Executing:\nCallable-1 - Iteration 1\nCallable-1 - Iteration 2\nCallable-1 - Iteration 3\nCallable-1 - Completed\nCallable-2 - Executing:\nCallable-2 - Iteration 1\nCallable-2 - Iteration 2\nCallable-2 - Iteration 3\nCallable-2 - Completed\nAll tasks completed"
+      }
+    ]
+  },
+  "synchronized": {
+    "note": "Порядок строк и итоговые значения могут отличаться при каждом запуске.",
+    "runs": [
+      {
+        "class": "org.baileyseyes._6.synchronized_method.SynchronizedMethods",
+        "output": "=== Synchronization Demonstration ===\nInstance counter: 1\nInstance counter: 2\nStatic counter: 1\nInstance counter: 3\nStatic counter: 2\nInstance counter: 4\nStatic counter: 3\nInstance counter: 5\nStatic counter: 4\nInstance counter: 6\nStatic counter: 5\nInstance counter: 7\nInstance counter: 8\nStatic counter: 6\nInstance counter: 9\nStatic counter: 7\nInstance counter: 10\nInstance counter: 11\nStatic counter: 8\nInstance counter: 12\nStatic counter: 9\nInstance counter: 13\nStatic counter: 10\nInstance counter: 14\nStatic counter: 11\nInstance counter: 15\nStatic counter: 12\nStatic counter: 13\nStatic counter: 14\nStatic counter: 15\nFinal counters - Instance: 15, Static: 15\n\n=== Volatile Demonstration ===\nReading volatile variables: counter=100, flag=true\nUpdated volatile variables: counter=100, flag=true\nVolatile demonstration completed"
+      }
+    ]
+  },
+  "optional-and-friends": {
+    "note": "Дата и время в выводе зависят от момента запуска.",
+    "runs": [
+      {
+        "class": "org.baileyseyes._7.Else",
+        "output": "=== Optional Demonstration ===\nOptional with value present: true\nOptional empty present: false\nValue with default: Hello, Default\nException thrown: No value\nHello\nLength of optional value: 5\nFiltered value: Hello\n\n=== Predicate Demonstration ===\nStrings starting with J: [Java]\nStrings starting with J and longer than 5: []\nStrings containing 'a': 3\n\n=== Comparator Demonstration ===\nNatural order: [Apple, Banana, Cherry, Date]\nReverse order: [Date, Cherry, Banana, Apple]\nSorted by length: [Date, Apple, Banana, Cherry]\nSorted with nulls last: [Apple, Banana, Cherry, null]\n\n=== Stream API Demonstration ===\nEven squares: [4, 16, 36, 64, 100]\nSum of numbers: 55\nMaximum: 10\nEven/odd grouping: {false=[1, 3, 5, 7, 9], true=[2, 4, 6, 8, 10]}\n\n=== DateTime Demonstration ===\nCurrent datetime: 2026-11-22T22:44:56.469505300\nFormatted datetime: 2026-11-22 22:44:56\nToday: 2026-11-22, Tomorrow: 2026-11-23\nCurrent time: 22:44:56.471006800\n\n=== Annotations Demonstration ===\nAnnotations demonstrated"
+      }
+    ]
+  },
+  "stream-api": {
+    "note": "Время выполнения параллельного стрима зависит от машины.",
+    "runs": [
+      {
+        "class": "org.baileyseyes._7.StreamAPI",
+        "output": "=== Stream Creation ===\nStream from collection: [A, B, C, D]\nStream from array: [X, Y, Z]\nStream from values: [P, Q, R]\n\n=== Filter Method ===\nEven numbers: [2, 4, 6, 8, 10]\nWords longer than 4 chars: [Hello, Stream, Programming]\nNumbers between 3 and 8: [4, 5, 6, 7]\n\n=== Map Method ===\nSquares: [1, 4, 9, 16, 25]\nWord lengths: [5, 5, 4, 6]\nUppercase words: [HELLO, WORLD, JAVA, STREAM]\n\n=== FlatMap Method ===\nFlattened list: [1, 2, 3, 4, 5, 6]\nWords from sentences: [Hello, World, Java, Stream, API, Example]\n\n=== Distinct Method ===\nUnique numbers: [1, 2, 3, 4, 5]\nUnique words: [Apple, Banana, Cherry]\n\n=== Sorted Method ===\nAlphabetically sorted: [Apple, Banana, Cherry, Date]\nReverse sorted: [Date, Cherry, Banana, Apple]\nSorted by length: [Date, Apple, Banana, Cherry]\n\n=== Limit and Skip Methods ===\nFirst 5 numbers: [1, 2, 3, 4, 5]\nNumbers after skipping first 5: [6, 7, 8, 9, 10]\nSkip 2, take 3: [3, 4, 5]\n\n=== Peek Method ===\nProcessing: 1\nAfter map: 2\nProcessing: 2\nAfter map: 4\nProcessing: 3\nAfter map: 6\nProcessing: 4\nAfter map: 8\nProcessing: 5\nAfter map: 10\nFinal result: [2, 4, 6, 8, 10]\n\n=== Reduce Method ===\nSum: 15\nSum with initial value 10: 25\nSentence: Hello World!\nMaximum: 5\n\n=== Collect Method ===\nCollected to list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nCollected to array: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nCollected to set: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nCollected to map: {1=Number_1, 2=Number_2, 3=Number_3, 4=Number_4, 5=Number_5, 6=Number_6, 7=Number_7, 8=Number_8, 9=Number_9, 10=Number_10}\nJoined string: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10\n\n=== Min and Max Methods ===\nMinimum: 1\nMaximum: 10\nShortest word: Date\n\n=== Terminal Operations ===\nTotal count: 10\nAny even number: true\nAll even numbers: false\nNo negative numbers: true\nFirst element: 1\nAny element: 1\n\n=== GroupingBy Method ===\nGrouped by length: {4=[Date], 5=[Apple], 6=[Banana, Cherry], 10=[Elderberry]}\nGrouped by first letter: {A=[Apple], B=[Banana], C=[Cherry], D=[Date], E=[Elderberry]}\nCount by length: {4=1, 5=1, 6=2, 10=1}\n\n=== PartitioningBy Method ===\nEven and odd numbers: {false=[1, 3, 5, 7, 9], true=[2, 4, 6, 8, 10]}\nComplex partition: {false={0=[3, 9], 1=[1, 7], 2=[5]}, true={0=[6], 1=[4, 10], 2=[2, 8]}}\n\n=== Mapping Method ===\nNames: [Alice, Bob, Charlie]\nGrouped by age with names: {35=[Charlie], 25=[Alice], 30=[Bob]}\n\n=== CollectingAndThen Method ===\nList contains 5 elements\n\n=== Statistics Methods ===\nAverage: 5.5\nSum: 55\nStatistics - Count: 10, Min: 1, Max: 10, Average: 5.5, Sum: 55\n\n=== Parallel Streams ===\nSequential time: 0.1398 ms\nParallel time: 1.1439 ms\nResults equal: true"
+      }
+    ]
+  }
+}

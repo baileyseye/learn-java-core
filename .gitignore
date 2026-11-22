@@ -41,3 +41,9 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Astro / Node ###
+node_modules/
+dist/
+.astro/
+.vite/

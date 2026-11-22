@@ -1,0 +1,24 @@
+---
+import { lessonUrl } from '../utils/url.js';
+
+const { lesson, module, showModule = false } = Astro.props;
+---
+
+<a class="lesson-card" href={lessonUrl(lesson)} data-lesson-id={lesson.id}>
+  <div class="lesson-card-top">
+    <span class="lesson-order">{String(lesson.order).padStart(2, '0')}</span>
+    <span class="lesson-minutes">{lesson.minutes} мин</span>
+  </div>
+  <h3 class="lesson-card-title">{lesson.title}</h3>
+  <p class="lesson-card-summary">{lesson.summary}</p>
+  <div class="lesson-card-footer">
+    {
+      showModule && module && (
+        <span class="module-pill" style={`--module-color:${module.color}`}>
+          {module.number}. {module.title}
+        </span>
+      )
+    }
+    <span class="lesson-card-check" aria-hidden="true">✓</span>
+  </div>
+</a>

@@ -1,0 +1,31 @@
+---
+import { lessonUrl, url } from '../utils/url.js';
+
+const { prev, next } = Astro.props;
+---
+
+<nav class="lesson-nav" aria-label="Навигация по урокам">
+  {
+    prev ? (
+      <a class="lesson-nav-link lesson-nav-prev" href={lessonUrl(prev)}>
+        <span class="lesson-nav-label">← Предыдущий урок</span>
+        <span class="lesson-nav-title">{prev.order}. {prev.title}</span>
+      </a>
+    ) : (
+      <span class="lesson-nav-link is-empty"></span>
+    )
+  }
+  {
+    next ? (
+      <a class="lesson-nav-link lesson-nav-next" href={lessonUrl(next)}>
+        <span class="lesson-nav-label">Следующий урок →</span>
+        <span class="lesson-nav-title">{next.order}. {next.title}</span>
+      </a>
+    ) : (
+      <a class="lesson-nav-link lesson-nav-next" href={url('/next/')}>
+        <span class="lesson-nav-label">Курс Core завершён</span>
+        <span class="lesson-nav-title">Что учить дальше →</span>
+      </a>
+    )
+  }
+</nav>

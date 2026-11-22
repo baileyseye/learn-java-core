@@ -1,0 +1,166 @@
+---
+import { Code } from 'astro-expressive-code/components';
+import Quiz from './Quiz.astro';
+import ProgressToggle from './ProgressToggle.astro';
+import SourceCode from './SourceCode.astro';
+import FullSource from './FullSource.astro';
+import LessonNav from './LessonNav.astro';
+import outputs from '../data/outputs.json';
+import { githubSourcePath, moduleUrl } from '../utils/url.js';
+
+const { lesson, module, prev, next, hasFullSource = true } = Astro.props;
+const output = outputs[lesson.id];
+const runs = output?.runs ?? [];
+const sources = lesson.sources;
+const fullSources = sources.filter((source) => !(source.focus ?? []).some((focus) => focus.full));
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function inline(value) {
+  return escapeHtml(value).replace(/`([^`]+)`/g, '<code>$1</code>');
+}
+---
+
+<div class="lesson">
+  <div class="lesson-kicker">
+    <a class="module-pill" style={`--module-color:${module.color}`} href={moduleUrl(module)}>
+      Модуль {module.number} · {module.title}
+    </a>
+    <span>Урок {lesson.order} из 34</span>
+    <span>~{lesson.minutes} мин</span>
+  </div>
+
+  <p class="lesson-lead">{lesson.summary}</p>
+
+  <div class="lesson-actions">
+    <ProgressToggle lessonId={lesson.id} />
+    <a class="course-btn course-btn-ghost" href={moduleUrl(module)}>Все уроки модуля</a>
+  </div>
+
+  <section class="lesson-section lesson-goal">
+    <h2 id="goal">Цель урока</h2>
+    <p set:html={inline(lesson.goal)}></p>
+  </section>
+
+  <section class="lesson-section">
+    <h2 id="ideas">Ключевые идеи</h2>
+    <ul class="idea-list">
+      {lesson.ideas.map((idea) => <li set:html={inline(idea)}></li>)}
+    </ul>
+  </section>
+
+  <section class="lesson-section">
+    <h2 id="code">Код</h2>
+    <p class="section-note">
+      Ниже — фрагменты из реального файла. Номера строк совпадают с исходником в репозитории.
+    </p>
+    {
+      sources.map((source, sourceIndex) => {
+        const focuses = source.focus ?? [{ full: true }];
+        return (
+          <div class="lesson-source">
+            <div class="lesson-source-head">
+              <code>src/main/java/org/baileyseyes/{source.file}</code>
+              <a href={githubSourcePath(source.file)} target="_blank" rel="noreferrer">
+                Открыть на GitHub ↗
+              </a>
+            </div>
+            {(focuses.length > 1 || !focuses[0].full) && (
+              <nav class="source-toc" aria-label="Фрагменты файла">
+                <span class="source-toc-label">В файле:</span>
+                {focuses.map((focus, focusIndex) => (
+                  <a href={`#source-${sourceIndex}-${focusIndex}`}>
+                    {focus.method || focus.symbol || (focus.full ? 'файл целиком' : `строки ${focus.lines[0]}–${focus.lines[1]}`)}
+                  </a>
+                ))}
+              </nav>
+            )}
+            {focuses.map((focus, focusIndex) => (
+              <SourceCode
+                id={`source-${sourceIndex}-${focusIndex}`}
+                file={source.file}
+                focus={focus}
+                note={focus.note}
+              />
+            ))}
+          </div>
+        );
+      })
+    }
+  </section>
+
+  {
+    runs.length > 0 && (
+      <section class="lesson-section lesson-output">
+        <h2 id="output">Что выводит программа</h2>
+        <p class="section-note">
+          {output?.note || 'Вывод получен запуском main на JDK 21. В многопоточных примерах порядок строк может отличаться.'}
+        </p>
+        {runs.map((run) => (
+          <div class="output-block">
+            <p class="output-label">{run.class.split('.').pop()}</p>
+            {run.output.split('\n').length > 24 ? (
+              <details class="output-details">
+                <summary>Показать вывод · {run.output.split('\n').length} строк</summary>
+                <Code code={run.output} lang="text" title="stdout" frame="terminal" showLineNumbers={false} />
+              </details>
+            ) : (
+              <Code code={run.output} lang="text" title="stdout" frame="terminal" showLineNumbers={false} />
+            )}
+          </div>
+        ))}
+      </section>
+    )
+  }
+
+  <section class="lesson-section practice-card">
+    <h2 id="practice">Практика</h2>
+    <p class="practice-task" set:html={inline(lesson.practice.task)}></p>
+    {
+      lesson.practice.hint && (
+        <details class="practice-details">
+          <summary>Подсказка</summary>
+          <p set:html={inline(lesson.practice.hint)}></p>
+        </details>
+      )
+    }
+    {
+      lesson.practice.solution && (
+        <details class="practice-details">
+          <summary>Показать решение</summary>
+          <p class="section-note">Один из вариантов. Если ваш код отличается, но работает — это нормально.</p>
+          <Code code={lesson.practice.solution} lang="java" title="Решение" frame="code" showLineNumbers={false} wrap />
+        </details>
+      )
+    }
+  </section>
+
+  <section class="lesson-section quiz-section">
+    <h2 id="quiz">Проверь себя</h2>
+    <Quiz questions={lesson.quiz} />
+  </section>
+
+  {
+    hasFullSource && (
+      <section class="lesson-section">
+        <h2 id="full">Полный исходник</h2>
+        <p class="section-note">
+          Файлы целиком — для тех, кто хочет посмотреть контекст. В основном тексте выше — только важные фрагменты.
+        </p>
+        {fullSources.map((source) => <FullSource file={source.file} />)}
+      </section>
+    )
+  }
+
+  <div class="lesson-complete">
+    <ProgressToggle lessonId={lesson.id} />
+  </div>
+
+  <LessonNav prev={prev} next={next} />
+</div>

@@ -1,0 +1,67 @@
+---
+import { modules, lessonsOfModule, extrasOfModule } from '../data/course.mjs';
+import { moduleUrl, lessonUrl, extraUrl } from '../utils/url.js';
+
+const totalLessons = modules.reduce((sum, module) => sum + lessonsOfModule(module.number).length, 0);
+const totalExtras = modules.reduce((sum, module) => sum + extrasOfModule(module.number).length, 0);
+---
+
+<div class="route-page">
+  <p class="lesson-lead">
+    Маршрут курса — это последовательность модулей и уроков. Внутри модуля уроки идут по порядку;
+    дополнительные материалы можно пропустить и вернуться к ним позже.
+  </p>
+
+  <div class="route-legend">
+    <span><i class="route-legend-line"></i> основной маршрут</span>
+    <span><i class="route-legend-line is-extra"></i> дополнительные материалы</span>
+    <span class="muted-note">{totalLessons} уроков · {totalExtras} дополнений</span>
+  </div>
+
+  <ol class="route-map">
+    {
+      modules.map((module) => (
+        <li class="route-module" style={`--module-color:${module.color}`}>
+          <div class="route-marker">{module.number}</div>
+          <div class="route-body">
+            <div class="route-head">
+              <h2>
+                <a href={moduleUrl(module)}>{module.title}</a>
+              </h2>
+              <span class="route-count">{lessonsOfModule(module.number).length} уроков</span>
+            </div>
+            <p>{module.description}</p>
+            <ol class="route-lessons">
+              {lessonsOfModule(module.number).map((lesson) => (
+                <li>
+                  <a href={lessonUrl(lesson)}>
+                    <span class="route-lesson-order">{String(lesson.order).padStart(2, '0')}</span>
+                    <span>{lesson.title}</span>
+                    <span class="route-lesson-minutes">{lesson.minutes} мин</span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+            {
+              extrasOfModule(module.number).length > 0 && (
+                <div class="route-extras">
+                  <span class="route-extras-label">Дополнительно:</span>
+                  {extrasOfModule(module.number).map((extra) => (
+                    <a href={extraUrl(extra)}>{extra.title}</a>
+                  ))}
+                </div>
+              )
+            }
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+
+  <div class="route-footnote">
+    <p>
+      В исходном репозитории маршрут задан Javadoc-ссылками <code>@see ... Следующая часть</code>.
+      Курс группирует 42 шага в 34 урока: некоторые небольшие файлы объединены в один урок, чтобы не дробить тему.
+    </p>
+  </div>
+</div>

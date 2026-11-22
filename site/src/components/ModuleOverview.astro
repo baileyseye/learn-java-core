@@ -1,0 +1,77 @@
+---
+import LessonCard from './LessonCard.astro';
+import ProgressSummary from './ProgressSummary.astro';
+import { moduleUrl, extraUrl, url } from '../utils/url.js';
+
+const { module, lessons, extras = [], prevModule = null, nextModule = null } = Astro.props;
+const lessonIds = lessons.map((lesson) => lesson.id);
+---
+
+<div class="module-overview">
+  <section class="module-banner" style={`--module-color:${module.color}`}>
+    <div class="module-banner-number">{module.number}</div>
+    <div class="module-banner-body">
+      <p class="module-lead">{module.description}</p>
+      <ul class="module-outcomes">
+        {module.outcomes.map((outcome) => <li>{outcome}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <ProgressSummary lessonIds={lessonIds} label="Прогресс модуля" />
+
+  <section class="module-lessons">
+    <h2 id="lessons">Уроки</h2>
+    <p class="section-note">Идите по порядку: каждый следующий урок опирается на предыдущий.</p>
+    <div class="lesson-list">
+      {lessons.map((lesson) => <LessonCard lesson={lesson} />)}
+    </div>
+  </section>
+
+  {
+    extras.length > 0 && (
+      <section class="module-extras">
+        <h2 id="extras">Дополнительно</h2>
+        <p class="section-note">
+          Эти файлы не входят в обязательный маршрут. Их можно смотреть по мере интереса или возвращаться позже.
+        </p>
+        <ul class="extra-list">
+          {extras.map((extra) => (
+            <li>
+              <a href={extraUrl(extra)}>
+                <strong>{extra.title}</strong>
+                <span>{extra.summary}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  <nav class="module-nav" aria-label="Навигация по модулям">
+    {
+      prevModule ? (
+        <a href={moduleUrl(prevModule)} class="module-nav-link">
+          <span>← Предыдущий модуль</span>
+          <strong>{prevModule.number}. {prevModule.title}</strong>
+        </a>
+      ) : (
+        <span class="module-nav-link is-empty"></span>
+      )
+    }
+    {
+      nextModule ? (
+        <a href={moduleUrl(nextModule)} class="module-nav-link module-nav-next">
+          <span>Следующий модуль →</span>
+          <strong>{nextModule.number}. {nextModule.title}</strong>
+        </a>
+      ) : (
+        <a href={url('/next/')} class="module-nav-link module-nav-next">
+          <span>Модули Core завершены</span>
+          <strong>Что учить дальше →</strong>
+        </a>
+      )
+    }
+  </nav>
+</div>

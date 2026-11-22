@@ -1,0 +1,16 @@
+---
+const { lessonIds, label = 'Прогресс', compact = false } = Astro.props;
+const scope = JSON.stringify(lessonIds);
+---
+
+<div class:list={['progress-summary', compact && 'is-compact']} data-progress-scope={scope}>
+  <div class="progress-summary-head">
+    <span class="progress-summary-label">{label}</span>
+    <span class="progress-summary-count">
+      <strong data-progress-count>0</strong><span aria-hidden="true"> / </span><span data-progress-total>{lessonIds.length}</span>
+    </span>
+  </div>
+  <div class="progress-track" role="progressbar" aria-label={label} aria-valuemin="0" aria-valuemax={lessonIds.length} aria-valuenow="0">
+    <div class="progress-fill" data-progress-fill></div>
+  </div>
+</div>

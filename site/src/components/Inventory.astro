@@ -1,0 +1,129 @@
+---
+import generated from '../data/generated.json';
+import { lessons, extras, modules, moduleByNumber } from '../data/course.mjs';
+import { githubSourcePath, lessonUrl, extraUrl } from '../utils/url.js';
+
+const usage = new Map();
+
+for (const lesson of lessons) {
+  for (const source of lesson.sources) {
+    const list = usage.get(source.file) ?? [];
+    list.push({ type: 'lesson', id: lesson.id, title: lesson.title, module: lesson.module, order: lesson.order });
+    usage.set(source.file, list);
+  }
+}
+
+for (const extra of extras) {
+  const list = usage.get(extra.file) ?? [];
+  list.push({ type: 'extra', id: extra.id, title: extra.title, module: extra.module, order: null });
+  usage.set(extra.file, list);
+}
+
+function moduleNumberFor(file) {
+  const match = /^_(\d+)\//.exec(file);
+  return match ? Number(match[1]) : 1;
+}
+
+const rows = Object.entries(generated.files)
+  .map(([file, entry]) => {
+    const links = usage.get(file) ?? [];
+    return {
+      file,
+      entry,
+      module: moduleByNumber.get(links[0]?.module ?? moduleNumberFor(file)),
+      links
+    };
+  })
+  .sort((a, b) => {
+    const moduleDelta = a.module.number - b.module.number;
+    if (moduleDelta !== 0) return moduleDelta;
+    return a.file.localeCompare(b.file);
+  });
+
+const number = new Intl.NumberFormat('ru-RU');
+---
+
+<div class="inventory">
+  <p class="lesson-lead">
+    Все Java-файлы репозитория, их размер и связи с уроками. Это не учебная страница, а карта исходников
+    для автора курса.
+  </p>
+
+  <div class="inventory-stats">
+    <div><strong>{generated.stats.files}</strong><span>файлов</span></div>
+    <div><strong>{number.format(generated.stats.lines)}</strong><span>строк</span></div>
+    <div><strong>{generated.stats.methods}</strong><span>методов</span></div>
+    <div><strong>{lessons.length}</strong><span>уроков</span></div>
+    <div><strong>{extras.length}</strong><span>дополнений</span></div>
+  </div>
+
+  <div class="inventory-filter">
+    <label for="inventory-filter">Фильтр по файлу, типу или теме</label>
+    <input id="inventory-filter" type="search" placeholder="Например: CollectionMap или record" data-inventory-filter />
+  </div>
+
+  <div class="inventory-table-wrap">
+    <table class="inventory-table" data-inventory-table>
+      <thead>
+        <tr>
+          <th>Файл</th>
+          <th>Модуль</th>
+          <th>Тип</th>
+          <th>Строк</th>
+          <th>Методов</th>
+          <th>main</th>
+          <th>Где в курсе</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          rows.map(({ file, entry, module, links }) => (
+            <tr>
+              <td>
+                <a href={githubSourcePath(file)} target="_blank" rel="noreferrer"><code>{file}</code></a>
+              </td>
+              <td>
+                <span class="inventory-module" style={`--module-color:${module.color}`}>{module.number}</span>
+                {module.short}
+              </td>
+              <td>{entry.types.length ? entry.types.map((type) => type.kind).join(', ') : '—'}</td>
+              <td>{entry.lines}</td>
+              <td>{entry.methods.length}</td>
+              <td>{entry.hasMain ? '✓' : '—'}</td>
+              <td>
+                {
+                  links.length ? (
+                    <ul class="inventory-links">
+                      {links.map((link) => (
+                        <li>
+                          <a href={link.type === 'lesson' ? lessonUrl({ id: link.id }) : extraUrl({ id: link.id })}>
+                            {link.type === 'lesson' ? `Урок ${link.order}` : 'Дополнение'}: {link.title}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <span class="muted-note">Не используется на сайте</span>
+                  )
+                }
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  const input = document.querySelector('[data-inventory-filter]');
+  const table = document.querySelector('[data-inventory-table]');
+  if (input && table) {
+    input.addEventListener('input', () => {
+      const query = input.value.trim().toLowerCase();
+      table.querySelectorAll('tbody tr').forEach((row) => {
+        row.hidden = query.length > 0 && !row.textContent.toLowerCase().includes(query);
+      });
+    });
+  }
+</script>

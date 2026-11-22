@@ -1,0 +1,80 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import SourceCode from '../../../components/SourceCode.astro';
+import FullSource from '../../../components/FullSource.astro';
+import { extras, moduleByNumber, lessonById } from '../../../data/course.mjs';
+import { sidebar } from '../../../data/sidebar.mjs';
+import { moduleUrl, lessonUrl } from '../../../utils/url.js';
+
+export function getStaticPaths() {
+  return extras.map((extra) => ({
+    params: { slug: extra.id },
+    props: { extra }
+  }));
+}
+
+const { extra } = Astro.props;
+const module = moduleByNumber.get(extra.module);
+const related = lessonById.get(extra.relatedLesson);
+const hasFullSource = !(extra.focus ?? []).some((focus) => focus.full);
+
+const headings = [
+  { depth: 2, slug: 'about', text: 'Зачем это нужно' },
+  { depth: 2, slug: 'code', text: 'Код' },
+  ...(hasFullSource ? [{ depth: 2, slug: 'full', text: 'Полный исходник' }] : [])
+];
+---
+
+<StarlightPage
+  frontmatter={{
+    title: extra.title,
+    description: extra.summary
+  }}
+  headings={headings}
+  sidebar={sidebar}
+>
+  <div class="reference">
+    <div class="lesson-kicker">
+      <a class="module-pill" style={`--module-color:${module.color}`} href={moduleUrl(module)}>
+        Модуль {module.number} · {module.title}
+      </a>
+      <span>Дополнительный материал</span>
+    </div>
+
+    <p class="lesson-lead">{extra.summary}</p>
+
+    {
+      related && (
+        <p class="section-note">
+          Основной урок по теме: <a href={lessonUrl(related)}>{related.order}. {related.title}</a>
+        </p>
+      )
+    }
+
+    <section class="lesson-section">
+      <h2 id="about">Зачем это нужно</h2>
+      <p>{extra.summary}</p>
+      <p class="section-note">
+        Это дополнение к маршруту. Оно не обязательно для прохождения курса, но помогает увидеть тему шире.
+      </p>
+    </section>
+
+    <section class="lesson-section">
+      <h2 id="code">Код</h2>
+      {
+        (extra.focus ?? [{ full: true }]).map((focus) => (
+          <SourceCode file={extra.file} focus={focus} note={focus.note} />
+        ))
+      }
+    </section>
+
+    {
+      hasFullSource && (
+        <section class="lesson-section">
+          <h2 id="full">Полный исходник</h2>
+          <FullSource file={extra.file} />
+        </section>
+      )
+    }
+  </div>
+</StarlightPage>
