@@ -5,6 +5,7 @@ import ProgressToggle from './ProgressToggle.astro';
 import SourceCode from './SourceCode.astro';
 import FullSource from './FullSource.astro';
 import LessonNav from './LessonNav.astro';
+import PracticeEditor from './PracticeEditor.astro';
 import outputs from '../data/outputs.json';
 import { githubSourcePath, moduleUrl } from '../utils/url.js';
 
@@ -119,26 +120,8 @@ function inline(value) {
     )
   }
 
-  <section class="lesson-section practice-card">
-    <h2 id="practice">Практика</h2>
-    <p class="practice-task" set:html={inline(lesson.practice.task)}></p>
-    {
-      lesson.practice.hint && (
-        <details class="practice-details">
-          <summary>Подсказка</summary>
-          <p set:html={inline(lesson.practice.hint)}></p>
-        </details>
-      )
-    }
-    {
-      lesson.practice.solution && (
-        <details class="practice-details">
-          <summary>Показать решение</summary>
-          <p class="section-note">Один из вариантов. Если ваш код отличается, но работает — это нормально.</p>
-          <Code code={lesson.practice.solution} lang="java" title="Решение" frame="code" showLineNumbers={false} wrap />
-        </details>
-      )
-    }
+  <section class="lesson-section practice-section">
+    <PracticeEditor lessonId={lesson.id} practice={lesson.practice} />
   </section>
 
   <section class="lesson-section quiz-section">

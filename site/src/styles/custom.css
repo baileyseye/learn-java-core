@@ -1007,6 +1007,252 @@ button[data-open-modal] kbd {
   margin-bottom: 0;
 }
 
+/* ===== интерактивная практика ===== */
+
+.practice-editor-card {
+  position: relative;
+  padding: clamp(1.2rem, 2.5vw, 1.8rem);
+  border: 1px solid color-mix(in srgb, var(--course-accent) 24%, var(--course-border));
+  border-radius: var(--course-radius);
+  background:
+    radial-gradient(120% 160% at 100% 0%, color-mix(in srgb, var(--course-accent) 8%, transparent), transparent 55%),
+    var(--course-card);
+}
+
+.practice-editor-card.is-solved {
+  border-color: color-mix(in srgb, var(--course-green) 45%, var(--course-border));
+}
+
+.practice-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.practice-editor-card .practice-title,
+.practice-title {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: clamp(1.3rem, 2.4vw, 1.55rem);
+  line-height: 1.2;
+}
+
+.practice-badge {
+  flex: 0 0 auto;
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--course-border);
+  border-radius: 999px;
+  background: var(--course-paper-2);
+  color: var(--course-muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.practice-badge.is-saved {
+  border-color: color-mix(in srgb, var(--course-accent) 40%, var(--course-border));
+  color: var(--course-accent);
+}
+
+.practice-badge.is-solved {
+  border-color: color-mix(in srgb, var(--course-green) 50%, var(--course-border));
+  background: var(--course-green-soft);
+  color: var(--course-green);
+}
+
+.practice-editor-card .practice-task {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.practice-editor {
+  overflow: hidden;
+  margin: 1rem 0;
+  border: 1px solid var(--course-border);
+  border-radius: var(--course-radius-sm);
+  background: var(--course-paper-2);
+  transition:
+    border-color 0.14s ease,
+    box-shadow 0.14s ease;
+}
+
+.practice-editor:focus-within {
+  border-color: var(--course-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--course-accent) 18%, transparent);
+}
+
+.practice-editor-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding: 0.55rem 0.85rem;
+  border-bottom: 1px solid var(--course-border);
+  background: color-mix(in srgb, var(--course-paper-2) 65%, var(--course-card));
+  color: var(--course-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.practice-editor-hint {
+  color: var(--course-muted);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.practice-editor-body {
+  display: grid;
+  grid-template-columns: 3.2ch minmax(0, 1fr);
+  align-items: stretch;
+  max-height: 28rem;
+}
+
+.practice-editor-body.is-text {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.practice-gutter {
+  overflow: hidden;
+  margin: 0;
+  padding: 0.8rem 0.35rem;
+  border-right: 1px solid var(--course-border);
+  background: color-mix(in srgb, var(--course-paper-2) 70%, var(--course-card));
+  color: var(--course-muted);
+  font-family: var(--sl-font-mono);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  text-align: right;
+  user-select: none;
+}
+
+.practice-editor-body textarea {
+  display: block;
+  width: 100%;
+  min-height: 14rem;
+  max-height: 28rem;
+  margin: 0;
+  padding: 0.8rem 0.9rem;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--course-ink);
+  caret-color: var(--course-accent);
+  font-family: var(--sl-font-mono);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  resize: vertical;
+  tab-size: 4;
+  white-space: pre;
+}
+
+.practice-editor-body:not(.is-text) textarea {
+  overflow: auto;
+}
+
+.practice-editor-body.is-text textarea {
+  min-height: 9rem;
+  padding: 1rem;
+  font-family: var(--sl-font);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  resize: vertical;
+  white-space: pre-wrap;
+}
+
+.practice-expected {
+  display: grid;
+  gap: 0.25rem;
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  border-left: 3px solid var(--course-accent);
+  border-radius: 0 var(--course-radius-sm) var(--course-radius-sm) 0;
+  background: color-mix(in srgb, var(--course-accent) 6%, var(--course-card));
+}
+
+.practice-expected-label {
+  color: var(--course-muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.practice-expected-code {
+  overflow-x: auto;
+  margin: 0;
+  color: var(--course-ink);
+  font-family: var(--sl-font-mono);
+  font-size: 0.8rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.practice-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.9rem;
+}
+
+.practice-feedback {
+  flex: 1 1 100%;
+  min-height: 1.3em;
+  margin: 0;
+  color: var(--course-muted);
+  font-size: 0.86rem;
+  line-height: 1.55;
+  white-space: pre-line;
+}
+
+.practice-feedback.is-ok {
+  color: var(--course-green);
+}
+
+.practice-feedback.is-error {
+  color: var(--course-red);
+}
+
+.practice-feedback.is-warn {
+  color: #b45309;
+}
+
+[data-theme='dark'] .practice-feedback.is-warn {
+  color: #fbbf24;
+}
+
+.practice-note {
+  margin-top: 0.9rem;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--course-border);
+  border-radius: var(--course-radius-sm);
+  color: var(--course-muted);
+  font-size: 0.8rem;
+}
+
+.practice-note summary {
+  color: var(--course-muted);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.practice-note p {
+  margin: 0.5rem 0 0;
+  line-height: 1.55;
+}
+
+/* ===== quiz ===== */
+
 .quiz {
   display: grid;
   gap: 1rem;
@@ -1995,6 +2241,19 @@ button[data-open-modal] kbd {
   .quiz-actions {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .practice-editor-body {
+    grid-template-columns: 2.6ch minmax(0, 1fr);
+  }
+
+  .practice-gutter,
+  .practice-editor-body textarea {
+    font-size: 0.76rem;
+  }
+
+  .practice-actions .course-btn {
+    flex: 1 1 auto;
   }
 }
 

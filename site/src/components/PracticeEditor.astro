@@ -1,0 +1,143 @@
+---
+import { Code } from 'astro-expressive-code/components';
+
+const { lessonId, practice } = Astro.props;
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function inline(value) {
+  return escapeHtml(value).replace(/`([^`]+)`/g, '<code>$1</code>');
+}
+
+const mode = practice.type === 'text' ? 'text' : 'code';
+const starter =
+  practice.starter ??
+  (mode === 'text'
+    ? 'Напиши ответ здесь.'
+    : `public class Main {
+    public static void main(String[] args) {
+        // Напиши решение здесь
+    }
+}`);
+const solution = practice.solution ?? '';
+const expected = practice.expected ?? '';
+const rules = practice.check ?? {};
+const rulesJson = JSON.stringify(rules).replace(/</g, '\\u003c');
+const solutionJson = JSON.stringify(solution).replace(/</g, '\\u003c');
+---
+
+<div
+  class:list={['practice-editor-card', mode === 'text' && 'is-text']}
+  data-practice
+  data-lesson-id={lessonId}
+  data-mode={mode}
+>
+  <div class="practice-header">
+    <div>
+      <p class="eyebrow">Интерактив</p>
+      <h2 id="practice" class="practice-title">Практика</h2>
+    </div>
+    <span class="practice-badge" data-practice-status>черновик</span>
+  </div>
+
+  <p class="practice-task" set:html={inline(practice.task)}></p>
+
+  <div class="practice-editor">
+    <div class="practice-editor-top">
+      <span>{mode === 'text' ? 'Твой ответ' : 'Твой код'}</span>
+      <span class="practice-editor-hint">
+        {mode === 'text' ? 'Ответ сохраняется автоматически' : 'Ctrl+Enter — проверить'}
+      </span>
+    </div>
+    {
+      mode === 'code' ? (
+        <div class="practice-editor-body">
+          <pre class="practice-gutter" data-practice-gutter aria-hidden="true">1</pre>
+          <textarea
+            id={`practice-${lessonId}`}
+            data-practice-input
+            aria-label="Твой код"
+            spellcheck="false"
+            autocomplete="off"
+            autocapitalize="off"
+            autocorrect="off"
+            wrap="off"
+          >{starter}</textarea>
+        </div>
+      ) : (
+        <div class="practice-editor-body is-text">
+          <textarea
+            id={`practice-${lessonId}`}
+            data-practice-input
+            aria-label="Твой ответ"
+            spellcheck="true"
+            autocomplete="off"
+            rows="6"
+          >{starter}</textarea>
+        </div>
+      )
+    }
+  </div>
+
+  {
+    expected && (
+      <div class="practice-expected">
+        <span class="practice-expected-label">Ожидаемый результат</span>
+        <pre class="practice-expected-code">{expected}</pre>
+      </div>
+    )
+  }
+
+  <div class="practice-actions">
+    <button type="button" class="course-btn course-btn-primary" data-practice-check>Проверить</button>
+    <button type="button" class="course-btn course-btn-ghost" data-practice-reset>Сбросить</button>
+    {
+      solution && (
+        <button type="button" class="course-btn course-btn-ghost" data-practice-insert>
+          Вставить решение
+        </button>
+      )
+    }
+    <span class="practice-feedback" data-practice-feedback role="status" aria-live="polite"></span>
+  </div>
+
+  <details class="practice-details">
+    <summary>Подсказка</summary>
+    <p set:html={inline(practice.hint)}></p>
+  </details>
+
+  {
+    solution && (
+      <details class="practice-details" data-practice-solution-box>
+        <summary>Показать решение</summary>
+        <p class="section-note">
+          Сначала попробуй сам. Решение — один из вариантов, а не единственно правильный.
+        </p>
+        <Code code={solution} lang={mode === 'text' ? 'text' : 'java'} title="Решение" frame="code" showLineNumbers={false} wrap />
+      </details>
+    )
+  }
+
+  <details class="practice-note">
+    <summary>Как работает проверка</summary>
+    <p>
+      Валидатор проверяет баланс скобок и кавычек, остатки TODO, обязательные конструкции из задания
+      и близость к эталонному решению. Он не запускает JVM: полноценное выполнение Java в браузере
+      требует отдельного sandbox-сервера. Типичные ошибки — пропущенный вызов, неверная структура,
+      забытая проверка — он ловит.
+    </p>
+  </details>
+
+  <script type="application/json" data-practice-rules set:html={rulesJson}></script>
+  <script type="application/json" data-practice-solution set:html={solutionJson}></script>
+</div>
+
+<script>
+  import '../scripts/practice.js';
+</script>

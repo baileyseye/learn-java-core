@@ -7,16 +7,24 @@ import module5 from './lessons/module-5.mjs';
 import module6 from './lessons/module-6.mjs';
 import module7 from './lessons/module-7.mjs';
 import extras from './extras.mjs';
+import { practiceExtras } from './practice.mjs';
 
 const groups = [module1, module2, module3, module4, module5, module6, module7];
 
 let runningOrder = 0;
 export const lessons = groups.flatMap((group, index) =>
-  group.map((lesson) => ({
-    ...lesson,
-    module: index + 1,
-    order: ++runningOrder
-  }))
+  group.map((lesson) => {
+    const practice = {
+      ...lesson.practice,
+      ...(practiceExtras[lesson.id] ?? {})
+    };
+    return {
+      ...lesson,
+      module: index + 1,
+      order: ++runningOrder,
+      practice
+    };
+  })
 );
 
 const seen = new Set();
@@ -25,6 +33,10 @@ for (const lesson of lessons) {
   seen.add(lesson.id);
   if (!moduleByNumber.has(lesson.module)) throw new Error(`Урок ${lesson.id} ссылается на неизвестный модуль ${lesson.module}`);
   if (!lesson.sources?.length) throw new Error(`У урока ${lesson.id} нет sources`);
+}
+
+for (const id of Object.keys(practiceExtras)) {
+  if (!seen.has(id)) throw new Error(`practiceExtras: неизвестный урок ${id}`);
 }
 
 export const lessonById = new Map(lessons.map((lesson) => [lesson.id, lesson]));

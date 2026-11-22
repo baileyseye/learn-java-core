@@ -194,7 +194,7 @@ export default [
     ],
     runs: ['org.baileyseyes._3.enum_class.EnumPractice'],
     practice: {
-      task: 'Добавь в DaysOfTheWeek метод `getSeason()`, который возвращает время года для дня. Используй switch.',
+      task: 'Создай enum `Month` с двенадцатью месяцами и добавь метод `getSeason()`, который возвращает время года. Используй switch.',
       hint: 'Декабрь–февраль — зима, март–май — весна, июнь–август — лето, сентябрь–ноябрь — осень.',
       solution:
         'public String getSeason() {\n    return switch (this) {\n        case DECEMBER, JANUARY, FEBRUARY -> "Зима";\n        case MARCH, APRIL, MAY -> "Весна";\n        case JUNE, JULY, AUGUST -> "Лето";\n        case SEPTEMBER, OCTOBER, NOVEMBER -> "Осень";\n    };\n}'
