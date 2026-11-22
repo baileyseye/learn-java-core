@@ -1160,6 +1160,21 @@ button[data-open-modal] kbd {
   display: none;
 }
 
+/*
+ * Starlight добавляет margin-top соседним блокам внутри .sl-markdown-content.
+ * Внутри CodeMirror это ломает вертикальную геометрию: строки получают
+ * лишние 16px, и клик по строке попадает на строку ниже.
+ */
+.practice-codemirror .cm-scroller,
+.practice-codemirror .cm-content,
+.practice-codemirror .cm-line,
+.practice-codemirror .cm-gutters,
+.practice-codemirror .cm-gutter,
+.practice-codemirror .cm-gutterElement {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
 .practice-fallback {
   display: block;
   width: 100%;
