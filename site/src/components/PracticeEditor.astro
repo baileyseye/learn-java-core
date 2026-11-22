@@ -97,13 +97,6 @@ const solutionJson = JSON.stringify(solution).replace(/</g, '\\u003c');
   <div class="practice-actions">
     <button type="button" class="course-btn course-btn-primary" data-practice-check>Проверить</button>
     <button type="button" class="course-btn course-btn-ghost" data-practice-reset>Сбросить</button>
-    {
-      solution && (
-        <button type="button" class="course-btn course-btn-ghost" data-practice-insert>
-          Вставить решение
-        </button>
-      )
-    }
     <span class="practice-feedback" data-practice-feedback role="status" aria-live="polite"></span>
   </div>
 

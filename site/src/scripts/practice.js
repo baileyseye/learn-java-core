@@ -473,20 +473,6 @@ function resetPractice(container) {
   setFeedback(container, 'Черновик сброшен. Можно начать заново.', 'warn');
 }
 
-function insertSolution(container) {
-  const input = container.querySelector('[data-practice-input]');
-  const solution = parseScript(container, '[data-practice-solution]', '');
-  if (!input || !solution) return;
-  if (!window.confirm('Вставить эталонное решение в редактор? Текущий код будет заменён.')) return;
-  input.value = solution;
-  updateGutter(container);
-  saveDraft(container.getAttribute('data-lesson-id'), solution);
-  setStatus(container, 'решение вставлено', 'saved');
-  setFeedback(container, 'Решение вставлено. Разберись, почему оно работает, и попробуй переписать по памяти.', 'warn');
-  const details = container.querySelector('[data-practice-solution-box]');
-  if (details) details.open = true;
-}
-
 function checkPractice(container) {
   const lessonId = container.getAttribute('data-lesson-id');
   const mode = container.getAttribute('data-mode') || 'code';
@@ -598,9 +584,6 @@ document.addEventListener('click', (event) => {
   } else if (target.closest('[data-practice-reset]')) {
     event.preventDefault();
     resetPractice(container);
-  } else if (target.closest('[data-practice-insert]')) {
-    event.preventDefault();
-    insertSolution(container);
   }
 });
 
