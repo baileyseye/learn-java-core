@@ -289,6 +289,7 @@ a.module-pill:hover {
 
 .hero-stats div {
   min-width: 0;
+  margin: 0;
 }
 
 .hero-stats dt {
