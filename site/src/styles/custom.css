@@ -1156,6 +1156,10 @@ button[data-open-modal] kbd {
   outline: none;
 }
 
+.practice-codemirror .cm-foldGutter {
+  display: none;
+}
+
 .practice-fallback {
   display: block;
   width: 100%;

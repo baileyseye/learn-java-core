@@ -1,9 +1,21 @@
-import { basicSetup } from 'codemirror';
 import { EditorState, Prec } from '@codemirror/state';
-import { EditorView, keymap } from '@codemirror/view';
+import {
+  EditorView,
+  keymap,
+  lineNumbers,
+  highlightActiveLineGutter,
+  highlightSpecialChars,
+  drawSelection,
+  dropCursor,
+  rectangularSelection,
+  crosshairCursor,
+  highlightActiveLine
+} from '@codemirror/view';
+import { history, historyKeymap, defaultKeymap, indentWithTab } from '@codemirror/commands';
 import { java } from '@codemirror/lang-java';
-import { indentWithTab } from '@codemirror/commands';
-import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
+import { bracketMatching, indentOnInput, indentUnit, HighlightStyle, syntaxHighlighting } from '@codemirror/language';
+import { closeBrackets, closeBracketsKeymap } from '@codemirror/autocomplete';
+import { searchKeymap, highlightSelectionMatches } from '@codemirror/search';
 import { tags } from '@lezer/highlight';
 
 const DRAFT_KEY = 'ljc.practice.drafts.v1';
@@ -21,10 +33,10 @@ const practiceTheme = EditorView.theme({
     lineHeight: '1.6'
   },
   '.cm-content': {
-    padding: '0.8rem 0.9rem',
+    padding: '0.75rem 0.8rem',
     caretColor: 'var(--course-accent)'
   },
-  '.cm-line': { padding: '0 0.25rem' },
+  '.cm-foldGutter': { display: 'none' },
   '.cm-gutters': {
     backgroundColor: 'color-mix(in srgb, var(--practice-code-bg) 82%, var(--course-card))',
     color: 'var(--course-muted)',
@@ -507,20 +519,42 @@ function setStatus(container, text, state = '') {
   if (state) status.classList.add(`is-${state}`);
 }
 
-function createCodeEditor(container, lessonId, initial) {
+async function createCodeEditor(container, lessonId, initial) {
   const mount = container.querySelector('[data-practice-codemirror]');
   if (!mount) return null;
+
+  // CodeMirror измеряет ширину символов по фактическому шрифту.
+  // Ждём загрузку JetBrains Mono, иначе курсор и клики уезжают.
+  if (document.fonts?.ready) {
+    try { await document.fonts.ready; } catch { /* продолжаем со шрифтом по умолчанию */ }
+  }
 
   let timer = null;
   const view = new EditorView({
     state: EditorState.create({
       doc: initial,
       extensions: [
-        basicSetup,
+        lineNumbers(),
+        highlightActiveLineGutter(),
+        highlightSpecialChars(),
+        history(),
+        drawSelection(),
+        dropCursor(),
+        EditorState.allowMultipleSelections.of(true),
+        EditorState.tabSize.of(4),
+        indentUnit.of('    '),
+        indentOnInput(),
+        bracketMatching(),
+        closeBrackets(),
+        rectangularSelection(),
+        crosshairCursor(),
+        highlightActiveLine(),
+        highlightSelectionMatches(),
         java(),
         practiceTheme,
         syntaxHighlighting(practiceHighlight),
         EditorView.contentAttributes.of({ 'aria-label': 'Твой код' }),
+        keymap.of([...closeBracketsKeymap, ...defaultKeymap, ...searchKeymap, ...historyKeymap]),
         Prec.highest(
           keymap.of([
             indentWithTab,
@@ -554,6 +588,11 @@ function createCodeEditor(container, lessonId, initial) {
   });
 
   container._practiceView = view;
+  view.requestMeasure();
+  window.addEventListener('load', () => view.requestMeasure(), { once: true });
+  if (document.fonts?.ready) {
+    document.fonts.ready.then(() => view.requestMeasure()).catch(() => {});
+  }
   return view;
 }
 
