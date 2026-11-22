@@ -76,7 +76,7 @@ const practiceTheme = EditorView.theme({
 });
 
 const practiceHighlight = HighlightStyle.define([
-  { tag: tags.keyword, color: 'var(--cm-keyword)', fontWeight: '600' },
+  { tag: tags.keyword, color: 'var(--cm-keyword)' },
   { tag: tags.string, color: 'var(--cm-string)' },
   { tag: [tags.number, tags.bool, tags.null], color: 'var(--cm-number)' },
   { tag: [tags.comment, tags.lineComment, tags.blockComment, tags.docComment], color: 'var(--cm-comment)', fontStyle: 'italic' },
