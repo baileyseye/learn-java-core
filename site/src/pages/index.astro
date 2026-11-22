@@ -1,13 +1,15 @@
 ---
 import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
 import CourseHome from '../components/CourseHome.astro';
+import { courseStats } from '../data/course.mjs';
+
+const description = `Пошаговый курс по Java Core из ${courseStats.lessons} уроков в ${courseStats.modules} модулях: реальные исходники из репозитория, упражнения и самопроверка.`;
 ---
 
 <StarlightPage
   frontmatter={{
     title: 'Курс Java Core',
-    description:
-      'Пошаговый курс по Java Core: 7 модулей, 34 урока, реальные исходники из репозитория, упражнения и самопроверка.',
+    description,
     template: 'splash'
   }}
   hasSidebar={false}

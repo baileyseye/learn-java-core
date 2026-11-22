@@ -87,6 +87,52 @@ export default [
     ]
   },
   {
+    id: 'iterating-collections',
+    title: 'Обход коллекций',
+    summary: 'for-each, Iterator, removeIf и обход Map без ошибок.',
+    minutes: 9,
+    goal:
+      'Научиться выбирать способ обхода коллекции и безопасно удалять элементы во время перебора.',
+    ideas: [
+      '`for-each` — самый читаемый способ, когда нужны только элементы, а не индексы.',
+      'Удалять элементы внутри `for-each` нельзя: итератор заметит изменение и бросит `ConcurrentModificationException`.',
+      '`Iterator.remove()` удаляет текущий элемент безопасно. `removeIf(condition)` делает то же короче.',
+      'Map обходят через `entrySet()`, если нужны и ключ, и значение, или через `keySet()`, если нужны только ключи.'
+    ],
+    sources: [
+      {
+        file: '_5/IteratingCollections.java',
+        focus: [
+          { method: 'demonstrateForEach', note: 'Простой обход List без индекса.' },
+          { method: 'demonstrateIterator', note: 'Удаление текущего элемента через Iterator.remove().' },
+          { method: 'demonstrateRemoveIf', note: 'То же самое короче через removeIf.' },
+          { method: 'demonstrateMapIteration', note: 'Обход Map через entrySet.' }
+        ]
+      }
+    ],
+    runs: ['org.baileyseyes._5.IteratingCollections'],
+    practice: {
+      task: 'Обойди список `["Анна", "Борис", "Вера"]` через for-each и выведи имена. Затем удали `"Борис"` через `Iterator` и выведи список.',
+      hint: 'В цикле `while (iterator.hasNext())` получите элемент через `iterator.next()`, сравните его и вызовите `iterator.remove()`.',
+      solution:
+        'List<String> names = new ArrayList<>(List.of("Анна", "Борис", "Вера"));\nfor (String name : names) {\n    System.out.println(name);\n}\n\nIterator<String> iterator = names.iterator();\nwhile (iterator.hasNext()) {\n    if (iterator.next().equals("Борис")) {\n        iterator.remove();\n    }\n}\nSystem.out.println(names);'
+    },
+    quiz: [
+      {
+        q: 'Почему нельзя удалять из List внутри for-each?',
+        options: ['Это слишком медленно', 'Итератор обнаружит изменение и бросит ConcurrentModificationException', 'List станет неизменяемым', 'Удаление работает только в Map'],
+        answer: 1,
+        explain: 'for-each использует Iterator, и структурное изменение напрямую ломает его состояние.'
+      },
+      {
+        q: 'Что даёт `entrySet()` у Map?',
+        options: ['Только ключи', 'Только значения', 'Пары ключ-значение', 'Размер Map'],
+        answer: 2,
+        explain: '`entrySet()` возвращает набор объектов `Map.Entry`, у которых есть `getKey()` и `getValue()`.'
+      }
+    ]
+  },
+  {
     id: 'set',
     title: 'Set: уникальность',
     summary: 'HashSet, LinkedHashSet, TreeSet и роль equals/hashCode.',
@@ -175,6 +221,97 @@ export default [
         options: ['Для сортировки ключей', 'Чтобы создать значение, только если ключа ещё нет', 'Чтобы удалить ключ', 'Чтобы получить размер Map'],
         answer: 1,
         explain: 'Он объединяет проверку наличия и создание значения в одну операцию.'
+      }
+    ]
+  },
+  {
+    id: 'queue-basics',
+    title: 'Очереди: Queue и Deque',
+    summary: 'FIFO, стек на Deque и PriorityQueue на понятных примерах.',
+    minutes: 9,
+    goal:
+      'Понять, чем очередь отличается от списка, как использовать Deque как стек и когда нужна приоритетная очередь.',
+    ideas: [
+      '`Queue` работает по принципу FIFO: первый добавленный элемент забирают первым.',
+      '`offer` добавляет, `peek` смотрит без удаления, `poll` забирает и удаляет. В отличие от `add`/`remove`, они не бросают исключение на пустой очереди.',
+      '`Deque` — двусторонняя очередь. `push`/`pop` работают как стек: последний пришёл — первый ушёл.',
+      '`PriorityQueue` выдаёт элементы по приоритету, а не в порядке добавления. Для объектов нужен `Comparable` или `Comparator`.'
+    ],
+    sources: [
+      {
+        file: '_5/QueueBasics.java',
+        focus: [
+          { method: 'demonstrateQueue', note: 'FIFO: offer, peek и poll.' },
+          { method: 'demonstrateDequeAsStack', note: 'Deque как стек: push и pop.' },
+          { method: 'demonstratePriorityQueue', note: 'PriorityQueue отдаёт числа по возрастанию.' }
+        ]
+      }
+    ],
+    runs: ['org.baileyseyes._5.QueueBasics'],
+    practice: {
+      task: 'Создай `Queue` из двух имён. Выведи первого через `peek`, забери его через `poll`, выведи следующего. Затем создай `Deque`, положи три элемента через `push` и забери верхний через `pop`.',
+      hint: '`peek` не удаляет элемент, а `poll` удаляет. У Deque `push` кладёт наверх.',
+      solution:
+        'Queue<String> queue = new ArrayDeque<>();\nqueue.offer("Анна");\nqueue.offer("Борис");\nSystem.out.println(queue.peek());\nSystem.out.println(queue.poll());\nSystem.out.println(queue.peek());\n\nDeque<String> stack = new ArrayDeque<>();\nstack.push("Первый");\nstack.push("Второй");\nstack.push("Третий");\nSystem.out.println(stack.pop());'
+    },
+    quiz: [
+      {
+        q: 'Какой принцип у Queue?',
+        options: ['LIFO', 'FIFO', 'Случайный порядок', 'Сортировка по значению'],
+        answer: 1,
+        explain: 'Queue — очередь: первый добавленный элемент забирают первым (First In, First Out).'
+      },
+      {
+        q: 'Чем `poll()` отличается от `remove()` у Queue?',
+        options: ['Ничем', '`poll` возвращает null на пустой очереди, `remove` бросает исключение', '`remove` возвращает null, `poll` бросает исключение', '`poll` работает только с Deque'],
+        answer: 1,
+        explain: '`poll` мягко возвращает null, а `remove` на пустой очереди выбрасывает исключение.'
+      }
+    ]
+  },
+  {
+    id: 'sorting-and-comparators',
+    title: 'Сортировка и Comparator',
+    summary: 'Естественный порядок, Comparator, Comparable и цепочки сравнения.',
+    minutes: 11,
+    goal:
+      'Научиться сортировать коллекции по разным ключам и понимать, когда порядок задаёт сам класс, а когда — внешний компаратор.',
+    ideas: [
+      '`Collections.sort(list)` и `list.sort(comparator)` сортируют список на месте.',
+      '`Comparable` задаёт естественный порядок внутри класса через `compareTo`.',
+      '`Comparator` описывает порядок снаружи: `Comparator.comparingInt(String::length)`.',
+      'Компараторы можно объединять: `thenComparing`, `reversed`, `nullsFirst`. Сравнение должно быть согласованным, иначе сортировка может вести себя странно.'
+    ],
+    sources: [
+      {
+        file: '_5/SortingCollections.java',
+        focus: [
+          { symbol: 'Person', note: 'Класс с Comparable по возрасту и toString для печати.' },
+          { method: 'demonstrateNaturalSort', note: 'Сортировка чисел по возрастанию.' },
+          { method: 'demonstrateComparator', note: 'Сортировка строк по длине и в обратном порядке.' },
+          { method: 'demonstrateComparable', note: 'Сортировка объектов через compareTo.' }
+        ]
+      }
+    ],
+    runs: ['org.baileyseyes._5.SortingCollections'],
+    practice: {
+      task: 'Отсортируй список `["Виктория", "Аня", "Борис"]` по длине через `Comparator.comparingInt(String::length)` и выведи результат.',
+      hint: 'Сначала создайте изменяемый `ArrayList`, потому что `List.of` нельзя отсортировать.',
+      solution:
+        'List<String> names = new ArrayList<>(List.of("Виктория", "Аня", "Борис"));\nnames.sort(Comparator.comparingInt(String::length));\nSystem.out.println(names);'
+    },
+    quiz: [
+      {
+        q: 'Где задаётся естественный порядок класса?',
+        options: ['В Comparator', 'В методе compareTo интерфейса Comparable', 'В toString', 'В конструкторе'],
+        answer: 1,
+        explain: '`Comparable.compareTo` определяет «обычный» порядок объектов класса.'
+      },
+      {
+        q: 'Что делает `Comparator.comparingInt(String::length)`?',
+        options: ['Сравнивает строки по алфавиту', 'Создаёт компаратор по длине строки', 'Удаляет дубликаты', 'Преобразует строку в число'],
+        answer: 1,
+        explain: 'Метод извлекает int-ключ и строит по нему компаратор.'
       }
     ]
   }

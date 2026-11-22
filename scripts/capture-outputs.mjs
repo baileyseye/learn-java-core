@@ -18,7 +18,11 @@ const notes = {
   'stream-api': 'Время выполнения параллельного стрима зависит от машины.',
   synchronized: 'Порядок строк и итоговые значения могут отличаться при каждом запуске.',
   'thread-vs-runnable': 'Порядок строк может отличаться при каждом запуске.',
-  'callable-future': 'Порядок выполнения задач может отличаться.'
+  'callable-future': 'Порядок выполнения задач может отличаться.',
+  'thread-lifecycle': 'Порядок строк и моменты времени могут отличаться при каждом запуске.',
+  'executor-service': 'Порядок выполнения задач может отличаться при каждом запуске.',
+  'atomic-variables': 'Порядок выполнения потоков может отличаться, итоговое значение стабильно.',
+  'stack-trace': 'Номера строк в стеке соответствуют текущей версии исходника.'
 };
 
 function fail(message) {
@@ -103,7 +107,7 @@ try {
     if (!lesson.runs?.length) continue;
     const runs = [];
     for (const fqcn of lesson.runs) {
-      const run = spawnSync(jdk.java, ['-cp', CLASSES, fqcn], {
+      const run = spawnSync(jdk.java, ['-Dstdout.encoding=UTF-8', '-Dstderr.encoding=UTF-8', '-cp', CLASSES, fqcn], {
         cwd: tempDir,
         encoding: 'utf8',
         timeout: TIMEOUT_MS,

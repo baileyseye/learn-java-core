@@ -40,6 +40,52 @@ export default [
     ]
   },
   {
+    id: 'thread-lifecycle',
+    title: 'Жизненный цикл потока',
+    summary: 'NEW, RUNNABLE, TIMED_WAITING, TERMINATED, sleep, interrupt и join.',
+    minutes: 10,
+    goal:
+      'Понять, какие состояния проходит поток, зачем нужны sleep и join и как корректно попросить поток остановиться.',
+    ideas: [
+      'После создания поток находится в `NEW`, после `start()` — в `RUNNABLE`, после завершения — в `TERMINATED`.',
+      '`Thread.sleep(ms)` переводит поток в `TIMED_WAITING`: поток не выполняется, но остаётся живым.',
+      '`interrupt()` не убивает поток, а выставляет флаг прерывания. Спящий поток получает `InterruptedException`.',
+      '`join()` блокирует текущий поток, пока другой не завершится. Без join main может закончиться раньше дочернего потока.'
+    ],
+    sources: [
+      {
+        file: '_6/ThreadLifecycle.java',
+        focus: [
+          { method: 'demonstrateSleepAndJoin', note: 'worker спит, main ждёт через join.' },
+          { method: 'demonstrateInterrupt', note: 'interrupt прерывает сон и обрабатывается в catch.' },
+          { method: 'demonstrateStates', note: 'getState до старта и после завершения.' },
+          { method: 'main', note: 'Три сценария по порядку.' }
+        ]
+      }
+    ],
+    runs: ['org.baileyseyes._6.ThreadLifecycle'],
+    practice: {
+      task: 'В потоке `worker` выведи `"worker: старт"`, усыпи поток на 100 мс, выведи `"worker: конец"`. В main запусти поток, дождись через `join` и выведи `"main: worker завершён"`.',
+      hint: '`Thread.sleep(100)` может бросить `InterruptedException`, поэтому нужен try/catch или `throws` в main.',
+      solution:
+        'Thread worker = new Thread(() -> {\n    System.out.println("worker: старт");\n    try {\n        Thread.sleep(100);\n    } catch (InterruptedException e) {\n        Thread.currentThread().interrupt();\n    }\n    System.out.println("worker: конец");\n});\nworker.start();\nworker.join();\nSystem.out.println("main: worker завершён");'
+    },
+    quiz: [
+      {
+        q: 'Что делает `join()`?',
+        options: ['Запускает поток', 'Ждёт завершения потока', 'Прерывает поток', 'Меняет приоритет'],
+        answer: 1,
+        explain: '`join()` блокирует вызывающий поток до завершения указанного потока.'
+      },
+      {
+        q: 'Что произойдёт со спящим потоком при `interrupt()`?',
+        options: ['Он мгновенно завершится без кода', 'Он получит InterruptedException', 'Ничего', 'Он станет демоном'],
+        answer: 1,
+        explain: '`sleep` и `wait` реагируют на прерывание исключением `InterruptedException`.'
+      }
+    ]
+  },
+  {
     id: 'thread-vs-runnable',
     title: 'Thread и Runnable',
     summary: 'Два способа создать поток, start против run и почему Runnable предпочтительнее.',
@@ -91,6 +137,52 @@ export default [
     ]
   },
   {
+    id: 'executor-service',
+    title: 'Пул потоков: ExecutorService',
+    summary: 'execute, submit, invokeAll и shutdown: как переиспользовать потоки, а не создавать их вручную.',
+    minutes: 11,
+    goal:
+      'Научиться запускать задачи через пул потоков и понимать, когда нужен результат в Future, а когда достаточно выполнить действие.',
+    ideas: [
+      'Создавать `new Thread` на каждую задачу дорого. `ExecutorService` переиспользует ограниченное число потоков.',
+      '`execute` запускает `Runnable` без результата, `submit` возвращает `Future` с результатом.',
+      '`invokeAll` запускает пачку задач и возвращает список Future в том же порядке, в котором были задачи.',
+      'Пул нужно закрывать: `shutdown()` перестаёт принимать новые задачи, `awaitTermination` ждёт завершения уже запущенных.'
+    ],
+    sources: [
+      {
+        file: '_6/ExecutorServiceDemo.java',
+        focus: [
+          { method: 'demonstrateExecute', note: 'execute без результата и корректное закрытие пула.' },
+          { method: 'demonstrateSubmit', note: 'submit возвращает Future, get забирает результат.' },
+          { method: 'demonstrateInvokeAll', note: 'Три задачи и сумма результатов.' },
+          { method: 'main', note: 'Все три сценария.' }
+        ]
+      }
+    ],
+    runs: ['org.baileyseyes._6.ExecutorServiceDemo'],
+    practice: {
+      task: 'Создай `ExecutorService` на два потока, отправь задачу через `submit`, которая возвращает `42`, получи результат через `Future.get()` и вызови `shutdown()`.',
+      hint: '`submit(() -> 42)` вернёт `Future<Integer>`. Не забудьте `throws Exception` у main.',
+      solution:
+        'ExecutorService executor = Executors.newFixedThreadPool(2);\nFuture<Integer> future = executor.submit(() -> 42);\nSystem.out.println(future.get());\nexecutor.shutdown();'
+    },
+    quiz: [
+      {
+        q: 'Чем `submit` отличается от `execute`?',
+        options: ['Ничем', '`submit` возвращает Future, `execute` — нет', '`execute` возвращает результат, `submit` — нет', '`submit` работает только с Callable'],
+        answer: 1,
+        explain: '`submit` возвращает Future, из которого можно получить результат или исключение.'
+      },
+      {
+        q: 'Зачем нужен `shutdown()`?',
+        options: ['Чтобы ускорить задачи', 'Чтобы пул перестал принимать новые задачи и завершил текущие', 'Чтобы удалить все потоки мгновенно', 'Чтобы увеличить размер пула'],
+        answer: 1,
+        explain: '`shutdown()` запускает корректное завершение пула, а `shutdownNow()` пытается прервать задачи.'
+      }
+    ]
+  },
+  {
     id: 'callable-future',
     title: 'Callable и Future',
     summary: 'Задачи с результатом, ExecutorService и блокирующий get.',
@@ -132,6 +224,51 @@ export default [
         options: ['Запускает задачу', 'Блокирует поток до получения результата', 'Отменяет задачу', 'Возвращает Future'],
         answer: 1,
         explain: 'get() ждёт завершения задачи и возвращает результат или бросает исключение.'
+      }
+    ]
+  },
+  {
+    id: 'atomic-variables',
+    title: 'AtomicInteger и атомарность',
+    summary: 'Почему count++ не атомарен и как AtomicInteger решает гонку без synchronized.',
+    minutes: 9,
+    goal:
+      'Понять, из каких шагов состоит инкремент, почему volatile не спасает и когда достаточно AtomicInteger.',
+    ideas: [
+      '`count++` — это чтение, сложение и запись. Между этими шагами другой поток может успеть изменить значение.',
+      '`volatile` гарантирует видимость, но не атомарность: два потока всё равно могут потерять инкремент.',
+      '`AtomicInteger` выполняет операции атомарно через CAS: `incrementAndGet`, `addAndGet`, `compareAndSet`.',
+      'Атомики хороши для счётчиков и простых флагов. Для сложных инвариантов из нескольких полей всё ещё нужна блокировка.'
+    ],
+    sources: [
+      {
+        file: '_6/AtomicVariables.java',
+        focus: [
+          { method: 'demonstrateAtomicCounter', note: 'Четыре потока по 1000 инкрементов без потерь.' },
+          { method: 'demonstrateOperations', note: 'get, incrementAndGet, addAndGet и compareAndSet.' },
+          { method: 'main', note: 'Сначала гонка, затем отдельные операции.' }
+        ]
+      }
+    ],
+    runs: ['org.baileyseyes._6.AtomicVariables'],
+    practice: {
+      task: 'В цикле четырёх потоков по 1000 раз атомарно увеличь `AtomicInteger counter` и после join выведи итог.',
+      hint: 'Используйте `counter.incrementAndGet()`. Итог должен быть 4000.',
+      solution:
+        'AtomicInteger counter = new AtomicInteger();\nThread[] threads = new Thread[4];\nfor (int i = 0; i < threads.length; i++) {\n    threads[i] = new Thread(() -> {\n        for (int j = 0; j < 1000; j++) {\n            counter.incrementAndGet();\n        }\n    });\n    threads[i].start();\n}\nfor (Thread thread : threads) thread.join();\nSystem.out.println(counter.get());'
+    },
+    quiz: [
+      {
+        q: 'Почему `volatile int count` не делает `count++` потокобезопасным?',
+        options: ['volatile запрещает запись', 'Операция состоит из нескольких шагов и не атомарна', 'volatile работает только с boolean', 'Нужно добавить final'],
+        answer: 1,
+        explain: 'volatile обеспечивает видимость, но не защищает последовательность чтение-изменение-запись.'
+      },
+      {
+        q: 'Что делает `compareAndSet(expected, newValue)`?',
+        options: ['Всегда записывает newValue', 'Записывает newValue, только если текущее значение равно expected', 'Сравнивает два объекта через equals', 'Блокирует поток навсегда'],
+        answer: 1,
+        explain: 'CAS — атомарная операция: обновление происходит только при совпадении ожидаемого значения.'
       }
     ]
   },

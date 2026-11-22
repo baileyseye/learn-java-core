@@ -1,11 +1,11 @@
 {
   "stats": {
-    "files": 69,
-    "lines": 11460,
-    "methods": 595,
-    "lessons": 34,
+    "files": 89,
+    "lines": 13168,
+    "methods": 695,
+    "lessons": 54,
     "extras": 28,
-    "usedFiles": 69
+    "usedFiles": 89
   },
   "files": {
     "Main.java": {
@@ -493,6 +493,52 @@
       "todos": [],
       "hasMain": true
     },
+    "_1/methods/ConsoleInput.java": {
+      "path": "_1/methods/ConsoleInput.java",
+      "package": "org.baileyseyes._1.methods",
+      "lines": 107,
+      "code": "package org.baileyseyes._1.methods;\n\nimport java.util.Locale;\nimport java.util.Scanner;\n\n/**\n * Ввод с клавиатуры через {@link Scanner}.\n * <p>\n * В реальной программе Scanner создают поверх {@code System.in}. В примерах\n * ниже источником служит строка: так урок можно запустить без ожидания ввода,\n * но приёмы чтения остаются теми же.\n * </p>\n *\n * @see Methods Предыдущая часть\n */\n@SuppressWarnings(\"all\")\npublic class ConsoleInput {\n\n    /**\n     * Чтение числа, строки и дробного числа из источника.\n     * <p>\n     * {@code Scanner} реализует {@link AutoCloseable}, поэтому его удобно\n     * создавать в try-with-resources.\n     * </p>\n     */\n    public static void demonstrateReadFromString() {\n        String source = \"42\\nАнна\\n3.5\";\n\n        try (Scanner scanner = new Scanner(source)) {\n            // Scanner учитывает локаль: для точки как разделителя дробной части\n            // зафиксируем Locale.US, чтобы пример вёл себя одинаково везде.\n            scanner.useLocale(Locale.US);\n\n            int number = scanner.nextInt();\n            String name = scanner.next();\n            double value = scanner.nextDouble();\n\n            System.out.println(\"Число: \" + number);\n            System.out.println(\"Имя: \" + name);\n            System.out.println(\"Дробное: \" + value);\n        }\n    }\n\n    /**\n     * Суммирование чисел, пока они есть во входных данных.\n     * <p>\n     * {@code hasNextInt()} проверяет, можно ли прочитать следующее значение\n     * как int. Это защищает от исключения на конце ввода.\n     * </p>\n     */\n    public static void demonstrateSum() {\n        int sum = 0;\n\n        try (Scanner scanner = new Scanner(\"10 20 30\")) {\n            while (scanner.hasNextInt()) {\n                sum += scanner.nextInt();\n            }\n        }\n\n        System.out.println(\"Сумма: \" + sum);\n    }\n\n    /**\n     * Безопасное чтение числа: неверные токены пропускаются.\n     * <p>\n     * В настоящей программе вместо печати «Пропущено» лучше попросить\n     * пользователя повторить ввод.\n     * </p>\n     */\n    public static int readIntSafely(Scanner scanner) {\n        while (!scanner.hasNextInt()) {\n            String skipped = scanner.next();\n            System.out.println(\"Пропущено: \" + skipped);\n        }\n        return scanner.nextInt();\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"=== Чтение из строки ===\");\n        demonstrateReadFromString();\n\n        System.out.println(\"\\n=== Сумма чисел ===\");\n        demonstrateSum();\n\n        System.out.println(\"\\n=== Безопасное чтение ===\");\n        try (Scanner scanner = new Scanner(\"abc 25\")) {\n            int value = readIntSafely(scanner);\n            System.out.println(\"Получено число: \" + value);\n        }\n\n        /*\n        С клавиатуры это выглядит так:\n\n        try (Scanner scanner = new Scanner(System.in)) {\n            System.out.print(\"Введите возраст: \");\n            int age = scanner.nextInt();\n            scanner.nextLine(); // дочитать конец строки после nextInt()\n            System.out.print(\"Введите имя: \");\n            String name = scanner.nextLine();\n        }\n\n        Scanner(System.in) закрывать не обязательно: поток System.in\n        принадлежит всей программе, а не только этому Scanner.\n         */\n    }\n}",
+      "types": [
+        {
+          "kind": "class",
+          "name": "ConsoleInput",
+          "start": 17,
+          "end": 106
+        }
+      ],
+      "methods": [
+        {
+          "name": "demonstrateReadFromString",
+          "start": 19,
+          "end": 42,
+          "signature": "public static void demonstrateReadFromString() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateSum",
+          "start": 44,
+          "end": 61,
+          "signature": "public static void demonstrateSum() {",
+          "isMain": false
+        },
+        {
+          "name": "readIntSafely",
+          "start": 63,
+          "end": 76,
+          "signature": "public static int readIntSafely(Scanner scanner) {",
+          "isMain": false
+        },
+        {
+          "name": "main",
+          "start": 78,
+          "end": 105,
+          "signature": "public static void main(String[] args) {",
+          "isMain": true
+        }
+      ],
+      "todos": [],
+      "hasMain": true
+    },
     "_1/methods/Methods.java": {
       "path": "_1/methods/Methods.java",
       "package": "org.baileyseyes._1.methods",
@@ -882,6 +928,52 @@
       ],
       "hasMain": true
     },
+    "_1/types/StringBuilderDemo.java": {
+      "path": "_1/types/StringBuilderDemo.java",
+      "package": "org.baileyseyes._1.types",
+      "lines": 76,
+      "code": "package org.baileyseyes._1.types;\n\n/**\n * StringBuilder — изменяемая последовательность символов.\n * <p>\n * String неизменяем: каждая операция создаёт новую строку. Если строку\n * собирают в цикле, удобнее StringBuilder: он меняет свой внутренний буфер.\n * </p>\n *\n * @see StringType Предыдущая часть\n * @see IntArray Следующая часть\n */\n@SuppressWarnings(\"all\")\npublic class StringBuilderDemo {\n\n    /**\n     * Сборка строки через append.\n     */\n    public static void demonstrateAppend() {\n        StringBuilder builder = new StringBuilder();\n        builder.append(\"Java\");\n        builder.append(\" Core\");\n\n        System.out.println(builder);\n    }\n\n    /**\n     * Основные методы StringBuilder.\n     */\n    public static void demonstrateMethods() {\n        StringBuilder builder = new StringBuilder(\"Java Core\");\n\n        System.out.println(\"Длина: \" + builder.length());\n        System.out.println(\"Первый символ: \" + builder.charAt(0));\n\n        builder.insert(4, \" 21\");\n        System.out.println(\"После insert: \" + builder);\n\n        builder.replace(5, 7, \"17\");\n        System.out.println(\"После replace: \" + builder);\n\n        builder.delete(5, 8);\n        System.out.println(\"После delete: \" + builder);\n\n        builder.reverse();\n        System.out.println(\"После reverse: \" + builder);\n    }\n\n    /**\n     * Сборка строки в цикле — типичный сценарий для StringBuilder.\n     */\n    public static void demonstrateLoop() {\n        StringBuilder builder = new StringBuilder();\n\n        for (int i = 1; i <= 5; i++) {\n            if (i > 1) {\n                builder.append(\", \");\n            }\n            builder.append(i);\n        }\n\n        System.out.println(builder);\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"=== append ===\");\n        demonstrateAppend();\n\n        System.out.println(\"\\n=== Методы ===\");\n        demonstrateMethods();\n\n        System.out.println(\"\\n=== Сборка в цикле ===\");\n        demonstrateLoop();\n    }\n}",
+      "types": [
+        {
+          "kind": "class",
+          "name": "StringBuilderDemo",
+          "start": 14,
+          "end": 75
+        }
+      ],
+      "methods": [
+        {
+          "name": "demonstrateAppend",
+          "start": 16,
+          "end": 25,
+          "signature": "public static void demonstrateAppend() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateMethods",
+          "start": 27,
+          "end": 47,
+          "signature": "public static void demonstrateMethods() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateLoop",
+          "start": 49,
+          "end": 63,
+          "signature": "public static void demonstrateLoop() {",
+          "isMain": false
+        },
+        {
+          "name": "main",
+          "start": 65,
+          "end": 74,
+          "signature": "public static void main(String[] args) {",
+          "isMain": true
+        }
+      ],
+      "todos": [],
+      "hasMain": true
+    },
     "_1/types/StringType.java": {
       "path": "_1/types/StringType.java",
       "package": "org.baileyseyes._1.types",
@@ -1084,6 +1176,59 @@
       "todos": [],
       "hasMain": true
     },
+    "_1/types/TwoDimensionalArrays.java": {
+      "path": "_1/types/TwoDimensionalArrays.java",
+      "package": "org.baileyseyes._1.types",
+      "lines": 123,
+      "code": "package org.baileyseyes._1.types;\n\nimport java.util.Arrays;\n\n/**\n * Двумерные массивы Java.\n * <p>\n * Двумерный массив — это массив массивов. Строки могут иметь разную длину:\n * такие структуры называют «рваными» или «ступенчатыми».\n * </p>\n *\n * @see IntArray Предыдущая часть\n * @see org.baileyseyes._1.if_else.IfElse Следующая часть\n */\n@SuppressWarnings(\"all\")\npublic class TwoDimensionalArrays {\n\n    /**\n     * Создание матрицы и обход вложенными циклами.\n     * <p>\n     * {@code matrix.length} — число строк, {@code matrix[row].length} —\n     * число элементов в конкретной строке.\n     * </p>\n     */\n    public static void demonstrateMatrix() {\n        int[][] matrix = {\n                {1, 2, 3},\n                {4, 5, 6},\n                {7, 8, 9}\n        };\n\n        for (int row = 0; row < matrix.length; row++) {\n            for (int column = 0; column < matrix[row].length; column++) {\n                if (column > 0) {\n                    System.out.print(\" \");\n                }\n                System.out.print(matrix[row][column]);\n            }\n            System.out.println();\n        }\n    }\n\n    /**\n     * Сумма и максимум по всем элементам матрицы.\n     */\n    public static void demonstrateAggregates() {\n        int[][] matrix = {\n                {1, 2, 3},\n                {4, 5, 6},\n                {7, 8, 9}\n        };\n\n        int sum = 0;\n        int max = matrix[0][0];\n\n        for (int[] row : matrix) {\n            for (int value : row) {\n                sum += value;\n                if (value > max) {\n                    max = value;\n                }\n            }\n        }\n\n        System.out.println(\"Сумма: \" + sum);\n        System.out.println(\"Максимум: \" + max);\n    }\n\n    /**\n     * Матрица, созданная через new, заполняется значениями по умолчанию.\n     */\n    public static void demonstrateDefaultValues() {\n        int[][] matrix = new int[2][3];\n\n        for (int[] row : matrix) {\n            for (int column = 0; column < row.length; column++) {\n                if (column > 0) {\n                    System.out.print(\" \");\n                }\n                System.out.print(row[column]);\n            }\n            System.out.println();\n        }\n\n        System.out.println(\"Через Arrays.deepToString: \" + Arrays.deepToString(matrix));\n    }\n\n    /**\n     * Ступенчатый массив: каждая строка создаётся отдельно.\n     */\n    public static void demonstrateJaggedArray() {\n        int[][] triangle = new int[3][];\n\n        for (int row = 0; row < triangle.length; row++) {\n            triangle[row] = new int[row + 1];\n            for (int column = 0; column <= row; column++) {\n                triangle[row][column] = 1;\n            }\n        }\n\n        for (int[] row : triangle) {\n            for (int value : row) {\n                System.out.print(\"*\");\n            }\n            System.out.println();\n        }\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"=== Матрица 3x3 ===\");\n        demonstrateMatrix();\n\n        System.out.println(\"\\n=== Сумма и максимум ===\");\n        demonstrateAggregates();\n\n        System.out.println(\"\\n=== Значения по умолчанию ===\");\n        demonstrateDefaultValues();\n\n        System.out.println(\"\\n=== Ступенчатый массив ===\");\n        demonstrateJaggedArray();\n    }\n}",
+      "types": [
+        {
+          "kind": "class",
+          "name": "TwoDimensionalArrays",
+          "start": 16,
+          "end": 122
+        }
+      ],
+      "methods": [
+        {
+          "name": "demonstrateMatrix",
+          "start": 18,
+          "end": 41,
+          "signature": "public static void demonstrateMatrix() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateAggregates",
+          "start": 43,
+          "end": 67,
+          "signature": "public static void demonstrateAggregates() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateDefaultValues",
+          "start": 69,
+          "end": 86,
+          "signature": "public static void demonstrateDefaultValues() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateJaggedArray",
+          "start": 88,
+          "end": 107,
+          "signature": "public static void demonstrateJaggedArray() {",
+          "isMain": false
+        },
+        {
+          "name": "main",
+          "start": 109,
+          "end": 121,
+          "signature": "public static void main(String[] args) {",
+          "isMain": true
+        }
+      ],
+      "todos": [],
+      "hasMain": true
+    },
     "_1/types/TypeConversion.java": {
       "path": "_1/types/TypeConversion.java",
       "package": "org.baileyseyes._1.types",
@@ -1115,6 +1260,59 @@
       ],
       "todos": [],
       "hasMain": false
+    },
+    "_1/types/VariablesAndOperators.java": {
+      "path": "_1/types/VariablesAndOperators.java",
+      "package": "org.baileyseyes._1.types",
+      "lines": 109,
+      "code": "package org.baileyseyes._1.types;\n\n/**\n * Переменные и операторы Java.\n * <p>\n * Темы урока:\n * <ul>\n *     <li>объявление и изменение переменных;</li>\n *     <li>арифметические операторы и остаток от деления;</li>\n *     <li>сравнение и логические операторы;</li>\n *     <li>инкремент, декремент и составное присваивание.</li>\n * </ul>\n *\n * @see PrimitiveTypes Следующая часть\n * @see org.baileyseyes._1.__start_from_here__.HelloWorld Предыдущая часть\n */\n@SuppressWarnings(\"all\")\npublic class VariablesAndOperators {\n\n    /**\n     * Переменная — имя для значения. Тип указывается при объявлении.\n     * <p>\n     * {@code final} означает, что значение нельзя переприсвоить.\n     * </p>\n     */\n    public static void demonstrateVariables() {\n        String name = \"Анна\";\n        int age = 25;\n        final int BIRTH_YEAR = 2000;\n\n        age = age + 1; // переменную можно изменить\n\n        System.out.println(\"Имя: \" + name);\n        System.out.println(\"Возраст через год: \" + age);\n        System.out.println(\"Год рождения: \" + BIRTH_YEAR);\n    }\n\n    /**\n     * Арифметические операторы: {@code +}, {@code -}, {@code *}, {@code /}, {@code %}.\n     * <p>\n     * Если делятся два int, дробная часть отбрасывается. Чтобы получить\n     * дробный результат, хотя бы одно число должно быть double.\n     * </p>\n     */\n    public static void demonstrateArithmetic() {\n        int a = 10;\n        int b = 3;\n\n        System.out.println(a + \" + \" + b + \" = \" + (a + b));\n        System.out.println(a + \" - \" + b + \" = \" + (a - b));\n        System.out.println(a + \" * \" + b + \" = \" + (a * b));\n        System.out.println(a + \" / \" + b + \" = \" + (a / b));\n        System.out.println(a + \" % \" + b + \" = \" + (a % b));\n        System.out.println(\"10.0 / 4 = \" + (10.0 / 4));\n        System.out.println(\"(2 + 3) * 4 = \" + ((2 + 3) * 4));\n    }\n\n    /**\n     * Сравнение возвращает boolean. Логические операторы объединяют условия.\n     * <p>\n     * Важно не путать присваивание {@code =} и сравнение {@code ==}.\n     * </p>\n     */\n    public static void demonstrateComparisonAndLogic() {\n        int age = 25;\n        boolean isWeekend = false;\n\n        System.out.println(\"10 > 3: \" + (10 > 3));\n        System.out.println(\"10 == 3: \" + (10 == 3));\n        System.out.println(\"Возраст от 18 до 65: \" + (age >= 18 && age <= 65));\n        System.out.println(\"Рабочий день: \" + !isWeekend);\n    }\n\n    /**\n     * Инкремент и декремент.\n     * <p>\n     * {@code i++} сначала возвращает текущее значение, потом увеличивает.\n     * {@code ++i} сначала увеличивает, потом возвращает новое значение.\n     * </p>\n     */\n    public static void demonstrateIncrement() {\n        int i = 5;\n        int old = i++;\n\n        System.out.println(\"i++ вернул: \" + old + \", i стало: \" + i);\n\n        int updated = ++i;\n        System.out.println(\"++i вернул: \" + updated + \", i стало: \" + i);\n\n        int sum = 7;\n        sum += 10;\n        System.out.println(\"sum += 10: \" + sum);\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"=== Переменные ===\");\n        demonstrateVariables();\n\n        System.out.println(\"\\n=== Арифметика ===\");\n        demonstrateArithmetic();\n\n        System.out.println(\"\\n=== Сравнение и логика ===\");\n        demonstrateComparisonAndLogic();\n\n        System.out.println(\"\\n=== Инкремент ===\");\n        demonstrateIncrement();\n    }\n}",
+      "types": [
+        {
+          "kind": "class",
+          "name": "VariablesAndOperators",
+          "start": 18,
+          "end": 108
+        }
+      ],
+      "methods": [
+        {
+          "name": "demonstrateVariables",
+          "start": 20,
+          "end": 36,
+          "signature": "public static void demonstrateVariables() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateArithmetic",
+          "start": 38,
+          "end": 56,
+          "signature": "public static void demonstrateArithmetic() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateComparisonAndLogic",
+          "start": 58,
+          "end": 72,
+          "signature": "public static void demonstrateComparisonAndLogic() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateIncrement",
+          "start": 74,
+          "end": 93,
+          "signature": "public static void demonstrateIncrement() {",
+          "isMain": false
+        },
+        {
+          "name": "main",
+          "start": 95,
+          "end": 107,
+          "signature": "public static void main(String[] args) {",
+          "isMain": true
+        }
+      ],
+      "todos": [],
+      "hasMain": true
     },
     "_2/__start_from_here__/HelloObjects.java": {
       "path": "_2/__start_from_here__/HelloObjects.java",
@@ -1652,6 +1850,72 @@
       "todos": [],
       "hasMain": true
     },
+    "_2/classes_objects/ConstructorsAndThis.java": {
+      "path": "_2/classes_objects/ConstructorsAndThis.java",
+      "package": "org.baileyseyes._2.classes_objects",
+      "lines": 90,
+      "code": "package org.baileyseyes._2.classes_objects;\n\n/**\n * Конструкторы и ключевое слово {@code this}.\n * <p>\n * Конструктор создаёт объект и приводит его в корректное состояние.\n * Перегрузка конструкторов позволяет собирать объект разными способами.\n * </p>\n *\n * @see org.baileyseyes._2.__start_from_here__.HelloObjects Предыдущая часть\n * @see entity.Human Следующая часть\n */\n@SuppressWarnings(\"all\")\npublic class ConstructorsAndThis {\n\n    static class Book {\n        private String title;\n        private int pages;\n\n        /**\n         * Конструктор без параметров вызывает другой конструктор через this(...).\n         */\n        Book() {\n            this(\"Без названия\", 1);\n        }\n\n        /**\n         * Конструктор с названием и количеством страниц по умолчанию.\n         */\n        Book(String title) {\n            this(title, 100);\n        }\n\n        /**\n         * Основной конструктор. this.title отличает поле от параметра title.\n         */\n        Book(String title, int pages) {\n            this.title = title;\n            this.pages = pages;\n        }\n\n        /**\n         * Текучий метод: меняет страницы и возвращает этот же объект.\n         */\n        Book withPages(int pages) {\n            this.pages = pages;\n            return this;\n        }\n\n        String describe() {\n            return \"Книга: \" + title + \", страниц: \" + pages;\n        }\n    }\n\n    /**\n     * Первый конструктор вызывает второй через this(...).\n     */\n    public static void demonstrateConstructorChaining() {\n        Book book = new Book();\n        System.out.println(book.describe());\n    }\n\n    /**\n     * Один класс — несколько конструкторов с разными параметрами.\n     */\n    public static void demonstrateOverloadedConstructors() {\n        Book book = new Book(\"Java для начинающих\", 350);\n        System.out.println(book.describe());\n    }\n\n    /**\n     * this позволяет вернуть текущий объект и продолжить цепочку вызовов.\n     */\n    public static void demonstrateThisInMethod() {\n        Book book = new Book(\"Java для начинающих\").withPages(120);\n        System.out.println(book.describe());\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"=== Цепочка конструкторов ===\");\n        demonstrateConstructorChaining();\n\n        System.out.println(\"\\n=== Перегрузка конструкторов ===\");\n        demonstrateOverloadedConstructors();\n\n        System.out.println(\"\\n=== this в методах ===\");\n        demonstrateThisInMethod();\n    }\n}",
+      "types": [
+        {
+          "kind": "class",
+          "name": "ConstructorsAndThis",
+          "start": 14,
+          "end": 89
+        },
+        {
+          "kind": "class",
+          "name": "Book",
+          "start": 16,
+          "end": 53
+        }
+      ],
+      "methods": [
+        {
+          "name": "withPages",
+          "start": 42,
+          "end": 48,
+          "signature": "Book withPages(int pages) {",
+          "isMain": false
+        },
+        {
+          "name": "describe",
+          "start": 50,
+          "end": 52,
+          "signature": "String describe() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateConstructorChaining",
+          "start": 55,
+          "end": 61,
+          "signature": "public static void demonstrateConstructorChaining() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateOverloadedConstructors",
+          "start": 63,
+          "end": 69,
+          "signature": "public static void demonstrateOverloadedConstructors() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateThisInMethod",
+          "start": 71,
+          "end": 77,
+          "signature": "public static void demonstrateThisInMethod() {",
+          "isMain": false
+        },
+        {
+          "name": "main",
+          "start": 79,
+          "end": 88,
+          "signature": "public static void main(String[] args) {",
+          "isMain": true
+        }
+      ],
+      "todos": [],
+      "hasMain": true
+    },
     "_2/classes_objects/Inheritance.java": {
       "path": "_2/classes_objects/Inheritance.java",
       "package": "org.baileyseyes._2.classes_objects",
@@ -1820,6 +2084,185 @@
           "name": "main",
           "start": 185,
           "end": 191,
+          "signature": "public static void main(String[] args) {",
+          "isMain": true
+        }
+      ],
+      "todos": [],
+      "hasMain": true
+    },
+    "_2/classes_objects/InheritanceBasics.java": {
+      "path": "_2/classes_objects/InheritanceBasics.java",
+      "package": "org.baileyseyes._2.classes_objects",
+      "lines": 97,
+      "code": "package org.baileyseyes._2.classes_objects;\n\n/**\n * Наследование: extends, super, @Override и полиморфизм.\n * <p>\n * Наследник получает доступные поля и методы родителя, может добавить свои\n * и переопределить поведение. Ссылка родительского типа может указывать\n * на объект наследника — это и есть полиморфизм.\n * </p>\n *\n * @see entity.Human Предыдущая часть\n * @see org.baileyseyes._3.__start_from_here__.HelloJavaClassTypes Следующая часть\n */\n@SuppressWarnings(\"all\")\npublic class InheritanceBasics {\n\n    static class Animal {\n        protected final String name;\n\n        Animal(String name) {\n            this.name = name;\n        }\n\n        String getName() {\n            return name;\n        }\n\n        void eat() {\n            System.out.println(name + \" ест\");\n        }\n\n        String sound() {\n            return \"...\";\n        }\n    }\n\n    /**\n     * Dog наследует Animal, добавляет fetch() и переопределяет sound().\n     */\n    static class Dog extends Animal {\n        Dog(String name) {\n            super(name); // вызов конструктора родителя\n        }\n\n        @Override\n        String sound() {\n            return \"Гав!\";\n        }\n\n        void fetch() {\n            System.out.println(name + \" приносит мяч\");\n        }\n    }\n\n    static class Cat extends Animal {\n        Cat(String name) {\n            super(name);\n        }\n\n        @Override\n        String sound() {\n            return \"Мяу!\";\n        }\n    }\n\n    /**\n     * Наследник использует метод родителя и своё поведение.\n     */\n    public static void demonstrateInheritance() {\n        Dog dog = new Dog(\"Рекс\");\n        dog.eat();\n        dog.fetch();\n    }\n\n    /**\n     * Одна ссылка Animal — разные реализации sound().\n     */\n    public static void demonstratePolymorphism() {\n        Animal[] animals = {\n                new Dog(\"Рекс\"),\n                new Cat(\"Мурка\")\n        };\n\n        for (Animal animal : animals) {\n            System.out.println(animal.getName() + \": \" + animal.sound());\n        }\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"=== Наследование ===\");\n        demonstrateInheritance();\n\n        System.out.println(\"\\n=== Полиморфизм ===\");\n        demonstratePolymorphism();\n    }\n}",
+      "types": [
+        {
+          "kind": "class",
+          "name": "InheritanceBasics",
+          "start": 15,
+          "end": 96
+        },
+        {
+          "kind": "class",
+          "name": "Animal",
+          "start": 17,
+          "end": 35
+        },
+        {
+          "kind": "class",
+          "name": "Dog",
+          "start": 37,
+          "end": 53
+        },
+        {
+          "kind": "class",
+          "name": "Cat",
+          "start": 55,
+          "end": 64
+        }
+      ],
+      "methods": [
+        {
+          "name": "getName",
+          "start": 24,
+          "end": 26,
+          "signature": "String getName() {",
+          "isMain": false
+        },
+        {
+          "name": "eat",
+          "start": 28,
+          "end": 30,
+          "signature": "void eat() {",
+          "isMain": false
+        },
+        {
+          "name": "sound",
+          "start": 32,
+          "end": 34,
+          "signature": "String sound() {",
+          "isMain": false
+        },
+        {
+          "name": "sound",
+          "start": 45,
+          "end": 48,
+          "signature": "@Override",
+          "isMain": false
+        },
+        {
+          "name": "fetch",
+          "start": 50,
+          "end": 52,
+          "signature": "void fetch() {",
+          "isMain": false
+        },
+        {
+          "name": "sound",
+          "start": 60,
+          "end": 63,
+          "signature": "@Override",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateInheritance",
+          "start": 66,
+          "end": 73,
+          "signature": "public static void demonstrateInheritance() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstratePolymorphism",
+          "start": 75,
+          "end": 87,
+          "signature": "public static void demonstratePolymorphism() {",
+          "isMain": false
+        },
+        {
+          "name": "main",
+          "start": 89,
+          "end": 95,
+          "signature": "public static void main(String[] args) {",
+          "isMain": true
+        }
+      ],
+      "todos": [],
+      "hasMain": true
+    },
+    "_2/classes_objects/StaticVsInstance.java": {
+      "path": "_2/classes_objects/StaticVsInstance.java",
+      "package": "org.baileyseyes._2.classes_objects",
+      "lines": 89,
+      "code": "package org.baileyseyes._2.classes_objects;\n\n/**\n * static и поля экземпляра.\n * <p>\n * Поле экземпляра своё у каждого объекта. static-поле одно на весь класс.\n * static-метод не имеет доступа к this и работает только со статическими членами.\n * </p>\n *\n * @see entity.Human Предыдущая часть\n * @see service.HumanService Следующая часть\n */\n@SuppressWarnings(\"all\")\npublic class StaticVsInstance {\n\n    static class Counter {\n        /**\n         * Одно общее значение на весь класс.\n         */\n        private static int created;\n\n        /**\n         * Своё значение у каждого объекта.\n         */\n        private int value;\n\n        Counter() {\n            created++;\n        }\n\n        void increment() {\n            value++;\n        }\n\n        int getValue() {\n            return value;\n        }\n\n        static int getCreated() {\n            return created;\n        }\n\n        static String info() {\n            return \"Создано счётчиков: \" + created;\n        }\n    }\n\n    /**\n     * У каждого объекта свой value.\n     */\n    public static void demonstrateInstanceFields() {\n        Counter first = new Counter();\n        Counter second = new Counter();\n\n        first.increment();\n\n        System.out.println(\"first: \" + first.getValue());\n        System.out.println(\"second: \" + second.getValue());\n    }\n\n    /**\n     * created общий для всех объектов и уже содержит два предыдущих счётчика.\n     */\n    public static void demonstrateStaticField() {\n        System.out.println(\"Создано счётчиков: \" + Counter.getCreated());\n\n        Counter third = new Counter();\n        System.out.println(\"После третьего: \" + Counter.getCreated());\n    }\n\n    /**\n     * Статический метод вызывают через имя класса, а не через объект.\n     */\n    public static void demonstrateStaticMethod() {\n        System.out.println(Counter.info());\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"=== Поля экземпляра ===\");\n        demonstrateInstanceFields();\n\n        System.out.println(\"\\n=== Статическое поле ===\");\n        demonstrateStaticField();\n\n        System.out.println(\"\\n=== Статический метод ===\");\n        demonstrateStaticMethod();\n    }\n}",
+      "types": [
+        {
+          "kind": "class",
+          "name": "StaticVsInstance",
+          "start": 14,
+          "end": 88
+        },
+        {
+          "kind": "class",
+          "name": "Counter",
+          "start": 16,
+          "end": 46
+        }
+      ],
+      "methods": [
+        {
+          "name": "increment",
+          "start": 31,
+          "end": 33,
+          "signature": "void increment() {",
+          "isMain": false
+        },
+        {
+          "name": "getValue",
+          "start": 35,
+          "end": 37,
+          "signature": "int getValue() {",
+          "isMain": false
+        },
+        {
+          "name": "getCreated",
+          "start": 39,
+          "end": 41,
+          "signature": "static int getCreated() {",
+          "isMain": false
+        },
+        {
+          "name": "info",
+          "start": 43,
+          "end": 45,
+          "signature": "static String info() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateInstanceFields",
+          "start": 48,
+          "end": 59,
+          "signature": "public static void demonstrateInstanceFields() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateStaticField",
+          "start": 61,
+          "end": 69,
+          "signature": "public static void demonstrateStaticField() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateStaticMethod",
+          "start": 71,
+          "end": 76,
+          "signature": "public static void demonstrateStaticMethod() {",
+          "isMain": false
+        },
+        {
+          "name": "main",
+          "start": 78,
+          "end": 87,
           "signature": "public static void main(String[] args) {",
           "isMain": true
         }
@@ -2076,6 +2519,90 @@
           "name": "main",
           "start": 16,
           "end": 71,
+          "signature": "public static void main(String[] args) {",
+          "isMain": true
+        }
+      ],
+      "todos": [],
+      "hasMain": true
+    },
+    "_3/AbstractVsInterface.java": {
+      "path": "_3/AbstractVsInterface.java",
+      "package": "org.baileyseyes._3",
+      "lines": 92,
+      "code": "package org.baileyseyes._3;\n\n/**\n * Абстрактный класс и интерфейс: в чём разница и что выбирать.\n * <p>\n * Абстрактный класс может хранить состояние и общий код. Интерфейс описывает\n * контракт и позволяет реализовать несколько независимых «умений».\n * </p>\n *\n * @see org.baileyseyes._3.interface_class.DefaultInterfaceMethods Предыдущая часть\n * @see org.baileyseyes._3.enum_class.DaysOfTheWeek Следующая часть\n */\n@SuppressWarnings(\"all\")\npublic class AbstractVsInterface {\n\n    /**\n     * Абстрактный класс: есть общее поле name и готовая логика describe().\n     */\n    abstract static class Shape {\n        private final String name;\n\n        Shape(String name) {\n            this.name = name;\n        }\n\n        String getName() {\n            return name;\n        }\n\n        abstract double area();\n\n        String describe() {\n            double rounded = Math.round(area() * 10) / 10.0;\n            return getName() + \": площадь \" + rounded;\n        }\n    }\n\n    /**\n     * Интерфейс описывает отдельное умение — рисование.\n     */\n    interface Drawable {\n        void draw();\n    }\n\n    static class Circle extends Shape implements Drawable {\n        private final double radius;\n\n        Circle(double radius) {\n            super(\"Круг\");\n            this.radius = radius;\n        }\n\n        @Override\n        double area() {\n            return Math.PI * radius * radius;\n        }\n\n        @Override\n        public void draw() {\n            System.out.println(\"Рисуем круг\");\n        }\n    }\n\n    static class Rectangle extends Shape {\n        private final double width;\n        private final double height;\n\n        Rectangle(double width, double height) {\n            super(\"Прямоугольник\");\n            this.width = width;\n            this.height = height;\n        }\n\n        @Override\n        double area() {\n            return width * height;\n        }\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"=== Абстрактный класс ===\");\n        Shape circle = new Circle(5);\n        Shape rectangle = new Rectangle(6, 4);\n        System.out.println(circle.describe());\n        System.out.println(rectangle.describe());\n\n        System.out.println(\"\\n=== Интерфейс ===\");\n        Drawable drawable = new Circle(3);\n        drawable.draw();\n    }\n}",
+      "types": [
+        {
+          "kind": "class",
+          "name": "AbstractVsInterface",
+          "start": 14,
+          "end": 91
+        },
+        {
+          "kind": "class",
+          "name": "Shape",
+          "start": 16,
+          "end": 36
+        },
+        {
+          "kind": "interface",
+          "name": "Drawable",
+          "start": 38,
+          "end": 43
+        },
+        {
+          "kind": "class",
+          "name": "Circle",
+          "start": 45,
+          "end": 62
+        },
+        {
+          "kind": "class",
+          "name": "Rectangle",
+          "start": 64,
+          "end": 78
+        }
+      ],
+      "methods": [
+        {
+          "name": "getName",
+          "start": 26,
+          "end": 28,
+          "signature": "String getName() {",
+          "isMain": false
+        },
+        {
+          "name": "describe",
+          "start": 32,
+          "end": 35,
+          "signature": "String describe() {",
+          "isMain": false
+        },
+        {
+          "name": "area",
+          "start": 53,
+          "end": 56,
+          "signature": "@Override",
+          "isMain": false
+        },
+        {
+          "name": "draw",
+          "start": 58,
+          "end": 61,
+          "signature": "@Override",
+          "isMain": false
+        },
+        {
+          "name": "area",
+          "start": 74,
+          "end": 77,
+          "signature": "@Override",
+          "isMain": false
+        },
+        {
+          "name": "main",
+          "start": 80,
+          "end": 90,
           "signature": "public static void main(String[] args) {",
           "isMain": true
         }
@@ -2509,6 +3036,84 @@
       "methods": [],
       "todos": [],
       "hasMain": false
+    },
+    "_3/interface_class/DefaultInterfaceMethods.java": {
+      "path": "_3/interface_class/DefaultInterfaceMethods.java",
+      "package": "org.baileyseyes._3.interface_class",
+      "lines": 81,
+      "code": "package org.baileyseyes._3.interface_class;\n\n/**\n * default- и static-методы интерфейса.\n * <p>\n * До Java 8 интерфейс содержал только объявления методов. Сейчас интерфейс\n * может дать готовую реализацию через default и утилитарный метод через static.\n * </p>\n *\n * @see SayNo Предыдущая часть\n * @see org.baileyseyes._3.AbstractVsInterface Следующая часть\n */\n@SuppressWarnings(\"all\")\npublic class DefaultInterfaceMethods {\n\n    interface Greeter {\n        String name();\n\n        /**\n         * default-метод не обязан реализовывать каждый класс.\n         */\n        default String greet() {\n            return \"Привет, \" + name();\n        }\n\n        /**\n         * static-метод принадлежит интерфейсу, а не объекту.\n         */\n        static String version() {\n            return \"Greeter 1.0\";\n        }\n    }\n\n    static class SimpleGreeter implements Greeter {\n        private final String name;\n\n        SimpleGreeter(String name) {\n            this.name = name;\n        }\n\n        @Override\n        public String name() {\n            return name;\n        }\n    }\n\n    /**\n     * Класс может переопределить default-метод своим поведением.\n     */\n    static class LoudGreeter implements Greeter {\n        private final String name;\n\n        LoudGreeter(String name) {\n            this.name = name;\n        }\n\n        @Override\n        public String name() {\n            return name;\n        }\n\n        @Override\n        public String greet() {\n            return \"ПРИВЕТ, \" + name().toUpperCase() + \"!!!\";\n        }\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"=== default-метод ===\");\n        Greeter simple = new SimpleGreeter(\"Анна\");\n        System.out.println(simple.greet());\n\n        System.out.println(\"\\n=== Переопределение default-метода ===\");\n        Greeter loud = new LoudGreeter(\"Анна\");\n        System.out.println(loud.greet());\n\n        System.out.println(\"\\n=== static-метод интерфейса ===\");\n        System.out.println(Greeter.version());\n    }\n}",
+      "types": [
+        {
+          "kind": "class",
+          "name": "DefaultInterfaceMethods",
+          "start": 14,
+          "end": 80
+        },
+        {
+          "kind": "interface",
+          "name": "Greeter",
+          "start": 16,
+          "end": 32
+        },
+        {
+          "kind": "class",
+          "name": "SimpleGreeter",
+          "start": 34,
+          "end": 45
+        },
+        {
+          "kind": "class",
+          "name": "LoudGreeter",
+          "start": 47,
+          "end": 66
+        }
+      ],
+      "methods": [
+        {
+          "name": "greet",
+          "start": 19,
+          "end": 24,
+          "signature": "default String greet() {",
+          "isMain": false
+        },
+        {
+          "name": "version",
+          "start": 26,
+          "end": 31,
+          "signature": "static String version() {",
+          "isMain": false
+        },
+        {
+          "name": "name",
+          "start": 41,
+          "end": 44,
+          "signature": "@Override",
+          "isMain": false
+        },
+        {
+          "name": "name",
+          "start": 57,
+          "end": 60,
+          "signature": "@Override",
+          "isMain": false
+        },
+        {
+          "name": "greet",
+          "start": 62,
+          "end": 65,
+          "signature": "@Override",
+          "isMain": false
+        },
+        {
+          "name": "main",
+          "start": 68,
+          "end": 79,
+          "signature": "public static void main(String[] args) {",
+          "isMain": true
+        }
+      ],
+      "todos": [],
+      "hasMain": true
     },
     "_3/interface_class/SayNo.java": {
       "path": "_3/interface_class/SayNo.java",
@@ -2963,6 +3568,45 @@
       "todos": [],
       "hasMain": true
     },
+    "_4/exception/ExceptionTypes.java": {
+      "path": "_4/exception/ExceptionTypes.java",
+      "package": "org.baileyseyes._4.exception",
+      "lines": 63,
+      "code": "package org.baileyseyes._4.exception;\n\nimport java.io.IOException;\n\n/**\n * Виды исключений и иерархия классов ошибок.\n * <p>\n * Все исключения наследуют Throwable. Ветка Exception делится на checked\n * (компилятор требует обработки) и unchecked (RuntimeException).\n * </p>\n *\n * @see org.baileyseyes._4.try_catch_finally.TryCatchFinally Предыдущая часть\n * @see ThrowAndThrows Следующая часть\n */\n@SuppressWarnings(\"all\")\npublic class ExceptionTypes {\n\n    /**\n     * Проверяем иерархию через instanceof.\n     */\n    public static void demonstrateHierarchy() {\n        Exception checked = new IOException(\"Файл не найден\");\n        Exception unchecked = new NullPointerException(\"Ссылка равна null\");\n\n        System.out.println(\"IOException наследует Exception: \" + (checked instanceof Exception));\n        System.out.println(\"IOException наследует RuntimeException: \" + (checked instanceof RuntimeException));\n        System.out.println(\"NullPointerException наследует RuntimeException: \" + (unchecked instanceof RuntimeException));\n    }\n\n    /**\n     * Три частые ошибки времени выполнения.\n     */\n    public static void demonstrateCommonExceptions() {\n        String text = null;\n        try {\n            text.length();\n        } catch (NullPointerException e) {\n            System.out.println(\"NullPointerException: String равен null\");\n        }\n\n        int[] numbers = {1, 2, 3};\n        try {\n            System.out.println(numbers[5]);\n        } catch (ArrayIndexOutOfBoundsException e) {\n            System.out.println(\"ArrayIndexOutOfBoundsException: индекса 5 нет в массиве длины 3\");\n        }\n\n        try {\n            Integer.parseInt(\"abc\");\n        } catch (NumberFormatException e) {\n            System.out.println(\"NumberFormatException: \\\"abc\\\" не является числом\");\n        }\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"=== Иерархия ===\");\n        demonstrateHierarchy();\n\n        System.out.println(\"\\n=== Частые ошибки ===\");\n        demonstrateCommonExceptions();\n    }\n}",
+      "types": [
+        {
+          "kind": "class",
+          "name": "ExceptionTypes",
+          "start": 16,
+          "end": 62
+        }
+      ],
+      "methods": [
+        {
+          "name": "demonstrateHierarchy",
+          "start": 18,
+          "end": 28,
+          "signature": "public static void demonstrateHierarchy() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateCommonExceptions",
+          "start": 30,
+          "end": 53,
+          "signature": "public static void demonstrateCommonExceptions() {",
+          "isMain": false
+        },
+        {
+          "name": "main",
+          "start": 55,
+          "end": 61,
+          "signature": "public static void main(String[] args) {",
+          "isMain": true
+        }
+      ],
+      "todos": [],
+      "hasMain": true
+    },
     "_4/exception/HumanNotFoundException.java": {
       "path": "_4/exception/HumanNotFoundException.java",
       "package": "org.baileyseyes._4.exception",
@@ -3041,6 +3685,118 @@
           "name": "main",
           "start": 125,
           "end": 206,
+          "signature": "public static void main(String[] args) {",
+          "isMain": true
+        }
+      ],
+      "todos": [],
+      "hasMain": true
+    },
+    "_4/exception/StackTraceDemo.java": {
+      "path": "_4/exception/StackTraceDemo.java",
+      "package": "org.baileyseyes._4.exception",
+      "lines": 56,
+      "code": "package org.baileyseyes._4.exception;\n\n/**\n * Как читать stack trace.\n * <p>\n * Первая строка показывает тип исключения и сообщение. Следующие строки —\n * стек вызовов: сверху находится место, где ошибка возникла, ниже — кто\n * вызвал этот метод.\n * </p>\n *\n * @see ThrowAndThrows Предыдущая часть\n * @see org.baileyseyes._4.try_catch_finally.TryWithResources Следующая часть\n */\n@SuppressWarnings(\"all\")\npublic class StackTraceDemo {\n\n    static void levelThree() {\n        throw new IllegalStateException(\"Данные не найдены\");\n    }\n\n    static void levelTwo() {\n        levelThree();\n    }\n\n    static void levelOne() {\n        levelTwo();\n    }\n\n    /**\n     * Печатаем сообщение, тип и только свои кадры стека.\n     */\n    public static void demonstrateReadingStackTrace() {\n        try {\n            levelOne();\n        } catch (IllegalStateException e) {\n            System.out.println(\"Сообщение: \" + e.getMessage());\n            System.out.println(\"Тип: \" + e.getClass().getSimpleName());\n            System.out.println(\"Стек вызовов:\");\n\n            for (StackTraceElement element : e.getStackTrace()) {\n                if (element.getClassName().startsWith(\"org.baileyseyes\")) {\n                    String simpleName = element.getClassName()\n                            .substring(element.getClassName().lastIndexOf('.') + 1);\n                    System.out.println(\"  \" + simpleName + \".\" + element.getMethodName()\n                            + \":\" + element.getLineNumber());\n                }\n            }\n        }\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"=== Чтение stack trace ===\");\n        demonstrateReadingStackTrace();\n    }\n}",
+      "types": [
+        {
+          "kind": "class",
+          "name": "StackTraceDemo",
+          "start": 15,
+          "end": 55
+        }
+      ],
+      "methods": [
+        {
+          "name": "levelThree",
+          "start": 17,
+          "end": 19,
+          "signature": "static void levelThree() {",
+          "isMain": false
+        },
+        {
+          "name": "levelTwo",
+          "start": 21,
+          "end": 23,
+          "signature": "static void levelTwo() {",
+          "isMain": false
+        },
+        {
+          "name": "levelOne",
+          "start": 25,
+          "end": 27,
+          "signature": "static void levelOne() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateReadingStackTrace",
+          "start": 29,
+          "end": 49,
+          "signature": "public static void demonstrateReadingStackTrace() {",
+          "isMain": false
+        },
+        {
+          "name": "main",
+          "start": 51,
+          "end": 54,
+          "signature": "public static void main(String[] args) {",
+          "isMain": true
+        }
+      ],
+      "todos": [],
+      "hasMain": true
+    },
+    "_4/exception/ThrowAndThrows.java": {
+      "path": "_4/exception/ThrowAndThrows.java",
+      "package": "org.baileyseyes._4.exception",
+      "lines": 86,
+      "code": "package org.baileyseyes._4.exception;\n\n/**\n * throw и throws.\n * <p>\n * {@code throw} бросает конкретное исключение, {@code throws} объявляет\n * в сигнатуре метода, что он может выбросить checked-исключение.\n * </p>\n *\n * @see ExceptionTypes Предыдущая часть\n * @see StackTraceDemo Следующая часть\n */\n@SuppressWarnings(\"all\")\npublic class ThrowAndThrows {\n\n    /**\n     * Checked-исключение: компилятор требует обработки или объявления throws.\n     */\n    static class AgeException extends Exception {\n        AgeException(String message) {\n            super(message);\n        }\n    }\n\n    /**\n     * Метод объявляет throws AgeException, поэтому вызывающий код обязан\n     * обработать исключение или пробросить его дальше.\n     */\n    public static int parseAge(String text) throws AgeException {\n        try {\n            int age = Integer.parseInt(text);\n            if (age < 0) {\n                throw new AgeException(\"Возраст не может быть отрицательным\");\n            }\n            return age;\n        } catch (NumberFormatException e) {\n            throw new AgeException(\"Это не число: \" + text);\n        }\n    }\n\n    /**\n     * Исключение возникает на нижнем уровне...\n     */\n    static void levelThree() throws AgeException {\n        System.out.println(\"levelThree: бросаю исключение\");\n        throw new AgeException(\"Что-то пошло не так\");\n    }\n\n    /**\n     * ...не обрабатывается здесь и пробрасывается дальше...\n     */\n    static void levelTwo() throws AgeException {\n        System.out.println(\"levelTwo: пробрасываю дальше\");\n        levelThree();\n    }\n\n    /**\n     * ...и ловится только на верхнем уровне.\n     */\n    static void levelOne() {\n        System.out.println(\"levelOne: ловлю\");\n        try {\n            levelTwo();\n        } catch (AgeException e) {\n            System.out.println(\"Поймано в levelOne: \" + e.getMessage());\n        }\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"=== throw ===\");\n        try {\n            parseAge(\"-5\");\n        } catch (AgeException e) {\n            System.out.println(\"Поймано: \" + e.getMessage());\n        }\n        try {\n            parseAge(\"abc\");\n        } catch (AgeException e) {\n            System.out.println(\"Поймано: \" + e.getMessage());\n        }\n\n        System.out.println(\"\\n=== throws и проброс ===\");\n        levelOne();\n    }\n}",
+      "types": [
+        {
+          "kind": "class",
+          "name": "ThrowAndThrows",
+          "start": 14,
+          "end": 85
+        },
+        {
+          "kind": "class",
+          "name": "AgeException",
+          "start": 16,
+          "end": 23
+        }
+      ],
+      "methods": [
+        {
+          "name": "parseAge",
+          "start": 25,
+          "end": 39,
+          "signature": "public static int parseAge(String text) throws AgeException {",
+          "isMain": false
+        },
+        {
+          "name": "levelThree",
+          "start": 41,
+          "end": 47,
+          "signature": "static void levelThree() throws AgeException {",
+          "isMain": false
+        },
+        {
+          "name": "levelTwo",
+          "start": 49,
+          "end": 55,
+          "signature": "static void levelTwo() throws AgeException {",
+          "isMain": false
+        },
+        {
+          "name": "levelOne",
+          "start": 57,
+          "end": 67,
+          "signature": "static void levelOne() {",
+          "isMain": false
+        },
+        {
+          "name": "main",
+          "start": 69,
+          "end": 84,
           "signature": "public static void main(String[] args) {",
           "isMain": true
         }
@@ -3463,6 +4219,59 @@
       "todos": [],
       "hasMain": true
     },
+    "_5/IteratingCollections.java": {
+      "path": "_5/IteratingCollections.java",
+      "package": "org.baileyseyes._5",
+      "lines": 91,
+      "code": "package org.baileyseyes._5;\n\nimport java.util.ArrayList;\nimport java.util.Iterator;\nimport java.util.LinkedHashMap;\nimport java.util.List;\nimport java.util.Map;\n\n/**\n * Обход коллекций: for-each, Iterator, removeIf и Map.\n * <p>\n * for-each удобен для чтения. Если во время обхода нужно удалять элементы,\n * используют Iterator.remove() или removeIf().\n * </p>\n *\n * @see list.CollectionList Предыдущая часть\n * @see set.CollectionSet Следующая часть\n */\n@SuppressWarnings(\"all\")\npublic class IteratingCollections {\n\n    /**\n     * Самый читаемый способ обойти коллекцию, когда индекс не нужен.\n     */\n    public static void demonstrateForEach() {\n        List<String> languages = List.of(\"java\", \"sql\", \"git\");\n\n        for (String language : languages) {\n            System.out.println(language);\n        }\n    }\n\n    /**\n     * Iterator умеет безопасно удалять текущий элемент во время обхода.\n     */\n    public static void demonstrateIterator() {\n        List<String> names = new ArrayList<>(List.of(\"Анна\", \"Борис\", \"Вера\"));\n        System.out.println(\"До удаления: \" + names);\n\n        Iterator<String> iterator = names.iterator();\n        while (iterator.hasNext()) {\n            String name = iterator.next();\n            if (name.equals(\"Борис\")) {\n                iterator.remove();\n                System.out.println(\"Удалён: \" + name);\n            }\n        }\n\n        System.out.println(\"После удаления: \" + names);\n    }\n\n    /**\n     * removeIf короче ручного Iterator, когда условие удаления простое.\n     */\n    public static void demonstrateRemoveIf() {\n        List<String> names = new ArrayList<>(List.of(\"Анна\", \"Борис\", \"Вера\"));\n\n        names.removeIf(name -> name.length() <= 4);\n\n        System.out.println(names);\n    }\n\n    /**\n     * Map обходят через entrySet, если нужны и ключ, и значение.\n     */\n    public static void demonstrateMapIteration() {\n        Map<String, Integer> frequency = new LinkedHashMap<>();\n        frequency.put(\"java\", 3);\n        frequency.put(\"sql\", 2);\n        frequency.put(\"git\", 1);\n\n        for (Map.Entry<String, Integer> entry : frequency.entrySet()) {\n            System.out.println(entry.getKey() + \"=\" + entry.getValue());\n        }\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"=== for-each ===\");\n        demonstrateForEach();\n\n        System.out.println(\"\\n=== Iterator ===\");\n        demonstrateIterator();\n\n        System.out.println(\"\\n=== removeIf ===\");\n        demonstrateRemoveIf();\n\n        System.out.println(\"\\n=== Map ===\");\n        demonstrateMapIteration();\n    }\n}",
+      "types": [
+        {
+          "kind": "class",
+          "name": "IteratingCollections",
+          "start": 20,
+          "end": 90
+        }
+      ],
+      "methods": [
+        {
+          "name": "demonstrateForEach",
+          "start": 22,
+          "end": 31,
+          "signature": "public static void demonstrateForEach() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateIterator",
+          "start": 33,
+          "end": 50,
+          "signature": "public static void demonstrateIterator() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateRemoveIf",
+          "start": 52,
+          "end": 61,
+          "signature": "public static void demonstrateRemoveIf() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateMapIteration",
+          "start": 63,
+          "end": 75,
+          "signature": "public static void demonstrateMapIteration() {",
+          "isMain": false
+        },
+        {
+          "name": "main",
+          "start": 77,
+          "end": 89,
+          "signature": "public static void main(String[] args) {",
+          "isMain": true
+        }
+      ],
+      "todos": [],
+      "hasMain": true
+    },
     "_5/QueueAndDeque.java": {
       "path": "_5/QueueAndDeque.java",
       "package": "org.baileyseyes._5",
@@ -3564,6 +4373,118 @@
           "name": "main",
           "start": 232,
           "end": 242,
+          "signature": "public static void main(String[] args) {",
+          "isMain": true
+        }
+      ],
+      "todos": [],
+      "hasMain": true
+    },
+    "_5/QueueBasics.java": {
+      "path": "_5/QueueBasics.java",
+      "package": "org.baileyseyes._5",
+      "lines": 83,
+      "code": "package org.baileyseyes._5;\n\nimport java.util.ArrayDeque;\nimport java.util.Deque;\nimport java.util.PriorityQueue;\nimport java.util.Queue;\n\n/**\n * Очереди: Queue, Deque и PriorityQueue.\n * <p>\n * Queue работает по принципу FIFO: первый пришёл — первый ушёл.\n * Deque позволяет добавлять и забирать элементы с обоих концов.\n * PriorityQueue выдаёт элементы по приоритету, а не по порядку добавления.\n * </p>\n *\n * @see map.CollectionMap Предыдущая часть\n * @see SortingCollections Следующая часть\n */\n@SuppressWarnings(\"all\")\npublic class QueueBasics {\n\n    /**\n     * Обычная очередь: offer добавляет, peek смотрит, poll забирает.\n     */\n    public static void demonstrateQueue() {\n        Queue<String> queue = new ArrayDeque<>();\n        queue.offer(\"Анна\");\n        queue.offer(\"Борис\");\n        queue.offer(\"Вера\");\n\n        System.out.println(\"Очередь: \" + queue);\n        System.out.println(\"Первый: \" + queue.peek());\n        System.out.println(\"Обслужен: \" + queue.poll());\n        System.out.println(\"Следующий: \" + queue.peek());\n    }\n\n    /**\n     * Deque как стек: push кладёт наверх, pop забирает сверху.\n     */\n    public static void demonstrateDequeAsStack() {\n        Deque<String> stack = new ArrayDeque<>();\n        stack.push(\"Первый\");\n        stack.push(\"Второй\");\n        stack.push(\"Третий\");\n\n        System.out.println(\"Стек: \" + stack);\n        System.out.println(\"Взят: \" + stack.pop());\n        System.out.println(\"Осталось: \" + stack);\n    }\n\n    /**\n     * PriorityQueue всегда отдаёт минимальный (или максимальный) элемент.\n     */\n    public static void demonstratePriorityQueue() {\n        Queue<Integer> numbers = new PriorityQueue<>();\n        numbers.add(5);\n        numbers.add(1);\n        numbers.add(10);\n        numbers.add(3);\n\n        StringBuilder order = new StringBuilder();\n        while (!numbers.isEmpty()) {\n            if (order.length() > 0) {\n                order.append(\" \");\n            }\n            order.append(numbers.poll());\n        }\n\n        System.out.println(\"Порядок: \" + order);\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"=== Queue (FIFO) ===\");\n        demonstrateQueue();\n\n        System.out.println(\"\\n=== Deque как стек ===\");\n        demonstrateDequeAsStack();\n\n        System.out.println(\"\\n=== PriorityQueue ===\");\n        demonstratePriorityQueue();\n    }\n}",
+      "types": [
+        {
+          "kind": "class",
+          "name": "QueueBasics",
+          "start": 20,
+          "end": 82
+        }
+      ],
+      "methods": [
+        {
+          "name": "demonstrateQueue",
+          "start": 22,
+          "end": 35,
+          "signature": "public static void demonstrateQueue() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateDequeAsStack",
+          "start": 37,
+          "end": 49,
+          "signature": "public static void demonstrateDequeAsStack() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstratePriorityQueue",
+          "start": 51,
+          "end": 70,
+          "signature": "public static void demonstratePriorityQueue() {",
+          "isMain": false
+        },
+        {
+          "name": "main",
+          "start": 72,
+          "end": 81,
+          "signature": "public static void main(String[] args) {",
+          "isMain": true
+        }
+      ],
+      "todos": [],
+      "hasMain": true
+    },
+    "_5/SortingCollections.java": {
+      "path": "_5/SortingCollections.java",
+      "package": "org.baileyseyes._5",
+      "lines": 94,
+      "code": "package org.baileyseyes._5;\n\nimport java.util.ArrayList;\nimport java.util.Collections;\nimport java.util.Comparator;\nimport java.util.List;\n\n/**\n * Сортировка коллекций: Comparable и Comparator.\n * <p>\n * Comparable задаёт естественный порядок внутри класса (compareTo).\n * Comparator описывает порядок снаружи и позволяет сортировать одним и тем же\n * типом по разным ключам.\n * </p>\n *\n * @see QueueBasics Предыдущая часть\n * @see org.baileyseyes._6.__start_from_here__.HelloMultiThreading Следующая часть\n */\n@SuppressWarnings(\"all\")\npublic class SortingCollections {\n\n    static class Person implements Comparable<Person> {\n        private final String name;\n        private final int age;\n\n        Person(String name, int age) {\n            this.name = name;\n            this.age = age;\n        }\n\n        @Override\n        public int compareTo(Person other) {\n            return Integer.compare(age, other.age);\n        }\n\n        @Override\n        public String toString() {\n            return name + \" (\" + age + \")\";\n        }\n    }\n\n    /**\n     * Сортировка по естественному порядку чисел.\n     */\n    public static void demonstrateNaturalSort() {\n        List<Integer> numbers = new ArrayList<>(List.of(5, 2, 8, 1, 9));\n\n        Collections.sort(numbers);\n\n        System.out.println(numbers);\n    }\n\n    /**\n     * Comparator.comparingInt задаёт ключ сравнения — длину строки.\n     */\n    public static void demonstrateComparator() {\n        List<String> names = new ArrayList<>(List.of(\"Виктория\", \"Аня\", \"Борис\"));\n\n        names.sort(Comparator.comparingInt(String::length));\n        System.out.println(\"По длине: \" + names);\n\n        names.sort(Comparator.comparingInt(String::length).reversed());\n        System.out.println(\"По длине (убывание): \" + names);\n    }\n\n    /**\n     * Comparable реализован внутри Person, поэтому сортировка работает без Comparator.\n     */\n    public static void demonstrateComparable() {\n        List<Person> people = new ArrayList<>(List.of(\n                new Person(\"Аня\", 20),\n                new Person(\"Борис\", 25),\n                new Person(\"Виктория\", 30)\n        ));\n\n        Collections.sort(people);\n\n        for (Person person : people) {\n            System.out.println(person);\n        }\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"=== Естественный порядок ===\");\n        demonstrateNaturalSort();\n\n        System.out.println(\"\\n=== Comparator ===\");\n        demonstrateComparator();\n\n        System.out.println(\"\\n=== Comparable ===\");\n        demonstrateComparable();\n    }\n}",
+      "types": [
+        {
+          "kind": "class",
+          "name": "SortingCollections",
+          "start": 20,
+          "end": 93
+        },
+        {
+          "kind": "class",
+          "name": "Person",
+          "start": 22,
+          "end": 40
+        }
+      ],
+      "methods": [
+        {
+          "name": "compareTo",
+          "start": 31,
+          "end": 34,
+          "signature": "@Override",
+          "isMain": false
+        },
+        {
+          "name": "toString",
+          "start": 36,
+          "end": 39,
+          "signature": "@Override",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateNaturalSort",
+          "start": 42,
+          "end": 51,
+          "signature": "public static void demonstrateNaturalSort() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateComparator",
+          "start": 53,
+          "end": 64,
+          "signature": "public static void demonstrateComparator() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateComparable",
+          "start": 66,
+          "end": 81,
+          "signature": "public static void demonstrateComparable() {",
+          "isMain": false
+        },
+        {
+          "name": "main",
+          "start": 83,
+          "end": 92,
           "signature": "public static void main(String[] args) {",
           "isMain": true
         }
@@ -3844,6 +4765,45 @@
       "todos": [],
       "hasMain": true
     },
+    "_6/AtomicVariables.java": {
+      "path": "_6/AtomicVariables.java",
+      "package": "org.baileyseyes._6",
+      "lines": 63,
+      "code": "package org.baileyseyes._6;\n\nimport java.util.concurrent.atomic.AtomicInteger;\n\n/**\n * AtomicInteger и атомарные операции.\n * <p>\n * {@code count++} состоит из чтения, сложения и записи. Два потока могут\n * прочитать одно и то же значение и потерять один инкремент. AtomicInteger\n * выполняет такие операции атомарно без ручного synchronized.\n * </p>\n *\n * @see implements_callable.ImplementsCallable Предыдущая часть\n * @see synchronized_method.SynchronizedMethods Следующая часть\n */\n@SuppressWarnings(\"all\")\npublic class AtomicVariables {\n\n    /**\n     * Четыре потока по 1000 инкрементов — итог всегда 4000.\n     */\n    public static void demonstrateAtomicCounter() throws InterruptedException {\n        AtomicInteger counter = new AtomicInteger();\n        Thread[] threads = new Thread[4];\n\n        for (int i = 0; i < threads.length; i++) {\n            threads[i] = new Thread(() -> {\n                for (int j = 0; j < 1000; j++) {\n                    counter.incrementAndGet();\n                }\n            });\n            threads[i].start();\n        }\n\n        for (Thread thread : threads) {\n            thread.join();\n        }\n\n        System.out.println(\"Итог: \" + counter.get());\n    }\n\n    /**\n     * Основные операции AtomicInteger.\n     */\n    public static void demonstrateOperations() {\n        AtomicInteger value = new AtomicInteger();\n\n        System.out.println(\"Начало: \" + value.get());\n        System.out.println(\"После incrementAndGet: \" + value.incrementAndGet());\n        System.out.println(\"После addAndGet(5): \" + value.addAndGet(5));\n        System.out.println(\"compareAndSet(6, 10): \" + value.compareAndSet(6, 10));\n        System.out.println(\"Текущее значение: \" + value.get());\n    }\n\n    public static void main(String[] args) throws InterruptedException {\n        System.out.println(\"=== AtomicInteger ===\");\n        demonstrateAtomicCounter();\n\n        System.out.println(\"\\n=== Операции ===\");\n        demonstrateOperations();\n    }\n}",
+      "types": [
+        {
+          "kind": "class",
+          "name": "AtomicVariables",
+          "start": 17,
+          "end": 62
+        }
+      ],
+      "methods": [
+        {
+          "name": "demonstrateAtomicCounter",
+          "start": 19,
+          "end": 40,
+          "signature": "public static void demonstrateAtomicCounter() throws InterruptedException {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateOperations",
+          "start": 42,
+          "end": 53,
+          "signature": "public static void demonstrateOperations() {",
+          "isMain": false
+        },
+        {
+          "name": "main",
+          "start": 55,
+          "end": 61,
+          "signature": "public static void main(String[] args) throws InterruptedException {",
+          "isMain": true
+        }
+      ],
+      "todos": [],
+      "hasMain": true
+    },
     "_6/CompletableFutureDemo.java": {
       "path": "_6/CompletableFutureDemo.java",
       "package": "org.baileyseyes._6",
@@ -3981,6 +4941,52 @@
       "todos": [],
       "hasMain": true
     },
+    "_6/ExecutorServiceDemo.java": {
+      "path": "_6/ExecutorServiceDemo.java",
+      "package": "org.baileyseyes._6",
+      "lines": 80,
+      "code": "package org.baileyseyes._6;\n\nimport java.util.List;\nimport java.util.concurrent.Callable;\nimport java.util.concurrent.ExecutorService;\nimport java.util.concurrent.Executors;\nimport java.util.concurrent.Future;\nimport java.util.concurrent.TimeUnit;\n\n/**\n * Пул потоков через ExecutorService.\n * <p>\n * Вместо создания нового Thread на каждую задачу пул переиспользует\n * ограниченное число потоков. execute запускает Runnable, submit возвращает\n * Future с результатом.\n * </p>\n *\n * @see extends_thread.ExtendsThread Предыдущая часть\n * @see implements_callable.ImplementsCallable Следующая часть\n */\n@SuppressWarnings(\"all\")\npublic class ExecutorServiceDemo {\n\n    /**\n     * execute — самый простой запуск задачи без результата.\n     */\n    public static void demonstrateExecute() throws InterruptedException {\n        ExecutorService executor = Executors.newFixedThreadPool(2);\n        executor.execute(() -> System.out.println(\"Задача выполняется в пуле\"));\n\n        executor.shutdown();\n        executor.awaitTermination(2, TimeUnit.SECONDS);\n    }\n\n    /**\n     * submit возвращает Future — обещание результата.\n     */\n    public static void demonstrateSubmit() throws Exception {\n        ExecutorService executor = Executors.newSingleThreadExecutor();\n\n        Future<Integer> future = executor.submit(() -> 21 * 2);\n        System.out.println(\"Результат: \" + future.get());\n\n        executor.shutdown();\n    }\n\n    /**\n     * invokeAll запускает несколько задач и возвращает список Future.\n     */\n    public static void demonstrateInvokeAll() throws Exception {\n        ExecutorService executor = Executors.newFixedThreadPool(3);\n\n        List<Callable<Integer>> tasks = List.of(\n                () -> 1,\n                () -> 2,\n                () -> 3\n        );\n\n        List<Future<Integer>> futures = executor.invokeAll(tasks);\n        int sum = 0;\n        for (Future<Integer> future : futures) {\n            sum += future.get();\n        }\n\n        System.out.println(\"Сумма: \" + sum);\n        executor.shutdown();\n    }\n\n    public static void main(String[] args) throws Exception {\n        System.out.println(\"=== execute ===\");\n        demonstrateExecute();\n\n        System.out.println(\"\\n=== submit и Future ===\");\n        demonstrateSubmit();\n\n        System.out.println(\"\\n=== invokeAll ===\");\n        demonstrateInvokeAll();\n    }\n}",
+      "types": [
+        {
+          "kind": "class",
+          "name": "ExecutorServiceDemo",
+          "start": 22,
+          "end": 79
+        }
+      ],
+      "methods": [
+        {
+          "name": "demonstrateExecute",
+          "start": 24,
+          "end": 33,
+          "signature": "public static void demonstrateExecute() throws InterruptedException {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateSubmit",
+          "start": 35,
+          "end": 45,
+          "signature": "public static void demonstrateSubmit() throws Exception {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateInvokeAll",
+          "start": 47,
+          "end": 67,
+          "signature": "public static void demonstrateInvokeAll() throws Exception {",
+          "isMain": false
+        },
+        {
+          "name": "main",
+          "start": 69,
+          "end": 78,
+          "signature": "public static void main(String[] args) throws Exception {",
+          "isMain": true
+        }
+      ],
+      "todos": [],
+      "hasMain": true
+    },
     "_6/ReentrantLockDemo.java": {
       "path": "_6/ReentrantLockDemo.java",
       "package": "org.baileyseyes._6",
@@ -4056,6 +5062,52 @@
           "start": 348,
           "end": 358,
           "signature": "public static void main(String[] args) {",
+          "isMain": true
+        }
+      ],
+      "todos": [],
+      "hasMain": true
+    },
+    "_6/ThreadLifecycle.java": {
+      "path": "_6/ThreadLifecycle.java",
+      "package": "org.baileyseyes._6",
+      "lines": 85,
+      "code": "package org.baileyseyes._6;\n\n/**\n * Жизненный цикл потока: sleep, interrupt и join.\n * <p>\n * Поток начинает жизнь в состоянии NEW, после start() становится RUNNABLE,\n * во время sleep() — TIMED_WAITING, после завершения — TERMINATED.\n * </p>\n *\n * @see __start_from_here__.HelloMultiThreading Предыдущая часть\n * @see extends_thread.ExtendsThread Следующая часть\n */\n@SuppressWarnings(\"all\")\npublic class ThreadLifecycle {\n\n    /**\n     * join заставляет main дождаться завершения worker.\n     */\n    public static void demonstrateSleepAndJoin() throws InterruptedException {\n        Thread worker = new Thread(() -> {\n            System.out.println(\"worker: старт\");\n            try {\n                Thread.sleep(100);\n            } catch (InterruptedException e) {\n                Thread.currentThread().interrupt();\n            }\n            System.out.println(\"worker: конец\");\n        });\n\n        worker.start();\n        worker.join();\n\n        System.out.println(\"main: worker завершён\");\n    }\n\n    /**\n     * interrupt не убивает поток, а сообщает ему просьбу остановиться.\n     * Спящий поток получает InterruptedException.\n     */\n    public static void demonstrateInterrupt() throws InterruptedException {\n        Thread worker = new Thread(() -> {\n            System.out.println(\"worker: жду\");\n            try {\n                Thread.sleep(1000);\n            } catch (InterruptedException e) {\n                System.out.println(\"worker: прерван\");\n            }\n        });\n\n        worker.start();\n        Thread.sleep(100);\n\n        System.out.println(\"main: отправляю interrupt\");\n        worker.interrupt();\n        worker.join();\n\n        System.out.println(\"main: завершено\");\n    }\n\n    /**\n     * Состояние потока можно посмотреть через getState().\n     */\n    public static void demonstrateStates() throws InterruptedException {\n        Thread worker = new Thread(() -> {\n            // поток ничего не делает — нам важны только состояния\n        });\n\n        System.out.println(\"До старта: \" + worker.getState());\n        worker.start();\n        worker.join();\n        System.out.println(\"После завершения: \" + worker.getState());\n    }\n\n    public static void main(String[] args) throws InterruptedException {\n        System.out.println(\"=== sleep и join ===\");\n        demonstrateSleepAndJoin();\n\n        System.out.println(\"\\n=== interrupt ===\");\n        demonstrateInterrupt();\n\n        System.out.println(\"\\n=== состояния потока ===\");\n        demonstrateStates();\n    }\n}",
+      "types": [
+        {
+          "kind": "class",
+          "name": "ThreadLifecycle",
+          "start": 14,
+          "end": 84
+        }
+      ],
+      "methods": [
+        {
+          "name": "demonstrateSleepAndJoin",
+          "start": 16,
+          "end": 34,
+          "signature": "public static void demonstrateSleepAndJoin() throws InterruptedException {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateInterrupt",
+          "start": 36,
+          "end": 58,
+          "signature": "public static void demonstrateInterrupt() throws InterruptedException {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateStates",
+          "start": 60,
+          "end": 72,
+          "signature": "public static void demonstrateStates() throws InterruptedException {",
+          "isMain": false
+        },
+        {
+          "name": "main",
+          "start": 74,
+          "end": 83,
+          "signature": "public static void main(String[] args) throws InterruptedException {",
           "isMain": true
         }
       ],
@@ -4473,6 +5525,52 @@
           "name": "main",
           "start": 160,
           "end": 166,
+          "signature": "public static void main(String[] args) {",
+          "isMain": true
+        }
+      ],
+      "todos": [],
+      "hasMain": true
+    },
+    "_7/DateTimeDemo.java": {
+      "path": "_7/DateTimeDemo.java",
+      "package": "org.baileyseyes._7",
+      "lines": 67,
+      "code": "package org.baileyseyes._7;\n\nimport java.time.Duration;\nimport java.time.LocalDate;\nimport java.time.Period;\nimport java.time.format.DateTimeFormatter;\n\n/**\n * Дата и время: java.time.\n * <p>\n * LocalDate хранит дату без времени, LocalTime — время, LocalDateTime — и то,\n * и другое. Period измеряет разницу в датах, Duration — в часах и минутах.\n * </p>\n *\n * @see Else Предыдущая часть\n */\n@SuppressWarnings(\"all\")\npublic class DateTimeDemo {\n\n    /**\n     * LocalDate неизменяем: plusDays возвращает новую дату.\n     */\n    public static void demonstrateLocalDate() {\n        LocalDate date = LocalDate.of(2024, 3, 15);\n\n        System.out.println(\"Дата: \" + date);\n        System.out.println(\"Плюс 10 дней: \" + date.plusDays(10));\n        System.out.println(\"День недели: \" + date.getDayOfWeek());\n        System.out.println(\"Високосный год: \" + date.isLeapYear());\n    }\n\n    /**\n     * Period — разница между датами, Duration — длительность во времени.\n     */\n    public static void demonstratePeriodAndDuration() {\n        LocalDate start = LocalDate.of(2024, 1, 1);\n        LocalDate end = LocalDate.of(2024, 12, 31);\n\n        Period period = Period.between(start, end);\n        Duration duration = Duration.ofHours(2).plusMinutes(30);\n\n        System.out.println(\"Период: \" + period);\n        System.out.println(\"Длительность: \" + duration);\n    }\n\n    /**\n     * DateTimeFormatter превращает дату в строку нужного формата.\n     */\n    public static void demonstrateFormatting() {\n        LocalDate date = LocalDate.of(2024, 3, 15);\n        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(\"dd.MM.yyyy\");\n\n        System.out.println(date.format(formatter));\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"=== LocalDate ===\");\n        demonstrateLocalDate();\n\n        System.out.println(\"\\n=== Period и Duration ===\");\n        demonstratePeriodAndDuration();\n\n        System.out.println(\"\\n=== Форматирование ===\");\n        demonstrateFormatting();\n    }\n}",
+      "types": [
+        {
+          "kind": "class",
+          "name": "DateTimeDemo",
+          "start": 18,
+          "end": 66
+        }
+      ],
+      "methods": [
+        {
+          "name": "demonstrateLocalDate",
+          "start": 20,
+          "end": 30,
+          "signature": "public static void demonstrateLocalDate() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstratePeriodAndDuration",
+          "start": 32,
+          "end": 44,
+          "signature": "public static void demonstratePeriodAndDuration() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateFormatting",
+          "start": 46,
+          "end": 54,
+          "signature": "public static void demonstrateFormatting() {",
+          "isMain": false
+        },
+        {
+          "name": "main",
+          "start": 56,
+          "end": 65,
           "signature": "public static void main(String[] args) {",
           "isMain": true
         }
@@ -5663,6 +6761,58 @@
           "name": "main",
           "start": 495,
           "end": 511,
+          "signature": "public static void main(String[] args) {",
+          "isMain": true
+        }
+      ],
+      "todos": [],
+      "hasMain": true
+    },
+    "_7/LambdasDemo.java": {
+      "path": "_7/LambdasDemo.java",
+      "package": "org.baileyseyes._7",
+      "lines": 76,
+      "code": "package org.baileyseyes._7;\n\nimport java.util.ArrayList;\nimport java.util.Comparator;\nimport java.util.List;\nimport java.util.function.Consumer;\nimport java.util.function.Function;\nimport java.util.function.Predicate;\n\n/**\n * Лямбда-выражения и функциональные интерфейсы.\n * <p>\n * Лямбда — короткая запись реализации функционального интерфейса:\n * интерфейса ровно с одним абстрактным методом.\n * </p>\n *\n * @see org.baileyseyes._7.StreamAPI Следующая часть\n */\n@SuppressWarnings(\"all\")\npublic class LambdasDemo {\n\n    @FunctionalInterface\n    interface MathOperation {\n        int apply(int a, int b);\n    }\n\n    /**\n     * Синтаксис лямбды и собственный функциональный интерфейс.\n     */\n    public static void demonstrateLambdaSyntax() {\n        MathOperation add = (a, b) -> a + b;\n        System.out.println(\"3 + 5 = \" + add.apply(3, 5));\n\n        Runnable task = () -> System.out.println(\"Runnable: привет из лямбды\");\n        task.run();\n    }\n\n    /**\n     * Стандартные функциональные интерфейсы из java.util.function.\n     */\n    public static void demonstrateFunctionalInterfaces() {\n        Predicate<String> isLong = text -> text.length() > 4;\n        Function<String, Integer> length = String::length;\n        Consumer<String> printer = text -> System.out.println(text);\n\n        System.out.println(\"Анна длиннее 4: \" + isLong.test(\"Анна\"));\n        System.out.println(\"Длина Java: \" + length.apply(\"Java\"));\n\n        printer.accept(\"Анна\");\n        printer.accept(\"Борис\");\n    }\n\n    /**\n     * Лямбды в коллекциях: removeIf и Comparator.\n     */\n    public static void demonstrateCollections() {\n        List<String> names = new ArrayList<>(List.of(\"Виктория\", \"Аня\", \"Борис\"));\n\n        names.removeIf(name -> name.length() > 5);\n        names.sort(Comparator.comparingInt(String::length));\n\n        System.out.println(names);\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"=== Синтаксис лямбды ===\");\n        demonstrateLambdaSyntax();\n\n        System.out.println(\"\\n=== Функциональные интерфейсы ===\");\n        demonstrateFunctionalInterfaces();\n\n        System.out.println(\"\\n=== Коллекции ===\");\n        demonstrateCollections();\n    }\n}",
+      "types": [
+        {
+          "kind": "class",
+          "name": "LambdasDemo",
+          "start": 20,
+          "end": 75
+        },
+        {
+          "kind": "interface",
+          "name": "MathOperation",
+          "start": 23,
+          "end": 25
+        }
+      ],
+      "methods": [
+        {
+          "name": "demonstrateLambdaSyntax",
+          "start": 27,
+          "end": 36,
+          "signature": "public static void demonstrateLambdaSyntax() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateFunctionalInterfaces",
+          "start": 38,
+          "end": 51,
+          "signature": "public static void demonstrateFunctionalInterfaces() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateCollections",
+          "start": 53,
+          "end": 63,
+          "signature": "public static void demonstrateCollections() {",
+          "isMain": false
+        },
+        {
+          "name": "main",
+          "start": 65,
+          "end": 74,
           "signature": "public static void main(String[] args) {",
           "isMain": true
         }

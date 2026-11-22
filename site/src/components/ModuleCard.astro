@@ -1,5 +1,6 @@
 ---
 import { moduleUrl } from '../utils/url.js';
+import { lessonCountLabel } from '../data/course.mjs';
 import ProgressSummary from './ProgressSummary.astro';
 
 const { module, lessons, extras = [] } = Astro.props;
@@ -18,7 +19,7 @@ const lessonIds = lessons.map((lesson) => lesson.id);
     {module.outcomes.slice(0, 3).map((outcome) => <li>{outcome}</li>)}
   </ul>
   <div class="module-card-footer">
-    <span class="module-count">{lessons.length} уроков{extras.length ? ` · ${extras.length} доп.` : ''}</span>
+    <span class="module-count">{lessons.length} {lessonCountLabel(lessons.length)}{extras.length ? ` · ${extras.length} доп.` : ''}</span>
     <ProgressSummary lessonIds={lessonIds} label="Модуль" compact />
   </div>
 </a>

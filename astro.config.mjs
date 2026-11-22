@@ -1,9 +1,11 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import { sidebar } from './site/src/data/sidebar.mjs';
+import { courseStats } from './site/src/data/course.mjs';
 
 const site = 'https://baileyseye.github.io';
 const base = '/learn-java-core';
+const description = `Пошаговый курс по Java Core из ${courseStats.lessons} уроков в ${courseStats.modules} модулях: реальные исходники из репозитория, упражнения и самопроверка.`;
 
 export default defineConfig({
   site,
@@ -15,8 +17,7 @@ export default defineConfig({
   integrations: [
     starlight({
       title: 'Learn Java Core',
-      description:
-        'Пошаговый курс по Java Core: 7 модулей, 34 урока, реальные исходники из репозитория, упражнения и самопроверка.',
+      description,
       favicon: '/favicon.svg',
       defaultLocale: 'root',
       locales: {

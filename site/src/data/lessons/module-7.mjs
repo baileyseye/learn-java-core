@@ -1,5 +1,51 @@
 export default [
   {
+    id: 'lambdas',
+    title: 'Лямбда-выражения',
+    summary: 'Короткая запись функции, функциональные интерфейсы и лямбды в коллекциях.',
+    minutes: 10,
+    goal:
+      'Понять, что лямбда — это реализация функционального интерфейса, и научиться передавать поведение как значение.',
+    ideas: [
+      'Лямбда `(a, b) -> a + b` реализует единственный абстрактный метод функционального интерфейса.',
+      '`@FunctionalInterface` подсказывает компилятору и читателю, что у интерфейса ровно один абстрактный метод.',
+      'Стандартные интерфейсы: `Predicate` возвращает boolean, `Function` преобразует, `Consumer` принимает значение без результата.',
+      'Лямбды часто используют в `removeIf`, `sort`, `forEach` и Stream API. Переменные извне должны быть effectively final.'
+    ],
+    sources: [
+      {
+        file: '_7/LambdasDemo.java',
+        focus: [
+          { symbol: 'MathOperation', note: 'Свой функциональный интерфейс с одним методом apply.' },
+          { method: 'demonstrateLambdaSyntax', note: 'Лямбда для MathOperation и Runnable.' },
+          { method: 'demonstrateFunctionalInterfaces', note: 'Predicate, Function и Consumer.' },
+          { method: 'demonstrateCollections', note: 'removeIf и Comparator с лямбдами.' }
+        ]
+      }
+    ],
+    runs: ['org.baileyseyes._7.LambdasDemo'],
+    practice: {
+      task: 'Создай `Function<String, Integer> length = String::length` и `Predicate<String> isLong = s -> s.length() > 4`. Выведи длину строки `"Java"` и результат проверки для `"Анна"`.',
+      hint: 'Function вызывается через `apply`, Predicate — через `test`.',
+      solution:
+        'Function<String, Integer> length = String::length;\nPredicate<String> isLong = s -> s.length() > 4;\nSystem.out.println(length.apply("Java"));\nSystem.out.println(isLong.test("Анна"));'
+    },
+    quiz: [
+      {
+        q: 'Сколько абстрактных методов должно быть у функционального интерфейса?',
+        options: ['Ноль', 'Ровно один', 'Два', 'Любое количество'],
+        answer: 1,
+        explain: 'Функциональный интерфейс имеет ровно один абстрактный метод; default и static не считаются.'
+      },
+      {
+        q: 'Что делает `Predicate<String>`?',
+        options: ['Преобразует строку в число', 'Проверяет условие и возвращает boolean', 'Печатает строку', 'Создаёт новую строку'],
+        answer: 1,
+        explain: 'Основной метод Predicate — `test(T)`, который возвращает true или false.'
+      }
+    ]
+  },
+  {
     id: 'optional-and-friends',
     title: 'Optional, Predicate, Comparator',
     summary: 'Современные инструменты Core: null-safe значения, функции и сравнение.',
@@ -97,6 +143,52 @@ export default [
         options: ['Удаляет дубликаты', 'Группирует элементы по ключу', 'Сортирует по убыванию', 'Превращает поток в массив'],
         answer: 1,
         explain: 'Collectors.groupingBy строит Map, где ключ — результат классификатора.'
+      }
+    ]
+  },
+  {
+    id: 'date-time',
+    title: 'Дата и время: java.time',
+    summary: 'LocalDate, Period, Duration и DateTimeFormatter без старых Date и Calendar.',
+    minutes: 9,
+    goal:
+      'Научиться работать с датами и длительностями через неизменяемые классы java.time и форматировать их для вывода.',
+    ideas: [
+      '`LocalDate` хранит дату без времени и часового пояса, `LocalTime` — время, `LocalDateTime` — и дату, и время.',
+      'Классы java.time неизменяемы: `plusDays` возвращает новый объект, а исходный не меняется.',
+      '`Period` измеряет разницу между датами в годах, месяцах и днях, `Duration` — длительность во времени.',
+      '`DateTimeFormatter` задаёт формат вывода: `dd.MM.yyyy`, `HH:mm` и другие шаблоны.'
+    ],
+    sources: [
+      {
+        file: '_7/DateTimeDemo.java',
+        focus: [
+          { method: 'demonstrateLocalDate', note: 'of, plusDays, getDayOfWeek и isLeapYear.' },
+          { method: 'demonstratePeriodAndDuration', note: 'Period между датами и Duration из часов и минут.' },
+          { method: 'demonstrateFormatting', note: 'DateTimeFormatter с шаблоном dd.MM.yyyy.' },
+          { method: 'main', note: 'Все примеры вместе.' }
+        ]
+      }
+    ],
+    runs: ['org.baileyseyes._7.DateTimeDemo'],
+    practice: {
+      task: 'Для даты `LocalDate.of(2024, 3, 15)` выведи саму дату, дату через 10 дней и день недели. Затем отформатируй дату как `dd.MM.yyyy`.',
+      hint: 'Используйте `plusDays(10)`, `getDayOfWeek()` и `DateTimeFormatter.ofPattern("dd.MM.yyyy")`.',
+      solution:
+        'LocalDate date = LocalDate.of(2024, 3, 15);\nSystem.out.println(date);\nSystem.out.println(date.plusDays(10));\nSystem.out.println(date.getDayOfWeek());\nDateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");\nSystem.out.println(date.format(formatter));'
+    },
+    quiz: [
+      {
+        q: 'Что вернёт `LocalDate.plusDays(10)`?',
+        options: ['Изменит исходную дату', 'Вернёт новую дату через 10 дней', 'Вернёт число 10', 'Бросит исключение'],
+        answer: 1,
+        explain: 'Объекты java.time неизменяемы, поэтому plusDays возвращает новый LocalDate.'
+      },
+      {
+        q: 'Чем Period отличается от Duration?',
+        options: ['Ничем', 'Period — разница между датами, Duration — длительность во времени', 'Duration работает только с датами', 'Period хранит часовой пояс'],
+        answer: 1,
+        explain: 'Period измеряет годы/месяцы/дни, Duration — часы/минуты/секунды.'
       }
     ]
   }

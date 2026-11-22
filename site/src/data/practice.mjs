@@ -892,5 +892,604 @@ public class Main {
       ],
       minTokens: 3
     }
+  },
+
+  'variables-and-operators': {
+    starter: `public class Main {
+    public static void main(String[] args) {
+        int a = 10;
+        int b = 3;
+        // TODO: выведи сумму, разность, произведение, частное и остаток
+        // TODO: выведи результат сравнения a > b
+    }
+}`,
+    expected: `13
+7
+30
+3
+1
+true`,
+    check: {
+      includes: [
+        { pattern: 'a\\s*\\+\\s*b', message: 'Выведи сумму a + b.' },
+        { pattern: 'a\\s*/\\s*b', message: 'Выведи целое частное a / b.' },
+        { pattern: 'a\\s*%\\s*b', message: 'Выведи остаток a % b.' },
+        { pattern: 'a\\s*>\\s*b', message: 'Сравни a и b через >.' },
+        { pattern: 'System\\.out\\.println', message: 'Выведи результаты через System.out.println.' }
+      ],
+      minTokens: 3
+    }
+  },
+
+  'string-builder': {
+    starter: `public class Main {
+    public static void main(String[] args) {
+        StringBuilder builder = new StringBuilder();
+        // TODO: добавь числа 1..5 через append
+        // TODO: выведи строку и разверни её через reverse
+    }
+}`,
+    expected: `1 2 3 4 5
+5 4 3 2 1`,
+    check: {
+      includes: [
+        { pattern: 'StringBuilder', message: 'Используй StringBuilder.' },
+        { pattern: 'append\\s*\\(', message: 'Добавляй части через append.' },
+        { pattern: 'reverse\\s*\\(', message: 'Разверни строку через reverse.' },
+        { pattern: 'for\\s*\\(', message: 'Собери числа в цикле for.' }
+      ],
+      minTokens: 3
+    }
+  },
+
+  'two-dimensional-arrays': {
+    starter: `public class Main {
+    public static void main(String[] args) {
+        int[][] matrix = {{1, 2, 3}, {4, 5, 6}};
+        // TODO: выведи строки через вложенные циклы
+        // TODO: посчитай сумму всех элементов
+    }
+}`,
+    expected: `1 2 3
+4 5 6
+21`,
+    check: {
+      includes: [
+        { pattern: 'int\\[\\]\\[\\]', message: 'Объяви двумерный массив int[][].' },
+        { pattern: 'matrix\\.length', message: 'Используй matrix.length для числа строк.' },
+        { pattern: 'System\\.out\\.print', message: 'Печатай элементы через System.out.print.' }
+      ],
+      counts: [
+        { pattern: 'for\\s*\\(', min: 2, message: 'Нужны два вложенных цикла for.' }
+      ],
+      minTokens: 3
+    }
+  },
+
+  'console-input': {
+    starter: `import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner("42 Анна");
+        // TODO: прочитай число через nextInt и имя через next
+        // TODO: выведи оба значения
+    }
+}`,
+    expected: `42
+Анна`,
+    check: {
+      includes: [
+        { pattern: 'new\\s+Scanner', message: 'Создай Scanner.' },
+        { pattern: 'nextInt\\s*\\(', message: 'Прочитай число через nextInt().' },
+        { pattern: 'next\\s*\\(', message: 'Прочитай имя через next().' },
+        { pattern: 'System\\.out\\.println', message: 'Выведи результат.' }
+      ],
+      minTokens: 3
+    }
+  },
+
+  'constructors-and-this': {
+    starter: `public class Main {
+    static class Book {
+        private String title;
+        private int pages;
+
+        Book() {
+            this("Без названия", 1);
+        }
+
+        Book(String title, int pages) {
+            // TODO: сохрани значения через this
+        }
+
+        String describe() {
+            return title + ", страниц: " + pages;
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new Book().describe());
+        System.out.println(new Book("Java", 350).describe());
+    }
+}`,
+    expected: `Без названия, страниц: 1
+Java, страниц: 350`,
+    check: {
+      includes: [
+        { pattern: 'this\\.title\\s*=', message: 'Сохрани title через this.title.' },
+        { pattern: 'this\\.pages\\s*=', message: 'Сохрани pages через this.pages.' },
+        { pattern: 'this\\s*\\(', message: 'Оставь цепочку конструкторов через this(...).' }
+      ],
+      minTokens: 3
+    }
+  },
+
+  'static-vs-instance': {
+    starter: `public class Main {
+    static class Counter {
+        static int created;
+        int value;
+
+        Counter() {
+            created++;
+        }
+
+        void increment() {
+            value++;
+        }
+    }
+
+    public static void main(String[] args) {
+        Counter first = new Counter();
+        Counter second = new Counter();
+        first.increment();
+        // TODO: выведи first.value, second.value и Counter.created
+    }
+}`,
+    expected: `1
+0
+2`,
+    check: {
+      includes: [
+        { pattern: 'static\\s+int\\s+created', message: 'Оставь created статическим полем.' },
+        { pattern: 'first\\.value', message: 'Выведи значение первого счётчика.' },
+        { pattern: 'second\\.value', message: 'Выведи значение второго счётчика.' },
+        { pattern: 'Counter\\.created', message: 'Выведи общий счётчик через Counter.created.' }
+      ],
+      minTokens: 3
+    }
+  },
+
+  'inheritance-basics': {
+    starter: `public class Main {
+    static class Animal {
+        protected String name;
+
+        Animal(String name) {
+            this.name = name;
+        }
+
+        String sound() {
+            return "...";
+        }
+    }
+
+    static class Dog extends Animal {
+        Dog(String name) {
+            super(name);
+        }
+
+        // TODO: переопредели sound() и верни "Гав!"
+    }
+
+    public static void main(String[] args) {
+        Animal dog = new Dog("Рекс");
+        System.out.println(dog.name + ": " + dog.sound());
+    }
+}`,
+    expected: `Рекс: Гав!`,
+    check: {
+      includes: [
+        { pattern: 'extends\\s+Animal', message: 'Dog должен наследовать Animal.' },
+        { pattern: '@Override', message: 'Поставь @Override над sound().' },
+        { pattern: 'super\\s*\\(', message: 'Вызови конструктор родителя через super(name).' },
+        { pattern: 'return\\s+"Гав!"', message: 'Верни "Гав!" из sound().' }
+      ],
+      minTokens: 3
+    }
+  },
+
+  'default-interface-methods': {
+    starter: `interface Greeter {
+    String name();
+
+    default String greet() {
+        // TODO: верни приветствие
+        return "";
+    }
+
+    static String version() {
+        return "Greeter 1.0";
+    }
+}
+
+class SimpleGreeter implements Greeter {
+    private final String name;
+
+    SimpleGreeter(String name) {
+        this.name = name;
+    }
+
+    public String name() {
+        return name;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Greeter greeter = new SimpleGreeter("Анна");
+        System.out.println(greeter.greet());
+        System.out.println(Greeter.version());
+    }
+}`,
+    expected: `Привет, Анна
+Greeter 1.0`,
+    check: {
+      includes: [
+        { pattern: 'default\\s+String\\s+greet', message: 'Оставь greet default-методом.' },
+        { pattern: 'static\\s+String\\s+version', message: 'Оставь version static-методом.' },
+        { pattern: 'return\\s+"Привет, "\\s*\\+\\s*name', message: 'Собери приветствие из строки и name().' },
+        { pattern: 'Greeter\\.version', message: 'Вызови static-метод через имя интерфейса.' }
+      ],
+      minTokens: 3
+    }
+  },
+
+  'abstract-vs-interface': {
+    starter: `abstract class Shape {
+    abstract double area();
+}
+
+interface Drawable {
+    void draw();
+}
+
+class Circle extends Shape implements Drawable {
+    private final double radius;
+
+    Circle(double radius) {
+        this.radius = radius;
+    }
+
+    // TODO: реализуй area() и draw()
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Circle circle = new Circle(5);
+        System.out.println(circle.area());
+        circle.draw();
+    }
+}`,
+    expected: `78.53981633974483
+Рисуем круг`,
+    check: {
+      includes: [
+        { pattern: 'abstract\\s+class\\s+Shape', message: 'Оставь Shape абстрактным классом.' },
+        { pattern: 'interface\\s+Drawable', message: 'Оставь Drawable интерфейсом.' },
+        { pattern: 'extends\\s+Shape', message: 'Circle должен наследовать Shape.' },
+        { pattern: 'implements\\s+Drawable', message: 'Circle должен реализовать Drawable.' },
+        { pattern: 'Math\\.PI', message: 'Посчитай площадь круга через Math.PI.' }
+      ],
+      minTokens: 3
+    }
+  },
+
+  'exception-types': {
+    starter: `public class Main {
+    public static void main(String[] args) {
+        String text = null;
+        // TODO: поймай NullPointerException
+        int[] numbers = {1, 2, 3};
+        // TODO: поймай ArrayIndexOutOfBoundsException
+    }
+}`,
+    expected: `NullPointerException
+ArrayIndexOutOfBoundsException`,
+    check: {
+      includes: [
+        { pattern: 'try\\s*\\{', message: 'Используй try/catch.' },
+        { pattern: 'catch\\s*\\(\\s*NullPointerException', message: 'Поймай NullPointerException.' },
+        { pattern: 'catch\\s*\\(\\s*ArrayIndexOutOfBoundsException', message: 'Поймай ArrayIndexOutOfBoundsException.' },
+        { pattern: 'getSimpleName|getMessage', message: 'Выведи имя или сообщение исключения.' }
+      ],
+      minTokens: 3
+    }
+  },
+
+  'throw-and-throws': {
+    starter: `public class Main {
+    static int parseAge(String text) throws Exception {
+        int age = Integer.parseInt(text);
+        if (age < 0) {
+            // TODO: брось Exception с сообщением
+        }
+        return age;
+    }
+
+    public static void main(String[] args) {
+        try {
+            parseAge("-5");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}`,
+    expected: `Возраст не может быть отрицательным`,
+    check: {
+      includes: [
+        { pattern: 'throws\\s+Exception', message: 'Оставь throws Exception в сигнатуре.' },
+        { pattern: 'throw\\s+new\\s+Exception', message: 'Брось Exception через throw new.' },
+        { pattern: 'getMessage', message: 'Выведи сообщение через getMessage().' },
+        { pattern: 'parseAge', message: 'Используй метод parseAge.' }
+      ],
+      minTokens: 3
+    }
+  },
+
+  'stack-trace': {
+    starter: `public class Main {
+    static void levelThree() {
+        throw new IllegalStateException("Данные не найдены");
+    }
+
+    static void levelTwo() {
+        levelThree();
+    }
+
+    static void levelOne() {
+        levelTwo();
+    }
+
+    public static void main(String[] args) {
+        try {
+            levelOne();
+        } catch (IllegalStateException e) {
+            // TODO: выведи сообщение и стек вызовов
+        }
+    }
+}`,
+    expected: `Данные не найдены
+levelThree
+levelTwo
+levelOne
+main`,
+    check: {
+      includes: [
+        { pattern: 'getMessage', message: 'Выведи сообщение через getMessage().' },
+        { pattern: 'getStackTrace', message: 'Получи стек через getStackTrace().' },
+        { pattern: 'StackTraceElement', message: 'Обойди массив StackTraceElement.' },
+        { pattern: 'for\\s*\\(', message: 'Используй цикл для обхода стека.' }
+      ],
+      minTokens: 3
+    }
+  },
+
+  'queue-basics': {
+    starter: `import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Queue<String> queue = new ArrayDeque<>();
+        queue.offer("Анна");
+        queue.offer("Борис");
+        // TODO: выведи первого, забери его через poll и выведи следующего
+        // TODO: создай Deque, положи три элемента через push и забери через pop
+    }
+}`,
+    expected: `Анна
+Анна
+Борис
+Третий`,
+    check: {
+      includes: [
+        { pattern: 'Queue<', message: 'Используй Queue.' },
+        { pattern: 'ArrayDeque', message: 'Создай очередь через ArrayDeque.' },
+        { pattern: 'peek\\s*\\(', message: 'Посмотри первого через peek.' },
+        { pattern: 'poll\\s*\\(', message: 'Забери элемент через poll.' },
+        { pattern: 'Deque<', message: 'Создай Deque.' },
+        { pattern: 'push\\s*\\(', message: 'Положи элементы в стек через push.' },
+        { pattern: 'pop\\s*\\(', message: 'Забери верхний элемент через pop.' }
+      ],
+      minTokens: 3
+    }
+  },
+
+  'iterating-collections': {
+    starter: `import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<String> names = new ArrayList<>(List.of("Анна", "Борис", "Вера"));
+        // TODO: обойди список через for-each и выведи имена
+        // TODO: удали "Борис" через Iterator
+    }
+}`,
+    expected: `Анна
+Борис
+Вера
+[Анна, Вера]`,
+    check: {
+      includes: [
+        { pattern: 'for\\s*\\(', message: 'Используй for-each.' },
+        { pattern: 'Iterator<', message: 'Создай Iterator.' },
+        { pattern: 'iterator\\s*\\(', message: 'Получи iterator() у списка.' },
+        { pattern: 'hasNext', message: 'Проверяй hasNext().' },
+        { pattern: 'remove\\s*\\(', message: 'Удали элемент через remove().' }
+      ],
+      minTokens: 3
+    }
+  },
+
+  'sorting-and-comparators': {
+    starter: `import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<String> names = new ArrayList<>(List.of("Виктория", "Аня", "Борис"));
+        // TODO: отсортируй по длине через Comparator.comparingInt
+        // TODO: выведи результат
+    }
+}`,
+    expected: `[Аня, Борис, Виктория]`,
+    check: {
+      includes: [
+        { pattern: 'sort\\s*\\(', message: 'Отсортируй список через sort.' },
+        { pattern: 'Comparator\\.comparingInt', message: 'Используй Comparator.comparingInt.' },
+        { pattern: 'String::length|length\\s*\\(\\)', message: 'Сравнивай по длине строки.' },
+        { pattern: 'System\\.out\\.println', message: 'Выведи результат.' }
+      ],
+      minTokens: 3
+    }
+  },
+
+  'thread-lifecycle': {
+    starter: `public class Main {
+    public static void main(String[] args) throws InterruptedException {
+        Thread worker = new Thread(() -> {
+            System.out.println("worker: старт");
+            try {
+                // TODO: усыпи поток на 100 мс
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            System.out.println("worker: конец");
+        });
+        // TODO: запусти поток и дождись через join
+        System.out.println("main: worker завершён");
+    }
+}`,
+    expected: `worker: старт
+worker: конец
+main: worker завершён`,
+    check: {
+      includes: [
+        { pattern: 'Thread\\.sleep', message: 'Усыпи поток через Thread.sleep.' },
+        { pattern: 'start\\s*\\(', message: 'Запусти поток через start().' },
+        { pattern: 'join\\s*\\(', message: 'Дождись завершения через join().' },
+        { pattern: 'main: worker завершён', message: 'Оставь финальный вывод.' }
+      ],
+      minTokens: 3
+    }
+  },
+
+  'executor-service': {
+    starter: `import java.util.concurrent.*;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+        // TODO: отправь задачу через submit, получи Future и выведи результат
+        // TODO: вызови shutdown
+    }
+}`,
+    expected: `42`,
+    check: {
+      includes: [
+        { pattern: 'ExecutorService', message: 'Используй ExecutorService.' },
+        { pattern: 'Executors\\.newFixedThreadPool', message: 'Создай пул через newFixedThreadPool.' },
+        { pattern: 'submit\\s*\\(', message: 'Отправь задачу через submit.' },
+        { pattern: 'Future<', message: 'Получи Future.' },
+        { pattern: 'get\\s*\\(', message: 'Забери результат через get().' },
+        { pattern: 'shutdown', message: 'Закрой пул через shutdown().' }
+      ],
+      minTokens: 3
+    }
+  },
+
+  'atomic-variables': {
+    starter: `import java.util.concurrent.atomic.AtomicInteger;
+
+public class Main {
+    public static void main(String[] args) throws InterruptedException {
+        AtomicInteger counter = new AtomicInteger();
+        Thread[] threads = new Thread[4];
+        for (int i = 0; i < threads.length; i++) {
+            threads[i] = new Thread(() -> {
+                for (int j = 0; j < 1000; j++) {
+                    // TODO: атомарно увеличь counter
+                }
+            });
+            threads[i].start();
+        }
+        for (Thread thread : threads) thread.join();
+        System.out.println(counter.get());
+    }
+}`,
+    expected: `4000`,
+    check: {
+      includes: [
+        { pattern: 'AtomicInteger', message: 'Используй AtomicInteger.' },
+        { pattern: 'incrementAndGet|addAndGet', message: 'Увеличивай счётчик атомарной операцией.' },
+        { pattern: 'Thread', message: 'Используй несколько потоков.' },
+        { pattern: 'join\\s*\\(', message: 'Дождись всех потоков через join.' },
+        { pattern: 'counter\\.get', message: 'Выведи итог через get().' }
+      ],
+      minTokens: 3
+    }
+  },
+
+  lambdas: {
+    starter: `import java.util.*;
+import java.util.function.*;
+
+public class Main {
+    public static void main(String[] args) {
+        // TODO: создай Function<String, Integer> length = String::length
+        // TODO: создай Predicate<String> isLong = s -> s.length() > 4
+        // TODO: выведи длину "Java" и результат проверки "Анна"
+    }
+}`,
+    expected: `4
+false`,
+    check: {
+      includes: [
+        { pattern: 'Function<String', message: 'Создай Function<String, Integer>.' },
+        { pattern: 'Predicate<String', message: 'Создай Predicate<String>.' },
+        { pattern: 'String::length', message: 'Используй ссылку на метод String::length.' },
+        { pattern: '->', message: 'Используй лямбду для Predicate.' },
+        { pattern: 'test\\s*\\(', message: 'Проверь значение через test().' },
+        { pattern: 'apply\\s*\\(', message: 'Получи результат через apply().' }
+      ],
+      minTokens: 3
+    }
+  },
+
+  'date-time': {
+    starter: `import java.time.*;
+import java.time.format.DateTimeFormatter;
+
+public class Main {
+    public static void main(String[] args) {
+        LocalDate date = LocalDate.of(2024, 3, 15);
+        // TODO: выведи дату, дату через 10 дней и день недели
+        // TODO: отформатируй дату как dd.MM.yyyy
+    }
+}`,
+    expected: `2024-03-15
+2024-03-25
+FRIDAY
+15.03.2024`,
+    check: {
+      includes: [
+        { pattern: 'LocalDate', message: 'Используй LocalDate.' },
+        { pattern: 'plusDays', message: 'Прибавь дни через plusDays.' },
+        { pattern: 'getDayOfWeek', message: 'Получи день недели.' },
+        { pattern: 'DateTimeFormatter', message: 'Создай DateTimeFormatter.' },
+        { pattern: 'format\\s*\\(', message: 'Отформатируй дату через format.' }
+      ],
+      minTokens: 3
+    }
   }
 };

@@ -185,5 +185,169 @@
         "output": "=== Stream Creation ===\nStream from collection: [A, B, C, D]\nStream from array: [X, Y, Z]\nStream from values: [P, Q, R]\n\n=== Filter Method ===\nEven numbers: [2, 4, 6, 8, 10]\nWords longer than 4 chars: [Hello, Stream, Programming]\nNumbers between 3 and 8: [4, 5, 6, 7]\n\n=== Map Method ===\nSquares: [1, 4, 9, 16, 25]\nWord lengths: [5, 5, 4, 6]\nUppercase words: [HELLO, WORLD, JAVA, STREAM]\n\n=== FlatMap Method ===\nFlattened list: [1, 2, 3, 4, 5, 6]\nWords from sentences: [Hello, World, Java, Stream, API, Example]\n\n=== Distinct Method ===\nUnique numbers: [1, 2, 3, 4, 5]\nUnique words: [Apple, Banana, Cherry]\n\n=== Sorted Method ===\nAlphabetically sorted: [Apple, Banana, Cherry, Date]\nReverse sorted: [Date, Cherry, Banana, Apple]\nSorted by length: [Date, Apple, Banana, Cherry]\n\n=== Limit and Skip Methods ===\nFirst 5 numbers: [1, 2, 3, 4, 5]\nNumbers after skipping first 5: [6, 7, 8, 9, 10]\nSkip 2, take 3: [3, 4, 5]\n\n=== Peek Method ===\nProcessing: 1\nAfter map: 2\nProcessing: 2\nAfter map: 4\nProcessing: 3\nAfter map: 6\nProcessing: 4\nAfter map: 8\nProcessing: 5\nAfter map: 10\nFinal result: [2, 4, 6, 8, 10]\n\n=== Reduce Method ===\nSum: 15\nSum with initial value 10: 25\nSentence: Hello World!\nMaximum: 5\n\n=== Collect Method ===\nCollected to list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nCollected to array: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nCollected to set: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nCollected to map: {1=Number_1, 2=Number_2, 3=Number_3, 4=Number_4, 5=Number_5, 6=Number_6, 7=Number_7, 8=Number_8, 9=Number_9, 10=Number_10}\nJoined string: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10\n\n=== Min and Max Methods ===\nMinimum: 1\nMaximum: 10\nShortest word: Date\n\n=== Terminal Operations ===\nTotal count: 10\nAny even number: true\nAll even numbers: false\nNo negative numbers: true\nFirst element: 1\nAny element: 1\n\n=== GroupingBy Method ===\nGrouped by length: {4=[Date], 5=[Apple], 6=[Banana, Cherry], 10=[Elderberry]}\nGrouped by first letter: {A=[Apple], B=[Banana], C=[Cherry], D=[Date], E=[Elderberry]}\nCount by length: {4=1, 5=1, 6=2, 10=1}\n\n=== PartitioningBy Method ===\nEven and odd numbers: {false=[1, 3, 5, 7, 9], true=[2, 4, 6, 8, 10]}\nComplex partition: {false={0=[3, 9], 1=[1, 7], 2=[5]}, true={0=[6], 1=[4, 10], 2=[2, 8]}}\n\n=== Mapping Method ===\nNames: [Alice, Bob, Charlie]\nGrouped by age with names: {35=[Charlie], 25=[Alice], 30=[Bob]}\n\n=== CollectingAndThen Method ===\nList contains 5 elements\n\n=== Statistics Methods ===\nAverage: 5.5\nSum: 55\nStatistics - Count: 10, Min: 1, Max: 10, Average: 5.5, Sum: 55\n\n=== Parallel Streams ===\nSequential time: 0.1398 ms\nParallel time: 1.1439 ms\nResults equal: true"
       }
     ]
+  },
+  "variables-and-operators": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._1.types.VariablesAndOperators",
+        "output": "=== Переменные ===\nИмя: Анна\nВозраст через год: 26\nГод рождения: 2000\n\n=== Арифметика ===\n10 + 3 = 13\n10 - 3 = 7\n10 * 3 = 30\n10 / 3 = 3\n10 % 3 = 1\n10.0 / 4 = 2.5\n(2 + 3) * 4 = 20\n\n=== Сравнение и логика ===\n10 > 3: true\n10 == 3: false\nВозраст от 18 до 65: true\nРабочий день: true\n\n=== Инкремент ===\ni++ вернул: 5, i стало: 6\n++i вернул: 7, i стало: 7\nsum += 10: 17"
+      }
+    ]
+  },
+  "string-builder": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._1.types.StringBuilderDemo",
+        "output": "=== append ===\nJava Core\n\n=== Методы ===\nДлина: 9\nПервый символ: J\nПосле insert: Java 21 Core\nПосле replace: Java 17 Core\nПосле delete: Java Core\nПосле reverse: eroC avaJ\n\n=== Сборка в цикле ===\n1, 2, 3, 4, 5"
+      }
+    ]
+  },
+  "two-dimensional-arrays": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._1.types.TwoDimensionalArrays",
+        "output": "=== Матрица 3x3 ===\n1 2 3\n4 5 6\n7 8 9\n\n=== Сумма и максимум ===\nСумма: 45\nМаксимум: 9\n\n=== Значения по умолчанию ===\n0 0 0\n0 0 0\nЧерез Arrays.deepToString: [[0, 0, 0], [0, 0, 0]]\n\n=== Ступенчатый массив ===\n*\n**\n***"
+      }
+    ]
+  },
+  "console-input": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._1.methods.ConsoleInput",
+        "output": "=== Чтение из строки ===\nЧисло: 42\nИмя: Анна\nДробное: 3.5\n\n=== Сумма чисел ===\nСумма: 60\n\n=== Безопасное чтение ===\nПропущено: abc\nПолучено число: 25"
+      }
+    ]
+  },
+  "constructors-and-this": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._2.classes_objects.ConstructorsAndThis",
+        "output": "=== Цепочка конструкторов ===\nКнига: Без названия, страниц: 1\n\n=== Перегрузка конструкторов ===\nКнига: Java для начинающих, страниц: 350\n\n=== this в методах ===\nКнига: Java для начинающих, страниц: 120"
+      }
+    ]
+  },
+  "static-vs-instance": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._2.classes_objects.StaticVsInstance",
+        "output": "=== Поля экземпляра ===\nfirst: 1\nsecond: 0\n\n=== Статическое поле ===\nСоздано счётчиков: 2\nПосле третьего: 3\n\n=== Статический метод ===\nСоздано счётчиков: 3"
+      }
+    ]
+  },
+  "inheritance-basics": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._2.classes_objects.InheritanceBasics",
+        "output": "=== Наследование ===\nРекс ест\nРекс приносит мяч\n\n=== Полиморфизм ===\nРекс: Гав!\nМурка: Мяу!"
+      }
+    ]
+  },
+  "default-interface-methods": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._3.interface_class.DefaultInterfaceMethods",
+        "output": "=== default-метод ===\nПривет, Анна\n\n=== Переопределение default-метода ===\nПРИВЕТ, АННА!!!\n\n=== static-метод интерфейса ===\nGreeter 1.0"
+      }
+    ]
+  },
+  "abstract-vs-interface": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._3.AbstractVsInterface",
+        "output": "=== Абстрактный класс ===\nКруг: площадь 78.5\nПрямоугольник: площадь 24.0\n\n=== Интерфейс ===\nРисуем круг"
+      }
+    ]
+  },
+  "exception-types": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._4.exception.ExceptionTypes",
+        "output": "=== Иерархия ===\nIOException наследует Exception: true\nIOException наследует RuntimeException: false\nNullPointerException наследует RuntimeException: true\n\n=== Частые ошибки ===\nNullPointerException: String равен null\nArrayIndexOutOfBoundsException: индекса 5 нет в массиве длины 3\nNumberFormatException: \"abc\" не является числом"
+      }
+    ]
+  },
+  "throw-and-throws": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._4.exception.ThrowAndThrows",
+        "output": "=== throw ===\nПоймано: Возраст не может быть отрицательным\nПоймано: Это не число: abc\n\n=== throws и проброс ===\nlevelOne: ловлю\nlevelTwo: пробрасываю дальше\nlevelThree: бросаю исключение\nПоймано в levelOne: Что-то пошло не так"
+      }
+    ]
+  },
+  "stack-trace": {
+    "note": "Номера строк в стеке соответствуют текущей версии исходника.",
+    "runs": [
+      {
+        "class": "org.baileyseyes._4.exception.StackTraceDemo",
+        "output": "=== Чтение stack trace ===\nСообщение: Данные не найдены\nТип: IllegalStateException\nСтек вызовов:\n  StackTraceDemo.levelThree:18\n  StackTraceDemo.levelTwo:22\n  StackTraceDemo.levelOne:26\n  StackTraceDemo.demonstrateReadingStackTrace:34\n  StackTraceDemo.main:53"
+      }
+    ]
+  },
+  "iterating-collections": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._5.IteratingCollections",
+        "output": "=== for-each ===\njava\nsql\ngit\n\n=== Iterator ===\nДо удаления: [Анна, Борис, Вера]\nУдалён: Борис\nПосле удаления: [Анна, Вера]\n\n=== removeIf ===\n[Борис]\n\n=== Map ===\njava=3\nsql=2\ngit=1"
+      }
+    ]
+  },
+  "queue-basics": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._5.QueueBasics",
+        "output": "=== Queue (FIFO) ===\nОчередь: [Анна, Борис, Вера]\nПервый: Анна\nОбслужен: Анна\nСледующий: Борис\n\n=== Deque как стек ===\nСтек: [Третий, Второй, Первый]\nВзят: Третий\nОсталось: [Второй, Первый]\n\n=== PriorityQueue ===\nПорядок: 1 3 5 10"
+      }
+    ]
+  },
+  "sorting-and-comparators": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._5.SortingCollections",
+        "output": "=== Естественный порядок ===\n[1, 2, 5, 8, 9]\n\n=== Comparator ===\nПо длине: [Аня, Борис, Виктория]\nПо длине (убывание): [Виктория, Борис, Аня]\n\n=== Comparable ===\nАня (20)\nБорис (25)\nВиктория (30)"
+      }
+    ]
+  },
+  "thread-lifecycle": {
+    "note": "Порядок строк и моменты времени могут отличаться при каждом запуске.",
+    "runs": [
+      {
+        "class": "org.baileyseyes._6.ThreadLifecycle",
+        "output": "=== sleep и join ===\nworker: старт\nworker: конец\nmain: worker завершён\n\n=== interrupt ===\nworker: жду\nmain: отправляю interrupt\nworker: прерван\nmain: завершено\n\n=== состояния потока ===\nДо старта: NEW\nПосле завершения: TERMINATED"
+      }
+    ]
+  },
+  "executor-service": {
+    "note": "Порядок выполнения задач может отличаться при каждом запуске.",
+    "runs": [
+      {
+        "class": "org.baileyseyes._6.ExecutorServiceDemo",
+        "output": "=== execute ===\nЗадача выполняется в пуле\n\n=== submit и Future ===\nРезультат: 42\n\n=== invokeAll ===\nСумма: 6"
+      }
+    ]
+  },
+  "atomic-variables": {
+    "note": "Порядок выполнения потоков может отличаться, итоговое значение стабильно.",
+    "runs": [
+      {
+        "class": "org.baileyseyes._6.AtomicVariables",
+        "output": "=== AtomicInteger ===\nИтог: 4000\n\n=== Операции ===\nНачало: 0\nПосле incrementAndGet: 1\nПосле addAndGet(5): 6\ncompareAndSet(6, 10): true\nТекущее значение: 10"
+      }
+    ]
+  },
+  "lambdas": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._7.LambdasDemo",
+        "output": "=== Синтаксис лямбды ===\n3 + 5 = 8\nRunnable: привет из лямбды\n\n=== Функциональные интерфейсы ===\nАнна длиннее 4: false\nДлина Java: 4\nАнна\nБорис\n\n=== Коллекции ===\n[Аня, Борис]"
+      }
+    ]
+  },
+  "date-time": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._7.DateTimeDemo",
+        "output": "=== LocalDate ===\nДата: 2024-03-15\nПлюс 10 дней: 2024-03-25\nДень недели: FRIDAY\nВисокосный год: true\n\n=== Period и Duration ===\nПериод: P11M30D\nДлительность: PT2H30M\n\n=== Форматирование ===\n15.03.2024"
+      }
+    ]
   }
 }

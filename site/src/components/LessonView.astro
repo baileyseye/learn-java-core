@@ -7,6 +7,7 @@ import FullSource from './FullSource.astro';
 import LessonNav from './LessonNav.astro';
 import PracticeEditor from './PracticeEditor.astro';
 import outputs from '../data/outputs.json';
+import { courseStats } from '../data/course.mjs';
 import { githubSourcePath, moduleUrl } from '../utils/url.js';
 
 const { lesson, module, prev, next, hasFullSource = true } = Astro.props;
@@ -33,7 +34,7 @@ function inline(value) {
     <a class="module-pill" style={`--module-color:${module.color}`} href={moduleUrl(module)}>
       Модуль {module.number} · {module.title}
     </a>
-    <span>Урок {lesson.order} из 34</span>
+    <span>Урок {lesson.order} из {courseStats.lessons}</span>
     <span>~{lesson.minutes} мин</span>
   </div>
 

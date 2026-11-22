@@ -75,6 +75,15 @@ export function firstLessonOfModule(moduleNumber) {
   return lessonsOfModule(moduleNumber)[0] ?? null;
 }
 
+export function lessonCountLabel(count) {
+  const lastTwo = Math.abs(count) % 100;
+  const last = lastTwo % 10;
+  if (lastTwo > 10 && lastTwo < 20) return 'уроков';
+  if (last === 1) return 'урок';
+  if (last >= 2 && last <= 4) return 'урока';
+  return 'уроков';
+}
+
 export const courseStats = {
   modules: modules.length,
   lessons: lessons.length,

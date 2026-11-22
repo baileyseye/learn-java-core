@@ -44,6 +44,52 @@ export default [
     ]
   },
   {
+    id: 'variables-and-operators',
+    title: 'Переменные и операторы',
+    summary: 'Объявление переменных, арифметика, сравнение, логика и инкремент.',
+    minutes: 9,
+    goal:
+      'Научиться хранить значения в переменных и выполнять над ними основные операции, не путая `=` и `==`.',
+    ideas: [
+      'Переменная — именованная ячейка с типом. Имя пишут в camelCase, а `final` запрещает повторное присваивание.',
+      'Арифметические операторы: `+`, `-`, `*`, `/`, `%`. Деление двух int отбрасывает дробную часть, а `%` возвращает остаток.',
+      'Сравнение (`>`, `<`, `==`, `!=`) возвращает boolean. `=` — присваивание, `==` — сравнение.',
+      '`&&`, `||`, `!` объединяют условия. `i++` возвращает старое значение, `++i` — уже увеличенное.'
+    ],
+    sources: [
+      {
+        file: '_1/types/VariablesAndOperators.java',
+        focus: [
+          { method: 'demonstrateVariables', note: 'Объявление, изменение и final-переменная.' },
+          { method: 'demonstrateArithmetic', note: 'Пять арифметических операторов и деление int.' },
+          { method: 'demonstrateComparisonAndLogic', note: 'Сравнение возвращает boolean, логика объединяет условия.' },
+          { method: 'demonstrateIncrement', note: 'Разница между i++ и ++i на одном примере.' }
+        ]
+      }
+    ],
+    runs: ['org.baileyseyes._1.types.VariablesAndOperators'],
+    practice: {
+      task: 'Объяви `int a = 10` и `int b = 3`. Выведи сумму, разность, произведение, целое частное и остаток. Затем выведи результат `a > b`.',
+      hint: 'Для остатка используется `%`. Не забудьте скобки вокруг выражения, если складываете его со строкой.',
+      solution:
+        'int a = 10;\nint b = 3;\nSystem.out.println(a + b);\nSystem.out.println(a - b);\nSystem.out.println(a * b);\nSystem.out.println(a / b);\nSystem.out.println(a % b);\nSystem.out.println(a > b);'
+    },
+    quiz: [
+      {
+        q: 'Что вернёт выражение `10 / 3`, если оба числа int?',
+        options: ['3.33', '3', '4', 'Ошибку компиляции'],
+        answer: 1,
+        explain: 'При делении двух int дробная часть отбрасывается, поэтому результат равен 3.'
+      },
+      {
+        q: 'Чем `=` отличается от `==`?',
+        options: ['Ничем', '`=` присваивает, `==` сравнивает', '`==` присваивает, `=` сравнивает', '`=` работает только с числами'],
+        answer: 1,
+        explain: '`=` записывает значение в переменную, а `==` проверяет равенство и возвращает boolean.'
+      }
+    ]
+  },
+  {
     id: 'primitive-types',
     title: 'Примитивные типы',
     summary: 'Восемь примитивов Java, диапазоны, литералы и вывод var.',
@@ -184,6 +230,51 @@ export default [
     ]
   },
   {
+    id: 'string-builder',
+    title: 'StringBuilder: сборка строк',
+    summary: 'Зачем нужен StringBuilder, если String неизменяем, и как работают append, insert и reverse.',
+    minutes: 8,
+    goal:
+      'Понять, почему склеивание строк в цикле дорого, и научиться собирать и менять текст через StringBuilder.',
+    ideas: [
+      '`String` неизменяем: каждый `+` создаёт новую строку, а старая остаётся в памяти до сборки мусора.',
+      '`StringBuilder` хранит изменяемый буфер. `append` дописывает текст, `insert` вставляет в позицию, `delete` удаляет диапазон.',
+      '`reverse` разворачивает строку, а `toString` превращает builder обратно в обычную строку.',
+      'Для одной-двух склеек `+` читается лучше. StringBuilder нужен там, где строка собирается в цикле или из многих частей.'
+    ],
+    sources: [
+      {
+        file: '_1/types/StringBuilderDemo.java',
+        focus: [
+          { method: 'demonstrateAppend', note: 'Два append вместо конкатенации.' },
+          { method: 'demonstrateMethods', note: 'length, charAt, insert, replace, delete и reverse.' },
+          { method: 'demonstrateLoop', note: 'Главный сценарий: сборка строки в цикле.' }
+        ]
+      }
+    ],
+    runs: ['org.baileyseyes._1.types.StringBuilderDemo'],
+    practice: {
+      task: 'Собери строку `1 2 3 4 5` через StringBuilder в цикле, затем разверни её через `reverse` и выведи оба результата.',
+      hint: 'Чтобы не поставить лишний пробел перед первым числом, проверяйте `i > 1`.',
+      solution:
+        'StringBuilder builder = new StringBuilder();\nfor (int i = 1; i <= 5; i++) {\n    if (i > 1) builder.append(" ");\n    builder.append(i);\n}\nSystem.out.println(builder);\nbuilder.reverse();\nSystem.out.println(builder);'
+    },
+    quiz: [
+      {
+        q: 'Почему StringBuilder эффективнее конкатенации в цикле?',
+        options: ['Он работает в другом потоке', 'Он меняет один буфер, а не создаёт новую строку на каждой итерации', 'Он автоматически сортирует символы', 'Он сжимает текст'],
+        answer: 1,
+        explain: 'String неизменяем, поэтому каждый `+` создаёт новый объект. StringBuilder переиспользует внутренний буфер.'
+      },
+      {
+        q: 'Что возвращает `builder.toString()`?',
+        options: ['Длину строки', 'Обычную неизменяемую строку с текущим содержимым', 'Новый StringBuilder', 'Массив символов'],
+        answer: 1,
+        explain: '`toString()` создаёт String из текущего содержимого builder.'
+      }
+    ]
+  },
+  {
     id: 'arrays',
     title: 'Массивы',
     summary: 'Фиксированный размер, значения по умолчанию, Arrays и ссылочная семантика.',
@@ -225,6 +316,52 @@ export default [
         options: ['Содержимое массивов', 'Ссылки на объекты массивов', 'Длину массивов', 'Тип элементов'],
         answer: 1,
         explain: 'Массивы — объекты, поэтому `==` сравнивает ссылки. Для содержимого используйте `Arrays.equals`.'
+      }
+    ]
+  },
+  {
+    id: 'two-dimensional-arrays',
+    title: 'Двумерные массивы',
+    summary: 'Матрица как массив массивов, вложенные циклы и ступенчатые структуры.',
+    minutes: 9,
+    goal:
+      'Понять, как устроен двумерный массив, как его обходить и почему строки могут иметь разную длину.',
+    ideas: [
+      '`int[][] matrix` — это массив, элементы которого сами являются массивами строк.',
+      '`matrix.length` — количество строк, а `matrix[row].length` — длина конкретной строки.',
+      'Для обхода нужны два цикла: внешний по строкам, внутренний по столбцам.',
+      'Строки могут быть разной длины: `new int[3][]` создаёт массив, где каждую строку нужно создать отдельно.'
+    ],
+    sources: [
+      {
+        file: '_1/types/TwoDimensionalArrays.java',
+        focus: [
+          { method: 'demonstrateMatrix', note: 'Литерал матрицы и обход вложенными циклами.' },
+          { method: 'demonstrateAggregates', note: 'Сумма и максимум через for-each по строкам.' },
+          { method: 'demonstrateDefaultValues', note: 'new int[2][3] и Arrays.deepToString.' },
+          { method: 'demonstrateJaggedArray', note: 'Ступенчатый массив с разной длиной строк.' }
+        ]
+      }
+    ],
+    runs: ['org.baileyseyes._1.types.TwoDimensionalArrays'],
+    practice: {
+      task: 'Дана матрица `{{1, 2, 3}, {4, 5, 6}}`. Выведи её строки через вложенные циклы и посчитай сумму всех элементов.',
+      hint: 'Внешний цикл идёт по `matrix.length`, внутренний — по `matrix[row].length`. Сумму накапливайте до циклов.',
+      solution:
+        'int[][] matrix = {{1, 2, 3}, {4, 5, 6}};\nint sum = 0;\nfor (int row = 0; row < matrix.length; row++) {\n    for (int column = 0; column < matrix[row].length; column++) {\n        System.out.print(matrix[row][column] + " ");\n        sum += matrix[row][column];\n    }\n    System.out.println();\n}\nSystem.out.println(sum);'
+    },
+    quiz: [
+      {
+        q: 'Что означает `matrix.length` для `int[][] matrix`?',
+        options: ['Количество всех элементов', 'Количество строк', 'Длину первой строки', 'Количество столбцов всегда'],
+        answer: 1,
+        explain: 'Двумерный массив — массив строк, поэтому `length` возвращает число строк.'
+      },
+      {
+        q: 'Могут ли строки двумерного массива иметь разную длину?',
+        options: ['Нет, это ошибка компиляции', 'Да, если создать их отдельно', 'Только для String', 'Только для массивов размера 2'],
+        answer: 1,
+        explain: 'Java разрешает ступенчатые массивы: каждая строка — самостоятельный массив.'
       }
     ]
   },
@@ -412,6 +549,53 @@ export default [
         options: ['Метод возвращает null', 'Метод ничего не возвращает', 'Метод нельзя вызвать', 'Метод асинхронный'],
         answer: 1,
         explain: '`void` означает отсутствие возвращаемого значения.'
+      }
+    ]
+  },
+  {
+    id: 'console-input',
+    title: 'Ввод с клавиатуры: Scanner',
+    summary: 'Чтение чисел и строк, hasNextInt и безопасная обработка неверного ввода.',
+    minutes: 10,
+    goal:
+      'Научиться читать данные через Scanner, понимать разницу между next и nextLine и не падать на неверном вводе.',
+    ideas: [
+      '`new Scanner(System.in)` читает с клавиатуры, а `new Scanner("42")` — из строки. Приёмы чтения одинаковые.',
+      '`nextInt` читает число, `next` — слово, `nextLine` — всю строку до перевода строки.',
+      'После `nextInt` в буфере остаётся перевод строки. Если дальше нужен `nextLine`, сначала вызовите пустой `nextLine()`.',
+      '`hasNextInt` проверяет, можно ли прочитать число. Так можно пропустить мусор или попросить повторить ввод.',
+      '`Scanner` учитывает локаль: в русской локали дробное число может ждать запятую. В примере локаль зафиксирована через `useLocale(Locale.US)`.'
+    ],
+    sources: [
+      {
+        file: '_1/methods/ConsoleInput.java',
+        focus: [
+          { method: 'demonstrateReadFromString', note: 'nextInt, next и nextDouble на одном источнике.' },
+          { method: 'demonstrateSum', note: 'hasNextInt защищает от чтения за концом ввода.' },
+          { method: 'readIntSafely', note: 'Неверные токены пропускаются, число читается без исключения.' },
+          { method: 'main', note: 'Примеры со строкой и комментарий про Scanner(System.in).' }
+        ]
+      }
+    ],
+    runs: ['org.baileyseyes._1.methods.ConsoleInput'],
+    practice: {
+      task: 'Создай `Scanner` поверх строки `"42 Анна"`. Прочитай число и имя через `nextInt` и `next`, затем выведи их.',
+      hint: 'Порядок вызовов должен совпадать с порядком данных в строке.',
+      solution:
+        'Scanner scanner = new Scanner("42 Анна");\nint number = scanner.nextInt();\nString name = scanner.next();\nSystem.out.println(number);\nSystem.out.println(name);'
+    },
+    quiz: [
+      {
+        q: 'Чем `next()` отличается от `nextLine()`?',
+        options: ['Ничем', '`next` читает слово, `nextLine` — строку до конца строки', '`nextLine` читает только числа', '`next` работает только с файлами'],
+        answer: 1,
+        explain: '`next` останавливается на пробеле, `nextLine` забирает весь остаток строки.'
+      },
+      {
+        q: 'Зачем нужен `hasNextInt()`?',
+        options: ['Чтобы создать Scanner', 'Чтобы проверить, можно ли прочитать следующее значение как int', 'Чтобы закрыть поток', 'Чтобы перевести строку в верхний регистр'],
+        answer: 1,
+        explain: 'Проверка позволяет избежать исключения, если следующий токен не является числом.'
       }
     ]
   }
