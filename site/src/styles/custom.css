@@ -30,6 +30,7 @@
 
   --practice-code-bg: #f6f7f9;
   --practice-code-fg: #403f53;
+  --practice-active-line: color-mix(in srgb, var(--course-accent) 9%, var(--practice-code-bg));
 
   --cm-keyword: #c2185b;
   --cm-string: #0a7d33;
@@ -73,6 +74,7 @@
 
   --practice-code-bg: #23262f;
   --practice-code-fg: #d6deeb;
+  --practice-active-line: color-mix(in srgb, var(--course-accent) 9%, var(--practice-code-bg));
 
   --cm-keyword: #ff7ab6;
   --cm-string: #7ee2a1;
@@ -1160,17 +1162,34 @@ button[data-open-modal] kbd {
   display: none;
 }
 
+/* Выравниваем первый номер строки с padding-top у .cm-content. */
+.practice-codemirror .cm-gutters {
+  padding-top: 0.75rem;
+}
+
+/*
+ * CodeMirror считает высоту gutter-элементов по своей дефолтной высоте 14px,
+ * а строки кода у нас 1.6em. Из-за этого номера уезжают вверх.
+ * Выравниваем высоту видимых номеров по той же 1.6em.
+ */
+.practice-codemirror .cm-lineNumbers .cm-gutterElement:not([style*='visibility: hidden']) {
+  height: 1.6em !important;
+  line-height: 1.6em !important;
+}
+
+/* Смыкаем подсветку активной строки с подсветкой номера через border gutter. */
+.practice-codemirror .cm-activeLine {
+  box-shadow: -1px 0 0 var(--practice-active-line);
+}
+
 /*
  * Starlight добавляет margin-top соседним блокам внутри .sl-markdown-content.
- * Внутри CodeMirror это ломает вертикальную геометрию: строки получают
- * лишние 16px, и клик по строке попадает на строку ниже.
+ * CodeMirror состоит из вложенных div, поэтому правило ломает его геометрию:
+ * строки получают лишние 16px, а слой курсора уезжает вниз.
+ * Сбрасываем margin у всего дерева редактора.
  */
-.practice-codemirror .cm-scroller,
-.practice-codemirror .cm-content,
-.practice-codemirror .cm-line,
-.practice-codemirror .cm-gutters,
-.practice-codemirror .cm-gutter,
-.practice-codemirror .cm-gutterElement {
+.practice-codemirror .cm-editor,
+.practice-codemirror .cm-editor * {
   margin-top: 0 !important;
   margin-bottom: 0 !important;
 }

@@ -33,8 +33,11 @@ const practiceTheme = EditorView.theme({
     lineHeight: '1.6'
   },
   '.cm-content': {
-    padding: '0.75rem 0.8rem',
+    padding: '0.75rem 0',
     caretColor: 'var(--course-accent)'
+  },
+  '.cm-line': {
+    padding: '0 0.8rem'
   },
   '.cm-foldGutter': { display: 'none' },
   '.cm-gutters': {
@@ -46,10 +49,10 @@ const practiceTheme = EditorView.theme({
     padding: '0 0.65rem 0 0.35rem'
   },
   '.cm-activeLine': {
-    backgroundColor: 'color-mix(in srgb, var(--course-accent) 7%, transparent)'
+    backgroundColor: 'var(--practice-active-line)'
   },
   '.cm-activeLineGutter': {
-    backgroundColor: 'color-mix(in srgb, var(--course-accent) 10%, transparent)'
+    backgroundColor: 'var(--practice-active-line)'
   },
   '.cm-cursor, .cm-dropCursor': {
     borderLeftColor: 'var(--course-accent)'
@@ -76,7 +79,7 @@ const practiceHighlight = HighlightStyle.define([
   { tag: tags.keyword, color: 'var(--cm-keyword)', fontWeight: '600' },
   { tag: tags.string, color: 'var(--cm-string)' },
   { tag: [tags.number, tags.bool, tags.null], color: 'var(--cm-number)' },
-  { tag: tags.comment, color: 'var(--cm-comment)', fontStyle: 'italic' },
+  { tag: [tags.comment, tags.lineComment, tags.blockComment, tags.docComment], color: 'var(--cm-comment)', fontStyle: 'italic' },
   { tag: tags.annotation, color: 'var(--cm-annotation)' },
   { tag: [tags.typeName, tags.className], color: 'var(--cm-type)' },
   { tag: tags.function(tags.variableName), color: 'var(--cm-function)' },
