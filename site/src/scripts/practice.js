@@ -1,5 +1,78 @@
+import { basicSetup } from 'codemirror';
+import { EditorState, Prec } from '@codemirror/state';
+import { EditorView, keymap } from '@codemirror/view';
+import { java } from '@codemirror/lang-java';
+import { indentWithTab } from '@codemirror/commands';
+import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
+import { tags } from '@lezer/highlight';
+
 const DRAFT_KEY = 'ljc.practice.drafts.v1';
 const SOLVED_KEY = 'ljc.practice.solved.v1';
+
+const practiceTheme = EditorView.theme({
+  '&': {
+    backgroundColor: 'var(--practice-code-bg)',
+    color: 'var(--practice-code-fg)',
+    fontSize: '0.82rem'
+  },
+  '&.cm-focused': { outline: 'none' },
+  '.cm-scroller': {
+    fontFamily: 'var(--sl-font-mono)',
+    lineHeight: '1.6'
+  },
+  '.cm-content': {
+    padding: '0.8rem 0.9rem',
+    caretColor: 'var(--course-accent)'
+  },
+  '.cm-line': { padding: '0 0.25rem' },
+  '.cm-gutters': {
+    backgroundColor: 'color-mix(in srgb, var(--practice-code-bg) 82%, var(--course-card))',
+    color: 'var(--course-muted)',
+    borderRight: '1px solid var(--course-border)'
+  },
+  '.cm-lineNumbers .cm-gutterElement': {
+    padding: '0 0.65rem 0 0.35rem'
+  },
+  '.cm-activeLine': {
+    backgroundColor: 'color-mix(in srgb, var(--course-accent) 7%, transparent)'
+  },
+  '.cm-activeLineGutter': {
+    backgroundColor: 'color-mix(in srgb, var(--course-accent) 10%, transparent)'
+  },
+  '.cm-cursor, .cm-dropCursor': {
+    borderLeftColor: 'var(--course-accent)'
+  },
+  '&.cm-focused .cm-selectionBackground, .cm-selectionBackground, .cm-content ::selection': {
+    backgroundColor: 'color-mix(in srgb, var(--course-accent) 22%, transparent)'
+  },
+  '.cm-matchingBracket': {
+    backgroundColor: 'color-mix(in srgb, var(--course-accent) 18%, transparent)',
+    outline: '1px solid var(--course-accent)'
+  },
+  '.cm-panels': {
+    backgroundColor: 'var(--course-card)',
+    color: 'var(--course-ink)'
+  },
+  '.cm-tooltip': {
+    backgroundColor: 'var(--course-card)',
+    color: 'var(--course-ink)',
+    border: '1px solid var(--course-border)'
+  }
+});
+
+const practiceHighlight = HighlightStyle.define([
+  { tag: tags.keyword, color: 'var(--cm-keyword)', fontWeight: '600' },
+  { tag: tags.string, color: 'var(--cm-string)' },
+  { tag: [tags.number, tags.bool, tags.null], color: 'var(--cm-number)' },
+  { tag: tags.comment, color: 'var(--cm-comment)', fontStyle: 'italic' },
+  { tag: tags.annotation, color: 'var(--cm-annotation)' },
+  { tag: [tags.typeName, tags.className], color: 'var(--cm-type)' },
+  { tag: tags.function(tags.variableName), color: 'var(--cm-function)' },
+  { tag: tags.function(tags.propertyName), color: 'var(--cm-function)' },
+  { tag: tags.operator, color: 'var(--cm-operator)' },
+  { tag: tags.meta, color: 'var(--cm-annotation)' },
+  { tag: tags.variableName, color: 'var(--practice-code-fg)' }
+]);
 
 function readJson(key, fallback) {
   try {
@@ -434,21 +507,54 @@ function setStatus(container, text, state = '') {
   if (state) status.classList.add(`is-${state}`);
 }
 
-function updateGutter(container) {
-  const gutter = container.querySelector('[data-practice-gutter]');
-  const input = container.querySelector('[data-practice-input]');
-  if (!gutter || !input) return;
-  const lines = input.value.split('\n').length;
-  gutter.textContent = Array.from({ length: lines }, (_, index) => index + 1).join('\n');
-  gutter.scrollTop = input.scrollTop;
-}
+function createCodeEditor(container, lessonId, initial) {
+  const mount = container.querySelector('[data-practice-codemirror]');
+  if (!mount) return null;
 
-function insertAtCursor(textarea, text) {
-  const start = textarea.selectionStart;
-  const end = textarea.selectionEnd;
-  textarea.setRangeText(text, start, end, 'end');
-  textarea.dispatchEvent(new Event('input', { bubbles: true }));
-  textarea.focus();
+  let timer = null;
+  const view = new EditorView({
+    state: EditorState.create({
+      doc: initial,
+      extensions: [
+        basicSetup,
+        java(),
+        practiceTheme,
+        syntaxHighlighting(practiceHighlight),
+        EditorView.contentAttributes.of({ 'aria-label': 'Твой код' }),
+        Prec.highest(
+          keymap.of([
+            indentWithTab,
+            {
+              key: 'Mod-Enter',
+              run: () => {
+                checkPractice(container);
+                return true;
+              }
+            }
+          ])
+        ),
+        EditorView.updateListener.of((update) => {
+          if (container._suppressPracticeSave) {
+            container._suppressPracticeSave = false;
+            return;
+          }
+          if (!update.docChanged) return;
+          setStatus(container, 'сохраняю…', 'saved');
+          if (timer) clearTimeout(timer);
+          timer = setTimeout(() => {
+            saveDraft(lessonId, update.state.doc.toString());
+            if (!container.classList.contains('is-solved')) {
+              setStatus(container, 'сохранено', 'saved');
+            }
+          }, 350);
+        })
+      ]
+    }),
+    parent: mount
+  });
+
+  container._practiceView = view;
+  return view;
 }
 
 function markSolved(container, lessonId, solved) {
@@ -462,13 +568,23 @@ function markSolved(container, lessonId, solved) {
 
 function resetPractice(container) {
   const lessonId = container.getAttribute('data-lesson-id');
+  const starter = parseScript(container, '[data-practice-starter]', '');
   const input = container.querySelector('[data-practice-input]');
-  if (!lessonId || !input) return;
+  const view = container._practiceView;
+  if (!lessonId || !starter) return;
   if (!window.confirm('Сбросить черновик и вернуть стартовый код?')) return;
+
   removeDraft(lessonId);
   setSolved(lessonId, false);
-  input.value = input.defaultValue;
-  updateGutter(container);
+  if (view) {
+    container._suppressPracticeSave = true;
+    view.dispatch({
+      changes: { from: 0, to: view.state.doc.length, insert: starter }
+    });
+  } else if (input) {
+    input.value = starter;
+  }
+  removeDraft(lessonId);
   markSolved(container, lessonId, false);
   setFeedback(container, 'Черновик сброшен. Можно начать заново.', 'warn');
 }
@@ -476,9 +592,10 @@ function resetPractice(container) {
 function checkPractice(container) {
   const lessonId = container.getAttribute('data-lesson-id');
   const mode = container.getAttribute('data-mode') || 'code';
+  const view = container._practiceView;
   const input = container.querySelector('[data-practice-input]');
-  if (!lessonId || !input) return;
-  const code = input.value;
+  const code = view ? view.state.doc.toString() : input?.value;
+  if (!lessonId || typeof code !== 'string') return;
   const rules = parseScript(container, '[data-practice-rules]', {});
   const solution = parseScript(container, '[data-practice-solution]', '');
 
@@ -517,60 +634,46 @@ function initPractice(container) {
   if (container.dataset.practiceReady === 'true') return;
   container.dataset.practiceReady = 'true';
   const lessonId = container.getAttribute('data-lesson-id');
-  const input = container.querySelector('[data-practice-input]');
-  if (!lessonId || !input) return;
+  const mode = container.getAttribute('data-mode') || 'code';
+  if (!lessonId) return;
 
   const drafts = readDrafts();
   const hasDraft = typeof drafts[lessonId] === 'string';
-  if (hasDraft) {
-    input.value = drafts[lessonId];
-  } else {
-    input.value = input.defaultValue;
+  const starter = parseScript(container, '[data-practice-starter]', '');
+  const solved = readSolved().includes(lessonId);
+
+  markSolved(container, lessonId, solved);
+  if (!solved) {
+    setStatus(container, hasDraft ? 'сохранено' : 'черновик', hasDraft ? 'saved' : '');
   }
 
-  updateGutter(container);
-  const solved = readSolved().includes(lessonId);
-  markSolved(container, lessonId, solved);
-  if (!solved) setStatus(container, hasDraft ? 'сохранено' : 'черновик', hasDraft ? 'saved' : '');
+  if (mode === 'text') {
+    const input = container.querySelector('[data-practice-input]');
+    if (!input) return;
+    input.value = hasDraft ? drafts[lessonId] : starter || input.defaultValue;
 
-  let timer = null;
-  input.addEventListener('input', () => {
-    updateGutter(container);
-    setStatus(container, 'сохраняю…', 'saved');
-    if (timer) clearTimeout(timer);
-    timer = setTimeout(() => {
-      const code = input.value;
-      saveDraft(lessonId, code);
-      if (!container.classList.contains('is-solved')) setStatus(container, 'сохранено', 'saved');
-    }, 350);
-  });
+    let timer = null;
+    input.addEventListener('input', () => {
+      setStatus(container, 'сохраняю…', 'saved');
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => {
+        saveDraft(lessonId, input.value);
+        if (!container.classList.contains('is-solved')) {
+          setStatus(container, 'сохранено', 'saved');
+        }
+      }, 350);
+    });
 
-  input.addEventListener('scroll', () => updateGutter(container));
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
+        event.preventDefault();
+        checkPractice(container);
+      }
+    });
+    return;
+  }
 
-  input.addEventListener('keydown', (event) => {
-    const mode = container.getAttribute('data-mode') || 'code';
-    if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
-      event.preventDefault();
-      checkPractice(container);
-      return;
-    }
-    if (mode === 'text') return;
-    if (event.key === 'Tab') {
-      event.preventDefault();
-      insertAtCursor(input, '    ');
-      return;
-    }
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      const start = input.selectionStart;
-      const value = input.value;
-      const lineStart = value.lastIndexOf('\n', start - 1) + 1;
-      const line = value.slice(lineStart, start);
-      const indent = /^\s*/.exec(line)?.[0] ?? '';
-      const extra = line.trimEnd().endsWith('{') ? '    ' : '';
-      insertAtCursor(input, `\n${indent}${extra}`);
-    }
-  });
+  createCodeEditor(container, lessonId, hasDraft ? drafts[lessonId] : starter);
 }
 
 document.addEventListener('click', (event) => {

@@ -28,6 +28,18 @@
   --course-red: #b91c1c;
   --course-red-soft: #fee2e2;
 
+  --practice-code-bg: #f6f7f9;
+  --practice-code-fg: #403f53;
+
+  --cm-keyword: #c2185b;
+  --cm-string: #0a7d33;
+  --cm-number: #b26a00;
+  --cm-comment: #8a93a6;
+  --cm-annotation: #8e44ad;
+  --cm-type: #1758c4;
+  --cm-function: #6f42c1;
+  --cm-operator: #5d6a78;
+
   --sl-color-accent-low: var(--course-accent-soft);
   --sl-color-accent: var(--course-accent);
   --sl-color-accent-high: var(--course-accent-strong);
@@ -58,6 +70,18 @@
   --course-green-soft: #052e16;
   --course-red: #f87171;
   --course-red-soft: #3f1515;
+
+  --practice-code-bg: #23262f;
+  --practice-code-fg: #d6deeb;
+
+  --cm-keyword: #ff7ab6;
+  --cm-string: #7ee2a1;
+  --cm-number: #ffc46b;
+  --cm-comment: #66748e;
+  --cm-annotation: #c792ea;
+  --cm-type: #82aaff;
+  --cm-function: #c792ea;
+  --cm-operator: #9aa8bc;
 
   --sl-color-accent-low: var(--course-accent-soft);
   --sl-color-accent: var(--course-accent);
@@ -1111,57 +1135,52 @@ button[data-open-modal] kbd {
 }
 
 .practice-editor-body {
-  display: grid;
-  grid-template-columns: 3.2ch minmax(0, 1fr);
-  align-items: stretch;
-  max-height: 28rem;
+  display: block;
 }
 
-.practice-editor-body.is-text {
-  grid-template-columns: minmax(0, 1fr);
+.practice-codemirror {
+  width: 100%;
 }
 
-.practice-gutter {
-  overflow: hidden;
-  margin: 0;
-  padding: 0.8rem 0.35rem;
-  border-right: 1px solid var(--course-border);
-  background: color-mix(in srgb, var(--course-paper-2) 70%, var(--course-card));
-  color: var(--course-muted);
-  font-family: var(--sl-font-mono);
+.practice-codemirror .cm-editor {
+  height: 17rem;
   font-size: 0.82rem;
-  line-height: 1.6;
-  text-align: right;
-  user-select: none;
 }
 
-.practice-editor-body textarea {
+.practice-codemirror .cm-scroller {
+  overflow: auto;
+  font-family: var(--sl-font-mono);
+}
+
+.practice-codemirror .cm-focused {
+  outline: none;
+}
+
+.practice-fallback {
   display: block;
   width: 100%;
   min-height: 14rem;
-  max-height: 28rem;
-  margin: 0;
   padding: 0.8rem 0.9rem;
+  border: 0;
+  background: var(--practice-code-bg);
+  color: var(--practice-code-fg);
+  font-family: var(--sl-font-mono);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  white-space: pre;
+}
+
+.practice-editor-body.is-text textarea {
+  display: block;
+  width: 100%;
+  min-height: 9rem;
+  margin: 0;
+  padding: 1rem;
   border: 0;
   outline: 0;
   background: transparent;
   color: var(--course-ink);
   caret-color: var(--course-accent);
-  font-family: var(--sl-font-mono);
-  font-size: 0.82rem;
-  line-height: 1.6;
-  resize: vertical;
-  tab-size: 4;
-  white-space: pre;
-}
-
-.practice-editor-body:not(.is-text) textarea {
-  overflow: auto;
-}
-
-.practice-editor-body.is-text textarea {
-  min-height: 9rem;
-  padding: 1rem;
   font-family: var(--sl-font);
   font-size: 0.95rem;
   line-height: 1.6;
@@ -2243,13 +2262,13 @@ button[data-open-modal] kbd {
     flex-direction: column;
   }
 
-  .practice-editor-body {
-    grid-template-columns: 2.6ch minmax(0, 1fr);
+  .practice-codemirror .cm-editor {
+    height: 14rem;
+    font-size: 0.76rem;
   }
 
-  .practice-gutter,
-  .practice-editor-body textarea {
-    font-size: 0.76rem;
+  .practice-editor-body.is-text textarea {
+    font-size: 0.9rem;
   }
 
   .practice-actions .course-btn {
