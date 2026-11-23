@@ -5,7 +5,6 @@ import {
   lineNumbers,
   highlightActiveLineGutter,
   highlightSpecialChars,
-  drawSelection,
   dropCursor,
   rectangularSelection,
   crosshairCursor,
@@ -25,6 +24,7 @@ import {
   autocompletion,
   closeBrackets,
   closeBracketsKeymap,
+  closeCompletion,
   snippetCompletion
 } from '@codemirror/autocomplete';
 import { searchKeymap, highlightSelectionMatches } from '@codemirror/search';
@@ -1380,7 +1380,6 @@ async function createCodeEditor(container, lessonId, initial) {
         highlightActiveLineGutter(),
         highlightSpecialChars(),
         history(),
-        drawSelection(),
         dropCursor(),
         EditorState.allowMultipleSelections.of(true),
         EditorState.tabSize.of(4),
@@ -1404,6 +1403,13 @@ async function createCodeEditor(container, lessonId, initial) {
         java(),
         practiceTheme,
         syntaxHighlighting(practiceHighlight),
+        // Клик по коду начинает выделение мышкой — попап подсказок не должен мешать.
+        EditorView.domEventHandlers({
+          mousedown: (event, view) => {
+            closeCompletion(view);
+            return false;
+          }
+        }),
         EditorView.contentAttributes.of({ 'aria-label': 'Твой код' }),
         keymap.of([...closeBracketsKeymap, ...defaultKeymap, ...searchKeymap, ...historyKeymap]),
         Prec.highest(
