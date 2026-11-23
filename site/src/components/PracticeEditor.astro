@@ -53,7 +53,7 @@ const starterJson = JSON.stringify(starter).replace(/</g, '\\u003c');
     <div class="practice-editor-top">
       <span>{mode === 'text' ? 'Твой ответ' : 'Твой код'}</span>
       <span class="practice-editor-hint">
-        {mode === 'text' ? 'Ответ сохраняется автоматически' : 'Ctrl+Enter — проверить'}
+        {mode === 'text' ? 'Ответ сохраняется автоматически' : 'Ctrl+Space — подсказка · Ctrl+Enter — проверить'}
       </span>
     </div>
     {
@@ -118,6 +118,11 @@ const starterJson = JSON.stringify(starter).replace(/</g, '\\u003c');
       и близость к эталонному решению. Он не запускает JVM: полноценное выполнение Java в браузере
       требует отдельного sandbox-сервера. Типичные ошибки — пропущенный вызов, неверная структура,
       забытая проверка — он ловит.
+    </p>
+    <p>
+      Подсказки по коду открываются по <code>Ctrl+Space</code> — как в IntelliJ IDEA. В них есть
+      не только имена классов и методов, но и краткое объяснение с примером. Выбирай стрелками
+      и подтверждай <code>Enter</code>.
     </p>
   </details>
 
