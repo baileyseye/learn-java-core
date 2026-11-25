@@ -1,6 +1,4 @@
 ---
-import { Code } from 'astro-expressive-code/components';
-
 const { lessonId, practice } = Astro.props;
 
 function escapeHtml(value) {
@@ -15,29 +13,82 @@ function inline(value) {
   return escapeHtml(value).replace(/`([^`]+)`/g, '<code>$1</code>');
 }
 
-const mode = practice.type === 'text' ? 'text' : 'code';
-const starter =
-  practice.starter ??
-  (mode === 'text'
+function defaultStarter(mode) {
+  return mode === 'text'
     ? 'Напиши ответ здесь.'
     : `public class Main {
     public static void main(String[] args) {
         // Напиши решение здесь
     }
-}`);
-const solution = practice.solution ?? '';
-const expected = practice.expected ?? '';
-const rules = practice.check ?? {};
+}`;
+}
+
+const baseMode = practice.type === 'text' ? 'text' : 'code';
+const prerequisites = Array.isArray(practice.steps) ? practice.steps : [];
+
+const allSteps = prerequisites.length
+  ? [
+      ...prerequisites.map((step, index) => ({
+        ...step,
+        key: `${lessonId}--step-${index + 1}`,
+        label: step.label ?? `Шаг ${index + 1}`,
+        mode: step.type === 'text' ? 'text' : baseMode,
+        isMain: false
+      })),
+      {
+        ...practice,
+        steps: undefined,
+        key: lessonId,
+        label: practice.mainLabel ?? 'Основная задача',
+        mode: baseMode,
+        isMain: true
+      }
+    ]
+  : [
+      {
+        ...practice,
+        key: lessonId,
+        label: practice.mainLabel ?? 'Задача',
+        mode: baseMode,
+        isMain: true
+      }
+    ];
+
+const current = allSteps[0];
+const starter = current.starter ?? defaultStarter(current.mode);
+const solution = current.solution ?? '';
+const expected = current.expected ?? '';
+const hint = current.hint ?? '';
+const rules = current.check ?? {};
+const hasSteps = allSteps.length > 1;
+
+const stepsJson = JSON.stringify(
+  allSteps.map((step) => ({
+    key: step.key,
+    label: step.label,
+    isMain: Boolean(step.isMain),
+    mode: step.mode,
+    taskHtml: inline(step.task ?? ''),
+    hintHtml: inline(step.hint ?? ''),
+    solution: step.solution ?? '',
+    starter: step.starter ?? defaultStarter(step.mode),
+    expected: step.expected ?? '',
+    check: step.check ?? {}
+  }))
+).replace(/</g, '\\u003c');
+
 const rulesJson = JSON.stringify(rules).replace(/</g, '\\u003c');
 const solutionJson = JSON.stringify(solution).replace(/</g, '\\u003c');
 const starterJson = JSON.stringify(starter).replace(/</g, '\\u003c');
 ---
 
 <div
-  class:list={['practice-editor-card', mode === 'text' && 'is-text']}
+  class:list={['practice-editor-card', current.mode === 'text' && 'is-text', hasSteps && 'has-steps']}
   data-practice
   data-lesson-id={lessonId}
-  data-mode={mode}
+  data-practice-key={current.key}
+  data-practice-main={current.isMain ? 'true' : 'false'}
+  data-mode={current.mode}
 >
   <div class="practice-header">
     <div>
@@ -47,69 +98,93 @@ const starterJson = JSON.stringify(starter).replace(/</g, '\\u003c');
     <span class="practice-badge" data-practice-status>черновик</span>
   </div>
 
-  <p class="practice-task" set:html={inline(practice.task)}></p>
-
-  <div class="practice-editor">
-    <div class="practice-editor-top">
-      <span>{mode === 'text' ? 'Твой ответ' : 'Твой код'}</span>
-      <span class="practice-editor-hint">
-        {mode === 'text' ? 'Ответ сохраняется автоматически' : 'Ctrl+Space — подсказка · Ctrl+Enter — проверить'}
-      </span>
-    </div>
-    {
-      mode === 'code' ? (
-        <div class="practice-editor-body is-code">
-          <div class="practice-codemirror" data-practice-codemirror></div>
-          <noscript>
-            <textarea class="practice-fallback" aria-label="Твой код" spellcheck="false">{starter}</textarea>
-          </noscript>
-        </div>
-      ) : (
-        <div class="practice-editor-body is-text">
-          <textarea
-            id={`practice-${lessonId}`}
-            data-practice-input
-            aria-label="Твой ответ"
-            spellcheck="true"
-            autocomplete="off"
-            rows="6"
-          >{starter}</textarea>
-        </div>
-      )
-    }
-  </div>
+  {
+    hasSteps && (
+      <nav class="practice-stepnav" data-practice-stepnav aria-label="Шаги практики">
+        {allSteps.map((step, index) => (
+          <button
+            type="button"
+            class="practice-step"
+            data-practice-step={index}
+            aria-selected={index === 0 ? 'true' : 'false'}
+            aria-controls="practice-panel"
+          >
+            <span class="practice-step-index" aria-hidden="true">{index + 1}</span>
+            <span class="practice-step-label">{step.label}</span>
+            <span class="practice-step-mark" data-practice-step-mark={index} aria-hidden="true"></span>
+          </button>
+        ))}
+      </nav>
+    )
+  }
 
   {
-    expected && (
-      <div class="practice-expected">
-        <span class="practice-expected-label">Ожидаемый результат</span>
-        <pre class="practice-expected-code">{expected}</pre>
+    hasSteps && (
+      <p class="practice-stepnote">
+        Шаги идут от простого к сложному. Основная задача отмечает урок пройденным.
+      </p>
+    )
+  }
+
+  <div id="practice-panel" class="practice-panel">
+    <p class="practice-task" data-practice-task set:html={inline(current.task)}></p>
+
+    <div class="practice-editor">
+      <div class="practice-editor-top">
+        <span>{current.mode === 'text' ? 'Твой ответ' : 'Твой код'}</span>
+        <span class="practice-editor-hint">
+          {current.mode === 'text'
+            ? 'Ответ сохраняется автоматически'
+            : 'Ctrl+Space — подсказка · Ctrl+Enter — проверить'}
+        </span>
       </div>
-    )
-  }
+      {
+        current.mode === 'code' ? (
+          <div class="practice-editor-body is-code">
+            <div class="practice-codemirror" data-practice-codemirror></div>
+            <noscript>
+              <textarea class="practice-fallback" aria-label="Твой код" spellcheck="false">{starter}</textarea>
+            </noscript>
+          </div>
+        ) : (
+          <div class="practice-editor-body is-text">
+            <textarea
+              id={`practice-${lessonId}`}
+              data-practice-input
+              aria-label="Твой ответ"
+              spellcheck="true"
+              autocomplete="off"
+              rows="6"
+            >{starter}</textarea>
+          </div>
+        )
+      }
+    </div>
 
-  <div class="practice-actions">
-    <button type="button" class="course-btn course-btn-primary" data-practice-check>Проверить</button>
-    <button type="button" class="course-btn course-btn-ghost" data-practice-reset>Сбросить</button>
-    <span class="practice-feedback" data-practice-feedback role="status" aria-live="polite"></span>
+    <div class="practice-expected" data-practice-expected hidden={!expected}>
+      <span class="practice-expected-label">Ожидаемый результат</span>
+      <pre class="practice-expected-code" data-practice-expected-code>{expected}</pre>
+    </div>
+
+    <div class="practice-actions">
+      <button type="button" class="course-btn course-btn-primary" data-practice-check>Проверить</button>
+      <button type="button" class="course-btn course-btn-ghost" data-practice-reset>Сбросить</button>
+      <span class="practice-feedback" data-practice-feedback role="status" aria-live="polite"></span>
+    </div>
+
+    <details class="practice-details" data-practice-hint-box hidden={!hint}>
+      <summary>Подсказка</summary>
+      <p data-practice-hint set:html={inline(hint)}></p>
+    </details>
+
+    <details class="practice-details" data-practice-solution-box hidden={!solution}>
+      <summary>Показать решение</summary>
+      <p class="section-note">
+        Сначала попробуй сам. Решение — один из вариантов, а не единственно правильный.
+      </p>
+      <pre class="practice-solution-code" data-practice-solution-code>{solution}</pre>
+    </details>
   </div>
-
-  <details class="practice-details">
-    <summary>Подсказка</summary>
-    <p set:html={inline(practice.hint)}></p>
-  </details>
-
-  {
-    solution && (
-      <details class="practice-details" data-practice-solution-box>
-        <summary>Показать решение</summary>
-        <p class="section-note">
-          Сначала попробуй сам. Решение — один из вариантов, а не единственно правильный.
-        </p>
-        <Code code={solution} lang={mode === 'text' ? 'text' : 'java'} title="Решение" frame="code" showLineNumbers={false} wrap />
-      </details>
-    )
-  }
 
   <details class="practice-note">
     <summary>Как работает проверка</summary>
@@ -126,6 +201,7 @@ const starterJson = JSON.stringify(starter).replace(/</g, '\\u003c');
     </p>
   </details>
 
+  <script type="application/json" data-practice-steps set:html={stepsJson}></script>
   <script type="application/json" data-practice-starter set:html={starterJson}></script>
   <script type="application/json" data-practice-rules set:html={rulesJson}></script>
   <script type="application/json" data-practice-solution set:html={solutionJson}></script>

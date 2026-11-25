@@ -299,10 +299,12 @@ export default [
     ],
     runs: ['org.baileyseyes._1.types.IntArray'],
     practice: {
-      task: 'Создай `int[5]`, заполни его квадратами чисел 1..5, выведи через `Arrays.toString` и найди сумму элементов.',
-      hint: 'Индексы начинаются с 0. Для суммы подойдёт обычный цикл или `Arrays.stream(array).sum()`.',
+      task:
+        'Создай `int[5]`, заполни его квадратами чисел 1..5, выведи через `Arrays.toString` и найди сумму элементов.',
+      hint:
+        'Индексы начинаются с 0. Квадрат числа — это число, умноженное на само себя. Сначала заполни все элементы, затем сложи их в `sum`.',
       solution:
-        'int[] squares = new int[5];\nfor (int i = 0; i < squares.length; i++) {\n    squares[i] = (i + 1) * (i + 1);\n}\nSystem.out.println(Arrays.toString(squares));\nSystem.out.println(Arrays.stream(squares).sum());'
+        'int[] squares = new int[5];\nsquares[0] = 1;\nsquares[1] = 4;\nsquares[2] = 9;\nsquares[3] = 16;\nsquares[4] = 25;\nSystem.out.println(Arrays.toString(squares));\n\nint sum = squares[0] + squares[1] + squares[2] + squares[3] + squares[4];\nSystem.out.println(sum);'
     },
     quiz: [
       {

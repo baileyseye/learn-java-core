@@ -210,7 +210,7 @@ export default [
       task: 'Отправь в ExecutorService две задачи Callable<Integer>, которые возвращают 20 и 22. Получи оба Future и выведи сумму.',
       hint: 'Не забудьте `executor.shutdown()` после получения результатов.',
       solution:
-        'ExecutorService executor = Executors.newFixedThreadPool(2);\nFuture<Integer> a = executor.submit(() -> 20);\nFuture<Integer> b = executor.submit(() -> 22);\nSystem.out.println(a.get() + b.get());\nexecutor.shutdown();'
+        'ExecutorService executor = Executors.newFixedThreadPool(2);\nCallable<Integer> first = () -> 20;\nCallable<Integer> second = () -> 22;\nFuture<Integer> a = executor.submit(first);\nFuture<Integer> b = executor.submit(second);\nSystem.out.println(a.get() + b.get());\nexecutor.shutdown();'
     },
     quiz: [
       {

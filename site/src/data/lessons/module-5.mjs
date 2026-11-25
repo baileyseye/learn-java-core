@@ -205,7 +205,7 @@ export default [
     runs: ['org.baileyseyes._5.map.CollectionMap'],
     practice: {
       task: 'Посчитай частоту слов в строке `"java sql java git sql java"` с помощью Map и `merge`.',
-      hint: '`map.merge(word, 1, Integer::sum)` увеличивает счётчик на 1.',
+      hint: 'Можно через `map.merge(word, 1, Integer::sum)` или через `map.put(word, map.getOrDefault(word, 0) + 1)`.',
       solution:
         'String text = "java sql java git sql java";\nMap<String, Integer> freq = new HashMap<>();\nfor (String word : text.split(" ")) {\n    freq.merge(word, 1, Integer::sum);\n}\nSystem.out.println(freq); // {java=3, sql=2, git=1}'
     },
@@ -295,10 +295,10 @@ export default [
     ],
     runs: ['org.baileyseyes._5.SortingCollections'],
     practice: {
-      task: 'Отсортируй список `["Виктория", "Аня", "Борис"]` по длине через `Comparator.comparingInt(String::length)` и выведи результат.',
-      hint: 'Сначала создайте изменяемый `ArrayList`, потому что `List.of` нельзя отсортировать.',
+      task: 'Отсортируй список `["Виктория", "Ян", "Аня", "Борис"]` по длине через `Comparator.comparingInt(String::length)` и выведи результат.',
+      hint: 'Сначала создайте изменяемый `ArrayList`, потому что `List.of` нельзя отсортировать. Сравнивайте по длине: `String::length`.',
       solution:
-        'List<String> names = new ArrayList<>(List.of("Виктория", "Аня", "Борис"));\nnames.sort(Comparator.comparingInt(String::length));\nSystem.out.println(names);'
+        'List<String> names = new ArrayList<>(List.of("Виктория", "Ян", "Аня", "Борис"));\nnames.sort(Comparator.comparingInt(String::length));\nSystem.out.println(names);'
     },
     quiz: [
       {

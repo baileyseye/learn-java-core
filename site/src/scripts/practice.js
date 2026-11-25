@@ -32,6 +32,7 @@ import { tags } from '@lezer/highlight';
 
 const DRAFT_KEY = 'ljc.practice.drafts.v1';
 const SOLVED_KEY = 'ljc.practice.solved.v1';
+const STEP_SOLVED_KEY = 'ljc.practice.steps.v1';
 
 const practiceTheme = EditorView.theme({
   '&': {
@@ -957,6 +958,11 @@ function readSolved() {
   return Array.isArray(value) ? value.filter((id) => typeof id === 'string') : [];
 }
 
+function readSolvedSteps() {
+  const value = readJson(STEP_SOLVED_KEY, []);
+  return Array.isArray(value) ? value.filter((id) => typeof id === 'string') : [];
+}
+
 function saveDraft(lessonId, code) {
   const drafts = readDrafts();
   drafts[lessonId] = code;
@@ -974,6 +980,13 @@ function setSolved(lessonId, solved) {
   if (solved) current.add(lessonId);
   else current.delete(lessonId);
   writeJson(SOLVED_KEY, [...current]);
+}
+
+function setStepSolved(stepId, solved) {
+  const current = new Set(readSolvedSteps());
+  if (solved) current.add(stepId);
+  else current.delete(stepId);
+  writeJson(STEP_SOLVED_KEY, [...current]);
 }
 
 function parseScript(container, selector, fallback) {
@@ -1292,7 +1305,7 @@ function checkCode(code, solution, rules) {
       errors: ['В коде остался TODO. Убери заготовку и напиши решение.']
     };
   }
-  const checkable = staticallyCheckable(code);
+  const checkable = stripComments(code);
   if (checkable.replace(/\s+/g, '').length < 10) {
     return { ok: false, errors: ['Слишком короткое решение — добавь код.'] };
   }
@@ -1361,7 +1374,7 @@ function setStatus(container, text, state = '') {
   if (state) status.classList.add(`is-${state}`);
 }
 
-async function createCodeEditor(container, lessonId, initial) {
+async function createCodeEditor(container, draftKey, initial) {
   const mount = container.querySelector('[data-practice-codemirror]');
   if (!mount) return null;
 
@@ -1432,9 +1445,12 @@ async function createCodeEditor(container, lessonId, initial) {
           if (!update.docChanged) return;
           setStatus(container, 'сохраняю…', 'saved');
           if (timer) clearTimeout(timer);
+          const saveKey = container.getAttribute('data-practice-key') || draftKey;
+          const saveStep = currentStep(container);
           timer = setTimeout(() => {
-            saveDraft(lessonId, update.state.doc.toString());
-            if (!container.classList.contains('is-solved')) {
+            saveDraft(saveKey, update.state.doc.toString());
+            const solved = saveStep ? stepIsSolved(container, saveStep) : container.classList.contains('is-solved');
+            if (!solved && currentStep(container) === saveStep) {
               setStatus(container, 'сохранено', 'saved');
             }
           }, 350);
@@ -1462,16 +1478,156 @@ function markSolved(container, lessonId, solved) {
   }
 }
 
+function currentStep(container) {
+  return container._practiceSteps?.[container._practiceStepIndex] ?? null;
+}
+
+function currentCode(container) {
+  const view = container._practiceView;
+  const input = container.querySelector('[data-practice-input]');
+  return view ? view.state.doc.toString() : input?.value;
+}
+
+function stepIsSolved(container, step) {
+  if (!step) return false;
+  if (step.isMain) {
+    const lessonId = container.getAttribute('data-lesson-id');
+    if (lessonId && readSolved().includes(lessonId)) return true;
+  }
+  return readSolvedSteps().includes(step.key);
+}
+
+function markStep(container, index, solved) {
+  const button = container.querySelector(`[data-practice-step="${index}"]`);
+  if (!button) return;
+  button.classList.toggle('is-solved', solved);
+  button.setAttribute('data-solved', solved ? 'true' : 'false');
+  const mark = button.querySelector('[data-practice-step-mark]');
+  if (mark) mark.textContent = solved ? '✓' : '';
+}
+
+function saveCurrentDraft(container, step = currentStep(container)) {
+  if (!step) return;
+  const code = currentCode(container);
+  if (typeof code === 'string') saveDraft(step.key, code);
+}
+
+function updateStepView(container, step, index) {
+  container.setAttribute('data-practice-key', step.key);
+  container.setAttribute('data-practice-main', step.isMain ? 'true' : 'false');
+  container.setAttribute('data-mode', step.mode);
+
+  const task = container.querySelector('[data-practice-task]');
+  if (task) task.innerHTML = step.taskHtml || '';
+
+  const expectedBox = container.querySelector('[data-practice-expected]');
+  const expectedCode = container.querySelector('[data-practice-expected-code]');
+  if (expectedBox && expectedCode) {
+    expectedCode.textContent = step.expected || '';
+    expectedBox.hidden = !step.expected;
+  }
+
+  const hintBox = container.querySelector('[data-practice-hint-box]');
+  const hint = container.querySelector('[data-practice-hint]');
+  if (hintBox && hint) {
+    hint.innerHTML = step.hintHtml || '';
+    hintBox.hidden = !step.hintHtml;
+    hintBox.open = false;
+  }
+
+  const solutionBox = container.querySelector('[data-practice-solution-box]');
+  const solutionCode = container.querySelector('[data-practice-solution-code]');
+  if (solutionBox && solutionCode) {
+    solutionCode.textContent = step.solution || '';
+    solutionBox.hidden = !step.solution;
+    solutionBox.open = false;
+  }
+
+  container.querySelectorAll('[data-practice-step]').forEach((button, buttonIndex) => {
+    button.setAttribute('aria-selected', String(buttonIndex === index));
+  });
+}
+
+function loadStepDoc(container, step) {
+  const drafts = readDrafts();
+  const draft = typeof drafts[step.key] === 'string' ? drafts[step.key] : null;
+  const doc = draft ?? step.starter;
+  const view = container._practiceView;
+  if (view) {
+    container._suppressPracticeSave = true;
+    view.dispatch({ changes: { from: 0, to: view.state.doc.length, insert: doc } });
+    view.requestMeasure();
+  } else {
+    const input = container.querySelector('[data-practice-input]');
+    if (input) input.value = doc;
+  }
+}
+
+function refreshStepStatus(container, step) {
+  const index = container._practiceStepIndex;
+  const solved = stepIsSolved(container, step);
+  const lessonId = container.getAttribute('data-lesson-id');
+  const drafts = readDrafts();
+  const hasDraft = typeof drafts[step.key] === 'string';
+
+  if (solved) {
+    if (step.isMain) {
+      setSolved(lessonId, true);
+      markSolved(container, lessonId, true);
+    } else {
+      container.classList.remove('is-solved');
+      setStatus(container, 'шаг решён', 'solved');
+    }
+  } else if (step.isMain) {
+    container.classList.remove('is-solved');
+    setStatus(container, hasDraft ? 'сохранено' : 'черновик', hasDraft ? 'saved' : '');
+  } else {
+    container.classList.remove('is-solved');
+    setStatus(container, hasDraft ? 'сохранено' : 'черновик', hasDraft ? 'saved' : '');
+  }
+
+  markStep(container, index, solved);
+}
+
+function switchStep(container, index) {
+  const steps = container._practiceSteps;
+  if (!steps || index < 0 || index >= steps.length || index === container._practiceStepIndex) return;
+  const previous = steps[container._practiceStepIndex];
+  saveCurrentDraft(container, previous);
+  container._practiceStepIndex = index;
+  const step = steps[index];
+  updateStepView(container, step, index);
+  loadStepDoc(container, step);
+  refreshStepStatus(container, step);
+  setFeedback(container, '', '');
+}
+
 function resetPractice(container) {
   const lessonId = container.getAttribute('data-lesson-id');
-  const starter = parseScript(container, '[data-practice-starter]', '');
+  const step = currentStep(container);
+  const key = step?.key ?? lessonId;
+  const starter = step?.starter ?? parseScript(container, '[data-practice-starter]', '');
   const input = container.querySelector('[data-practice-input]');
   const view = container._practiceView;
-  if (!lessonId || !starter) return;
+  if (!key || !starter) return;
   if (!window.confirm('Сбросить черновик и вернуть стартовый код?')) return;
 
-  removeDraft(lessonId);
-  setSolved(lessonId, false);
+  removeDraft(key);
+  if (step) {
+    setStepSolved(step.key, false);
+    markStep(container, container._practiceStepIndex, false);
+    if (step.isMain) {
+      setSolved(lessonId, false);
+      markSolved(container, lessonId, false);
+    } else {
+      container.classList.remove('is-solved');
+      setStatus(container, 'черновик');
+    }
+  } else {
+    setSolved(lessonId, false);
+    markSolved(container, lessonId, false);
+  }
+
   if (view) {
     container._suppressPracticeSave = true;
     view.dispatch({
@@ -1480,22 +1636,21 @@ function resetPractice(container) {
   } else if (input) {
     input.value = starter;
   }
-  removeDraft(lessonId);
-  markSolved(container, lessonId, false);
+  removeDraft(key);
   setFeedback(container, 'Черновик сброшен. Можно начать заново.', 'warn');
 }
 
 function checkPractice(container) {
   const lessonId = container.getAttribute('data-lesson-id');
-  const mode = container.getAttribute('data-mode') || 'code';
-  const view = container._practiceView;
-  const input = container.querySelector('[data-practice-input]');
-  const code = view ? view.state.doc.toString() : input?.value;
+  const step = currentStep(container);
+  const mode = step?.mode ?? (container.getAttribute('data-mode') || 'code');
+  const code = currentCode(container);
   if (!lessonId || typeof code !== 'string') return;
-  const rules = parseScript(container, '[data-practice-rules]', {});
-  const solution = parseScript(container, '[data-practice-solution]', '');
+  const rules = step?.check ?? parseScript(container, '[data-practice-rules]', {});
+  const solution = step?.solution ?? parseScript(container, '[data-practice-solution]', '');
+  const key = step?.key ?? lessonId;
 
-  saveDraft(lessonId, code);
+  saveDraft(key, code);
 
   if (mode === 'text') {
     const result = checkText(code, rules);
@@ -1504,11 +1659,25 @@ function checkPractice(container) {
       setStatus(container, 'есть замечания', '');
       return;
     }
-    setSolved(lessonId, true);
-    markSolved(container, lessonId, true);
-    const message = (rules.keywords ?? []).length
-      ? 'Ответ засчитан. Сравни его с ожидаемым результатом.'
-      : 'Ответ сохранён. Это открытый вопрос — главное, чтобы ты сформулировал его своими словами.';
+    if (step) {
+      setStepSolved(step.key, true);
+      markStep(container, container._practiceStepIndex, true);
+      if (step.isMain) {
+        setSolved(lessonId, true);
+        markSolved(container, lessonId, true);
+      } else {
+        container.classList.remove('is-solved');
+        setStatus(container, 'шаг решён', 'solved');
+      }
+    } else {
+      setSolved(lessonId, true);
+      markSolved(container, lessonId, true);
+    }
+    const message = step && !step.isMain
+      ? 'Шаг засчитан. Переходи к следующему шагу.'
+      : (rules.keywords ?? []).length
+        ? 'Ответ засчитан. Сравни его с ожидаемым результатом.'
+        : 'Ответ сохранён. Это открытый вопрос — главное, чтобы ты сформулировал его своими словами.';
     setFeedback(container, message, 'ok');
     return;
   }
@@ -1520,10 +1689,74 @@ function checkPractice(container) {
     return;
   }
 
-  setSolved(lessonId, true);
-  markSolved(container, lessonId, true);
+  if (step) {
+    setStepSolved(step.key, true);
+    markStep(container, container._practiceStepIndex, true);
+    if (step.isMain) {
+      setSolved(lessonId, true);
+      markSolved(container, lessonId, true);
+    } else {
+      container.classList.remove('is-solved');
+      setStatus(container, 'шаг решён', 'solved');
+    }
+  } else {
+    setSolved(lessonId, true);
+    markSolved(container, lessonId, true);
+  }
+
   const warning = result.warnings?.length ? ` ${result.warnings.join(' ')}` : '';
-  setFeedback(container, `Похоже на решение!${warning} Проверь вывод и отметь урок пройденным.`, 'ok');
+  const suffix = step && !step.isMain
+    ? ' Переходи к следующему шагу.'
+    : ' Проверь вывод и отметь урок пройденным.';
+  setFeedback(container, `Похоже на решение!${warning}${suffix}`, 'ok');
+}
+
+function initStepPractice(container, steps) {
+  const lessonId = container.getAttribute('data-lesson-id');
+  const drafts = readDrafts();
+  container._practiceSteps = steps;
+  container._practiceStepIndex = 0;
+  const step = steps[0];
+
+  updateStepView(container, step, 0);
+  steps.forEach((item, index) => {
+    const solved = readSolvedSteps().includes(item.key) || (item.isMain && readSolved().includes(lessonId));
+    markStep(container, index, solved);
+  });
+  refreshStepStatus(container, step);
+
+  const hasDraft = typeof drafts[step.key] === 'string';
+  const initial = hasDraft ? drafts[step.key] : step.starter;
+
+  if (step.mode === 'text') {
+    const input = container.querySelector('[data-practice-input]');
+    if (!input) return;
+    input.value = initial || input.defaultValue;
+
+    let timer = null;
+    input.addEventListener('input', () => {
+      setStatus(container, 'сохраняю…', 'saved');
+      if (timer) clearTimeout(timer);
+      const saveStep = currentStep(container);
+      timer = setTimeout(() => {
+        if (saveStep) saveDraft(saveStep.key, input.value);
+        const solved = saveStep ? stepIsSolved(container, saveStep) : container.classList.contains('is-solved');
+        if (!solved && currentStep(container) === saveStep) {
+          setStatus(container, 'сохранено', 'saved');
+        }
+      }, 350);
+    });
+
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
+        event.preventDefault();
+        checkPractice(container);
+      }
+    });
+    return;
+  }
+
+  createCodeEditor(container, step.key, initial);
 }
 
 function initPractice(container) {
@@ -1532,6 +1765,12 @@ function initPractice(container) {
   const lessonId = container.getAttribute('data-lesson-id');
   const mode = container.getAttribute('data-mode') || 'code';
   if (!lessonId) return;
+
+  const steps = parseScript(container, '[data-practice-steps]', null);
+  if (Array.isArray(steps) && steps.length > 1) {
+    initStepPractice(container, steps);
+    return;
+  }
 
   const drafts = readDrafts();
   const hasDraft = typeof drafts[lessonId] === 'string';
@@ -1577,7 +1816,11 @@ document.addEventListener('click', (event) => {
   if (!target) return;
   const container = target.closest('[data-practice]');
   if (!container) return;
-  if (target.closest('[data-practice-check]')) {
+  const stepButton = target.closest('[data-practice-step]');
+  if (stepButton) {
+    event.preventDefault();
+    switchStep(container, Number(stepButton.getAttribute('data-practice-step')));
+  } else if (target.closest('[data-practice-check]')) {
     event.preventDefault();
     checkPractice(container);
   } else if (target.closest('[data-practice-reset]')) {
