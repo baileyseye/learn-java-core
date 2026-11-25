@@ -38,7 +38,6 @@ const heroSnippet = `public class HelloWorld {
         >
           <span data-continue-label>Начать курс</span>
         </a>
-        <a class="course-btn course-btn-ghost" href={url('/start/ide/')}>Установка и запуск</a>
         <a class="course-btn course-btn-ghost" href={url('/start/')}>Как учиться</a>
         <a class="course-btn course-btn-ghost" href={url('/contributors/route/')}>Маршрут</a>
       </div>
@@ -59,6 +58,15 @@ const heroSnippet = `public class HelloWorld {
       <p class="hero-code-note">Каждый фрагмент на сайте — из настоящего файла, а не из учебного «идеального» примера.</p>
     </div>
   </section>
+
+  <a class="setup-banner" href={url('/start/ide/')}>
+    <span class="setup-banner-badge" aria-hidden="true">01</span>
+    <span class="setup-banner-copy">
+      <strong>Впервые здесь? Начните с установки</strong>
+      <span>JDK 21 и IntelliJ IDEA Community Edition. Ultimate не нужна — хватит бесплатной версии.</span>
+    </span>
+    <span class="setup-banner-arrow" aria-hidden="true">→</span>
+  </a>
 
   <section class="home-section">
     <div class="section-head">
