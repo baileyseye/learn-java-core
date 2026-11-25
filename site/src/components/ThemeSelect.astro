@@ -1,0 +1,130 @@
+---
+// Заменяет стандартный select Starlight на два значка: солнце и луна.
+---
+
+<starlight-theme-toggle role="group" aria-label="Тема оформления">
+  <button
+    type="button"
+    data-theme-value="light"
+    aria-label="Светлая тема"
+    title="Светлая тема"
+    aria-pressed="false"
+  >
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="4"></circle>
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+    </svg>
+  </button>
+  <button
+    type="button"
+    data-theme-value="dark"
+    aria-label="Тёмная тема"
+    title="Тёмная тема"
+    aria-pressed="false"
+  >
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+  </button>
+</starlight-theme-toggle>
+
+<script is:inline>
+  (() => {
+    const STORAGE_KEY = 'starlight-theme';
+    const media = window.matchMedia('(prefers-color-scheme: light)');
+    const pickers = document.querySelectorAll('starlight-theme-toggle');
+
+    const readTheme = () => {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        return stored === 'light' || stored === 'dark' ? stored : null;
+      } catch {
+        return null;
+      }
+    };
+
+    const systemTheme = () => (media.matches ? 'light' : 'dark');
+    const activeTheme = () => readTheme() || systemTheme();
+
+    const paint = (theme) => {
+      pickers.forEach((picker) => {
+        picker.querySelectorAll('button[data-theme-value]').forEach((button) => {
+          button.setAttribute('aria-pressed', String(button.dataset.themeValue === theme));
+        });
+      });
+    };
+
+    const apply = (theme) => {
+      document.documentElement.dataset.theme = theme;
+      try {
+        localStorage.setItem(STORAGE_KEY, theme);
+      } catch {
+        // Приватный режим или заблокированное хранилище: тема всё равно применится.
+      }
+      paint(theme);
+    };
+
+    paint(activeTheme());
+
+    pickers.forEach((picker) => {
+      picker.querySelectorAll('button[data-theme-value]').forEach((button) => {
+        button.addEventListener('click', () => apply(button.dataset.themeValue));
+      });
+    });
+
+    media.addEventListener('change', () => {
+      if (!readTheme()) {
+        document.documentElement.dataset.theme = systemTheme();
+        paint(systemTheme());
+      }
+    });
+  })();
+</script>
+
+<style>
+  starlight-theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15rem;
+    padding: 0.15rem;
+    border: 1px solid var(--course-border);
+    border-radius: 999px;
+    background: var(--course-card);
+  }
+
+  starlight-theme-toggle button {
+    display: grid;
+    place-items: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--course-muted);
+    cursor: pointer;
+    transition:
+      color 0.15s ease,
+      background-color 0.15s ease;
+  }
+
+  starlight-theme-toggle button:hover {
+    color: var(--course-ink);
+    background: var(--course-paper-2);
+  }
+
+  starlight-theme-toggle button[aria-pressed='true'] {
+    color: var(--course-accent-strong);
+    background: var(--course-accent-soft);
+  }
+
+  starlight-theme-toggle button:focus-visible {
+    outline: 2px solid var(--course-accent);
+    outline-offset: 2px;
+  }
+
+  starlight-theme-toggle svg {
+    width: 1rem;
+    height: 1rem;
+  }
+</style>

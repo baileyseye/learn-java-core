@@ -35,7 +35,8 @@ export default defineConfig({
       customCss: ['./site/src/styles/custom.css'],
       components: {
         Footer: './site/src/components/Footer.astro',
-        PageTitle: './site/src/components/PageTitle.astro'
+        PageTitle: './site/src/components/PageTitle.astro',
+        ThemeSelect: './site/src/components/ThemeSelect.astro'
       },
       head: [
         { tag: 'meta', attrs: { property: 'og:locale', content: 'ru_RU' } },

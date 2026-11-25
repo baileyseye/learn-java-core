@@ -5,7 +5,7 @@ export const sidebar = [
     label: 'Старт',
     items: [
       { label: 'Как учиться', link: '/start/' },
-      { label: 'Запуск в IntelliJ IDEA', link: '/start/ide/' }
+      { label: 'Установка и запуск', link: '/start/ide/' }
     ]
   },
   ...modules.map((module) => ({
