@@ -7,6 +7,14 @@
       }
     ]
   },
+  "variables-and-operators": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._1.types.VariablesAndOperators",
+        "output": "=== Переменные ===\nИмя: Анна\nВозраст через год: 26\nГод рождения: 2000\n\n=== Арифметика ===\n10 + 3 = 13\n10 - 3 = 7\n10 * 3 = 30\n10 / 3 = 3\n10 % 3 = 1\n10.0 / 4 = 2.5\n(2 + 3) * 4 = 20\n\n=== Сравнение и логика ===\n10 > 3: true\n10 == 3: false\nВозраст от 18 до 65: true\nРабочий день: true\n\n=== Инкремент ===\ni++ вернул: 5, i стало: 6\n++i вернул: 7, i стало: 7\nsum += 10: 17"
+      }
+    ]
+  },
   "primitive-types": {
     "runs": [
       {
@@ -23,11 +31,27 @@
       }
     ]
   },
+  "string-builder": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._1.types.StringBuilderDemo",
+        "output": "=== append ===\nJava Core\n\n=== Методы ===\nДлина: 9\nПервый символ: J\nПосле insert: Java 21 Core\nПосле replace: Java 17 Core\nПосле delete: Java Core\nПосле reverse: eroC avaJ\n\n=== Сборка в цикле ===\n1, 2, 3, 4, 5"
+      }
+    ]
+  },
   "arrays": {
     "runs": [
       {
         "class": "org.baileyseyes._1.types.IntArray",
         "output": "=== Basics ===\nLength of arr3: 5\n\n=== Arrays Class ===\nArrays equal: true\nArrays equal: true\n\n=== Operations ===\nMin in arr1: 1\nMax in arr1: 5\nSum of arr1 elements: 15\n\n=== Tricks ===\narr1 == arr2: false\narr1 == arr3: true\nArray as string: [1, 2, 3, 4, 5]"
+      }
+    ]
+  },
+  "two-dimensional-arrays": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._1.types.TwoDimensionalArrays",
+        "output": "=== Матрица 3x3 ===\n1 2 3\n4 5 6\n7 8 9\n\n=== Сумма и максимум ===\nСумма: 45\nМаксимум: 9\n\n=== Значения по умолчанию ===\n0 0 0\n0 0 0\nЧерез Arrays.deepToString: [[0, 0, 0], [0, 0, 0]]\n\n=== Ступенчатый массив ===\n*\n**\n***"
       }
     ]
   },
@@ -59,154 +83,7 @@
     "runs": [
       {
         "class": "org.baileyseyes._1.methods.Methods",
-        "output": "=== ����� ��� ������������� �������� � ��� ���������� ===\n���� ����� ������ �� ���������� � �� ��������� ���������\n�� ������ ��������� ��������\n\n=== ����� ��� ������������� ��������, �� � ����������� ===\n����� � �����������:\n���: �������\n�������: 25\n\n=== ����� � ������������ ��������� � ��� ���������� ===\n���� ����� ���������� ����� ����� \n������������ ��������: 42\n\n=== ����� � ������������ ��������� � ����������� ===\n����� � ����������� � ������������ ���������\n�������� �������: 30\n��������� �������: 60\n������������ ��������: 60\n\n=== ����� � ����������� ����������� � ������������ ��������� ===\n����� � ����������� �����������:\n���: �����\n�������: 28\n���: true\n������������ ��������: �������: �����, ������� 28, ���\n\n=== ����� �������� ���������� ===\n�������� ���������� ��� ��������: 25\n���������: true\n������� ��������: true\n\n=== ����� ���������� �������� ===\n���������� ��������:\n������: 30\n�����: 31\n����� �������: 31\n\n=== ����� ��������� ������ ���������� ===\n��������� ������ ���������� � ��������:\n���: ����\n�������: 32\n����: 170 ��\n���: 65 ��\n���: true\n������ ����������: ������� ����, ������� 32 ���, ���� 170 ��, ��� 65 ��, ���\n\n=== ����� �������� ����� ===\n�������� �����:\n����� 1: 15\n����� 2: 25\n�����: 40\n�����: 40\n\n=== ����� ������ ��������� ===\n����� ���������:\n��� �������� ���������"
-      }
-    ]
-  },
-  "human-main": {
-    "runs": [
-      {
-        "class": "org.baileyseyes._2.main.HumanMain",
-        "output": "�������������� ������\n \n=== �������� �������� ����� ����� createSimpleHuman ===\n������ �������: Human info - Name: John, Age: 25, Alive: true\n\n=== �������� �������� ����� ����� createHuman ===\n������ �������: Human info - Name: Alice, Age: 30, Alive: true\n\n=== ��������� ������ �������� ===\n����������: Human info - Name: John, Age: 25, Alive: true\n����� ���������: Human info - Name: Bob, Age: 28, Alive: true\n\n=== �������� ���������� ===\n������� 1 (������� 28) ��������: true\n������� 2 (������� 30) ��������: true\n\n=== ������������ ��� �������� ===\n�� ��� ��������: Human info - Name: Bob, Age: 28, Alive: true\n����� ��� ��������: Human info - Name: Bob, Age: 29, Alive: true\n\n=== �������� ��������� � ������� �������������� ===\n������� � ������ � ���������: Human info - Name: Charlie, Age: 22, Alive: false\n������� ������ � ���������: Human info - Name: null, Age: 35, Alive: false\n\n=== �������� �������� � ������� Builder ===\n������� ����� Builder: Human info - Name: Diana, Age: 27, Alive: true\n\n=== ���������� ���������� ���������� ===\n����������: Human info - Name: null, Age: 35, Alive: false\n����� ����������: Human info - Name: Eve, Age: 40, Alive: false"
-      }
-    ]
-  },
-  "interfaces": {
-    "runs": [
-      {
-        "class": "org.baileyseyes._3.main.Main",
-        "output": "No."
-      }
-    ]
-  },
-  "enum-practice": {
-    "runs": [
-      {
-        "class": "org.baileyseyes._3.enum_class.EnumPractice",
-        "output": "=== ������� ������������� ������������ ===\n�������: MONDAY\n�������� ���: MONDAY\n���������� �����: 0\n������� �����������\n��� ��� ������:\nMONDAY (���������� �����: 0)\nTUESDAY (���������� �����: 1)\nWEDNESDAY (���������� �����: 2)\nTHURSDAY (���������� �����: 3)\nFRIDAY (���������� �����: 4)\nSATURDAY (���������� �����: 5)\nSUNDAY (���������� �����: 6)\n\n=== �������� ������������� ===\n\n=== ������������� � �������� ���������� ===\n������� ����\n������� ������� ����\n\n=== ������������� ��� ��������� ===\n\n=== ������������� ��� ��������� ===\n�����������: MONDAY\n�������: FRIDAY\n�����������: SUNDAY\n����������� == �����������: true\n������� != �����������: true\n\n=== ���������� ������� ===\n\n=== ���������� ������� � ������ ===\n��������� ���: MONDAY\n��������� ���: WEDNESDAY - �����\n��������� ���: FRIDAY - ������� (������� ����: true)\n\n=== ������ ������������ ===\n\n=== ������ ������������ ===\n�������: THURSDAY\n��������: THURSDAY\n���������� �����: 3\n���������� ��������: 7\n������� ����: true\n��������� ����: FRIDAY"
-      }
-    ]
-  },
-  "exceptions-intro": {
-    "runs": [
-      {
-        "class": "org.baileyseyes._4.try_catch_finally.TryCatchFinally",
-        "output": "=== ������������ ���������� try-catch ===\n=== ������� ������������� try-catch ===\n��������� �������������� ����������: / by zero\n���������� ����: ArithmeticException\n��������� ���������� ������ ����� ��������� ����������\n\n=== ��������� ���������� ����� ���������� ===\n������ ������� �������: Index 10 out of bounds for length 5\n\n=== ���� finally ===\n� ����� try\n���������: 5\n���� finally ������ �����������\n��������� ���������� ������\n\n=== ����������� ���������� IOException ===\n������ �����-������: nonexistent.txt (�� ������� ����� ��������� ����)\n��� ����������: FileNotFoundException\n\n=== ��������� ���������� ����������� ���������� ===\n������ ������� �������: Index 5 out of bounds for length 3\n\n=== ������ � ���������������� ������ ===\n������� �����: ������ �����: null\n����������, ������� ���������� �����\n\n=== ����������� ���������� ===\n������� 150 ���������\n\n=== Try-with-resources ===\n������ ��� ������ � ������: example.txt (�� ������� ����� ��������� ����)\n\n=== ��������� try-catch ����� ===\n������� try\n���������� try\n��������� ����������� ����������: / by zero\n��������� �������� ����������: / by zero\n\n=== Multi-catch (��������� ���������� ���������� � ����� �����) ===\n����� ��������� ���������� ����������: NullPointerException\n���������: Cannot invoke \"String.length()\" because \"str\" is null\n\n=== �������� ����� throw ===\n����������� ����������: ������� �� ����� ���� �������������: -5\n\n=== ����������� ���������� � ������� ===\n���������� ���������� � ������: test.txt (�� ������� ����� ��������� ����)"
-      }
-    ]
-  },
-  "try-with-resources": {
-    "runs": [
-      {
-        "class": "org.baileyseyes._4.try_catch_finally.TryWithResources",
-        "output": "=== ������������ try-with-resources ===\n=== ������� ������������� try-with-resources ===\n������ ��� ������ � ������: example.txt (�� ������� ����� ��������� ����)\n\n\n=== Try-with-resources � ����������� ��������� ===\n������ ��� ������ � �������: input.txt (�� ������� ����� ��������� ����)\n\n=== Try-with-resources � ���������������� �������� ===\nCustomResource ������\nCustomResource ��������� ��������\n������ � ���������������� �������� ���������\nCustomResource ������ �������������\n\n=== BufferedReader � PrintWriter ===\n������ ��� ������ � �������: input.txt (�� ������� ����� ��������� ����)\n\n=== ��������� ���������� � try-with-resources ===\n����������� ����������: FileNotFoundException - nonexistent.txt (�� ������� ����� ��������� ����)\n\n=== �������������� �������� �������� ===\n������ 1 ������\n������ 2 ������\n������� ������� � ������������\n������ 1 ��������� ������\n������ 2 ��������� ������\n������ � ��������� ���������\n������ 2 ������\n������ 1 ������\n\n=== InputStream � OutputStream ===\n������ ��� ������ � ��������: input.dat (�� ������� ����� ��������� ����)\n\n=== ������ �������� try-with-resources ===\n������ ������ �����: data.txt (�� ������� ����� ��������� ����)"
-      }
-    ]
-  },
-  "custom-exceptions": {
-    "runs": [
-      {
-        "class": "org.baileyseyes._4.exception.HumanWithExceptions",
-        "output": "=== ������������ ���������� � ������� Human ===\n\n=== ����� �������� ===\n������ �������: ����, �������: 25\n������: ������ ��� ������ ��������: ������� � ������ '����' �� ������\n\n=== ��������� �������� ===\n������ ���������: ������� �� ����� ���� �������������: -5\n������ ���������: ������� �� ����� ���� ������ 150: 200\n\n=== ���������� ��������� �������� ===\n�������: 25\n������ ��������� ��������: ������� �� ����� ���� null\n������� null ��������: 0\n\n=== �������� �������� � ���������� ===\n������ �������: ����, �������: 28\n������ ���������: ������� �� ����� ���� �������������: -10\n�� ������� ������� �������� ��-�� ������ ���������\n\n=== ������ � ������� ===\n������� ������� � ����"
-      }
-    ]
-  },
-  "list": {
-    "note": "Время выполнения в блоке Performance зависит от машины.",
-    "runs": [
-      {
-        "class": "org.baileyseyes._5.list.CollectionList",
-        "output": "=== Basics ===\nInitial list: [10, 1, 2, 3]\nSize: 4\nElement at index 1: 1\nElement at index 0: 10\nAfter setting index 1 to 20: [10, 20, 2, 3]\nAfter removing index 0: [20, 2, 3]\nAfter removing value 20: [2, 3]\n\n=== Methods ===\nContains 'Banana': true\nIs empty: false\n\n=== Iterator ===\nIterator traversal: 1 2 3 4 5 \nAfter removing 3: [1, 2, 4, 5]\nEnhanced for loop: 10 20 30 40 50 \n\n=== Iteration ===\nStandard for loop: A B C D E \nEnhanced for loop: A B C D E \nIterator: A B C D E \nListIterator: A B C D E \nStream API: A B C D E \n\n=== Sorting ===\nOriginal list: [5, 2, 8, 1, 9]\nSorted ascending: [1, 2, 5, 8, 9]\nSorted descending: [9, 8, 5, 2, 1]\nSorted case-insensitive: [apple, banana, cherry]\n\n=== Null Handling ===\nList with null: [First, null, Third]\nElement at index 1 (should be null): null\nFound null at index 1\nAfter removing null: [First, Third]\n\n=== Performance ===\nArrayList add time for 1000000 elements: 9.8113 ms\nArrayList get time for 100 accesses: 0.0421 ms\nArrayList insert in middle time: 124.8 ns\n\n=== Tricks ===\nFixed list: [1, 2, 3, 4, 5]\nCannot modify fixed list: null\nShuffled list: [2, 3, 1, 4, 5]\nCopied array: [1, 2, 3, 4, 5]\nList from array: [A, B, C]\nEven numbers: [2, 4, 6, 8, 10]\nAfter removing some fruits: [Apple, Cherry]\n\n=== Why LinkedList is Bad ===\n=== Why LinkedList is considered the worst collection ===\nLinkedList get time for 100 accesses: 4738.6 ns\nArrayList get time for 100 accesses: 34.0 ns\nArrayList is 139.37058823529412 times faster for get operations\n\n--- Cases where LinkedList might be better ---\n1. Frequent insertion/deletion at beginning/end\n2. Implementation of Deque interface (ArrayDeque often preferred)\n3. Complex list manipulation algorithms\n\nLinkedList addFirst time: 330.5 ns\nArrayList addFirst time: 2677.4 ns\nLinkedList is faster for addFirst operations\n\n--- Conclusion ---\nWhile LinkedList has advantages in specific cases (insertion/deletion at ends),\nit generally performs worse than ArrayList for most common operations.\nArrayList is recommended for general use unless specific characteristics of LinkedList are needed."
-      }
-    ]
-  },
-  "set": {
-    "runs": [
-      {
-        "class": "org.baileyseyes._5.set.CollectionSet",
-        "output": "=== Basics ===\nSet after adding elements: [Apple, Cherry, Banana]\nSize: 3\nContains 'Banana': true\nContains 'Grape': false\nRemoved 'Banana': true\nSet after removal: [Apple, Cherry]\nRemoved 'NonExistent': false\n\n=== Getting Value With Contains ===\nFound value: Banana\nProcessed value: BANANA\nFound number: 20\nDoubled value: 40\n\n=== Null Handling ===\nSet with null: [null, Third, First]\nContains null: true\nAdded second null: false\nSet after second null attempt: [null, Third, First]"
-      }
-    ]
-  },
-  "map": {
-    "note": "Время выполнения в блоке Performance зависит от машины.",
-    "runs": [
-      {
-        "class": "org.baileyseyes._5.map.CollectionMap",
-        "output": "=== Basics ===\nInitial map: {Apple=5, Cherry=8, Date=12, Banana=3}\nSize: 4\nApples count: 5\nGrapes count: null\nContains key 'Banana': true\nContains value 8: true\nAfter updating apples: {Apple=10, Cherry=8, Date=12, Banana=3}\nRemoved Cherry value: 8\nAfter removal: {Apple=10, Date=12, Banana=3}\nRemoved NonExistent: null\n\n=== Methods ===\nIs empty: false\nSize: 3\nKeys: [A, B, C]\nValues: [1, 2, 3]\nEntries: [A=1, B=2, C=3]\nAfter clear: {}\nIs empty after clear: true\n\n=== Iteration ===\nIterating by keys: A=1 B=2 C=3 D=4 \nIterating by values: 1 2 3 4 \nIterating by entrySet: A=1 B=2 C=3 D=4 \nStream API: A=1 B=2 C=3 D=4 \n\n=== Null Handling ===\nMap with nulls: {null=NullKey, Key2=null, Key1=Value1, Key3=Value3}\nValue for null key: NullKey\nValue for Key2 (null): null\nContains null key: true\nContains null value: true\n\n=== Map Operations ===\nMerged map: {A=1, B=20, C=30, D=4}\nMaps equal: false\nCopy of map1: {A=1, B=2, C=3}\n\n=== Tricks ===\nEven numbers: {Four=4, Two=2}\nDefault value for missing key: Default Value\nUpdated scores: {Player2=200, Player1=150}\n\n=== HashMap Advantages ===\n=== Advantages of HashMap ===\n1. Fast access (O(1) average case):\n   Adding 100,000 elements took: 17.6294 ms\n\n2. Unique keys guarantee:\n   Map with duplicate key: {Key2=2, Key1=3}\n   Size after duplicate key: 2\n\n3. Fast lookup (containsKey, containsValue):\n   Found element in 100,000 element map: true (in 8.6 ns)\n\n4. Efficient for large datasets:\n   Created map of 1,000,000 key-value pairs\n\n5. Simple and intuitive API:\n   Basic operations: put, get, remove, containsKey, size\n\n6. Integration with Stream API:\n   Count of even values in map: 2\n\n7. Common in algorithms:\n   Frequency map of array: {1=1, 2=2, 3=2, 4=2, 5=2, 6=1}\n   Original array: [1, 2, 3, 4, 5, 2, 3, 4, 5, 6]\n\n8. Null support:\n   Map with null key and value: {null=NullKey, Key2=null, Key1=Value1}\n\n9. Cache implementation:\n   Cached data retrieval: UserData123\n\n10. Flexible key/value types:\n   Complex map with List values: {1=[Item1, Item2], 2=[Item3, Item4, Item5]}"
-      }
-    ]
-  },
-  "thread-vs-runnable": {
-    "note": "Порядок строк может отличаться при каждом запуске.",
-    "runs": [
-      {
-        "class": "org.baileyseyes._6.extends_thread.ExtendsThread",
-        "output": "Thread-1 - Iteration 1\nThread-2 - Iteration 1\nThread-2 - Iteration 2\nThread-1 - Iteration 2\nThread-2 - Iteration 3\nThread-2 - Iteration 4\nThread-1 - Iteration 3\nThread-2 - Iteration 5\nThread-1 - Iteration 4\nThread-2 finished execution\nThread-1 - Iteration 5\nThread-1 finished execution\nAll threads completed"
-      },
-      {
-        "class": "org.baileyseyes._6.implements_runnable.ImplementsRunnable",
-        "output": "Runnable-1 - Iteration 1\nRunnable-2 - Iteration 1\nRunnable-2 - Iteration 2\nRunnable-1 - Iteration 2\nRunnable-2 - Iteration 3\nRunnable-2 - Iteration 4\nRunnable-1 - Iteration 3\nRunnable-2 - Iteration 5\nRunnable-1 - Iteration 4\nRunnable-2 finished execution\nRunnable-1 - Iteration 5\nRunnable-1 finished execution\nAll threads completed"
-      }
-    ]
-  },
-  "callable-future": {
-    "note": "Порядок выполнения задач может отличаться.",
-    "runs": [
-      {
-        "class": "org.baileyseyes._6.implements_callable.ImplementsCallable",
-        "output": "Callable-1 - Executing:\nCallable-1 - Iteration 1\nCallable-1 - Iteration 2\nCallable-1 - Iteration 3\nCallable-1 - Completed\nCallable-2 - Executing:\nCallable-2 - Iteration 1\nCallable-2 - Iteration 2\nCallable-2 - Iteration 3\nCallable-2 - Completed\nAll tasks completed"
-      }
-    ]
-  },
-  "synchronized": {
-    "note": "Порядок строк и итоговые значения могут отличаться при каждом запуске.",
-    "runs": [
-      {
-        "class": "org.baileyseyes._6.synchronized_method.SynchronizedMethods",
-        "output": "=== Synchronization Demonstration ===\nInstance counter: 1\nInstance counter: 2\nStatic counter: 1\nInstance counter: 3\nStatic counter: 2\nInstance counter: 4\nStatic counter: 3\nInstance counter: 5\nStatic counter: 4\nInstance counter: 6\nStatic counter: 5\nInstance counter: 7\nInstance counter: 8\nStatic counter: 6\nInstance counter: 9\nStatic counter: 7\nInstance counter: 10\nInstance counter: 11\nStatic counter: 8\nInstance counter: 12\nStatic counter: 9\nInstance counter: 13\nStatic counter: 10\nInstance counter: 14\nStatic counter: 11\nInstance counter: 15\nStatic counter: 12\nStatic counter: 13\nStatic counter: 14\nStatic counter: 15\nFinal counters - Instance: 15, Static: 15\n\n=== Volatile Demonstration ===\nReading volatile variables: counter=100, flag=true\nUpdated volatile variables: counter=100, flag=true\nVolatile demonstration completed"
-      }
-    ]
-  },
-  "optional-and-friends": {
-    "note": "Дата и время в выводе зависят от момента запуска.",
-    "runs": [
-      {
-        "class": "org.baileyseyes._7.Else",
-        "output": "=== Optional Demonstration ===\nOptional with value present: true\nOptional empty present: false\nValue with default: Hello, Default\nException thrown: No value\nHello\nLength of optional value: 5\nFiltered value: Hello\n\n=== Predicate Demonstration ===\nStrings starting with J: [Java]\nStrings starting with J and longer than 5: []\nStrings containing 'a': 3\n\n=== Comparator Demonstration ===\nNatural order: [Apple, Banana, Cherry, Date]\nReverse order: [Date, Cherry, Banana, Apple]\nSorted by length: [Date, Apple, Banana, Cherry]\nSorted with nulls last: [Apple, Banana, Cherry, null]\n\n=== Stream API Demonstration ===\nEven squares: [4, 16, 36, 64, 100]\nSum of numbers: 55\nMaximum: 10\nEven/odd grouping: {false=[1, 3, 5, 7, 9], true=[2, 4, 6, 8, 10]}\n\n=== DateTime Demonstration ===\nCurrent datetime: 2026-11-22T22:44:56.469505300\nFormatted datetime: 2026-11-22 22:44:56\nToday: 2026-11-22, Tomorrow: 2026-11-23\nCurrent time: 22:44:56.471006800\n\n=== Annotations Demonstration ===\nAnnotations demonstrated"
-      }
-    ]
-  },
-  "stream-api": {
-    "note": "Время выполнения параллельного стрима зависит от машины.",
-    "runs": [
-      {
-        "class": "org.baileyseyes._7.StreamAPI",
-        "output": "=== Stream Creation ===\nStream from collection: [A, B, C, D]\nStream from array: [X, Y, Z]\nStream from values: [P, Q, R]\n\n=== Filter Method ===\nEven numbers: [2, 4, 6, 8, 10]\nWords longer than 4 chars: [Hello, Stream, Programming]\nNumbers between 3 and 8: [4, 5, 6, 7]\n\n=== Map Method ===\nSquares: [1, 4, 9, 16, 25]\nWord lengths: [5, 5, 4, 6]\nUppercase words: [HELLO, WORLD, JAVA, STREAM]\n\n=== FlatMap Method ===\nFlattened list: [1, 2, 3, 4, 5, 6]\nWords from sentences: [Hello, World, Java, Stream, API, Example]\n\n=== Distinct Method ===\nUnique numbers: [1, 2, 3, 4, 5]\nUnique words: [Apple, Banana, Cherry]\n\n=== Sorted Method ===\nAlphabetically sorted: [Apple, Banana, Cherry, Date]\nReverse sorted: [Date, Cherry, Banana, Apple]\nSorted by length: [Date, Apple, Banana, Cherry]\n\n=== Limit and Skip Methods ===\nFirst 5 numbers: [1, 2, 3, 4, 5]\nNumbers after skipping first 5: [6, 7, 8, 9, 10]\nSkip 2, take 3: [3, 4, 5]\n\n=== Peek Method ===\nProcessing: 1\nAfter map: 2\nProcessing: 2\nAfter map: 4\nProcessing: 3\nAfter map: 6\nProcessing: 4\nAfter map: 8\nProcessing: 5\nAfter map: 10\nFinal result: [2, 4, 6, 8, 10]\n\n=== Reduce Method ===\nSum: 15\nSum with initial value 10: 25\nSentence: Hello World!\nMaximum: 5\n\n=== Collect Method ===\nCollected to list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nCollected to array: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nCollected to set: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nCollected to map: {1=Number_1, 2=Number_2, 3=Number_3, 4=Number_4, 5=Number_5, 6=Number_6, 7=Number_7, 8=Number_8, 9=Number_9, 10=Number_10}\nJoined string: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10\n\n=== Min and Max Methods ===\nMinimum: 1\nMaximum: 10\nShortest word: Date\n\n=== Terminal Operations ===\nTotal count: 10\nAny even number: true\nAll even numbers: false\nNo negative numbers: true\nFirst element: 1\nAny element: 1\n\n=== GroupingBy Method ===\nGrouped by length: {4=[Date], 5=[Apple], 6=[Banana, Cherry], 10=[Elderberry]}\nGrouped by first letter: {A=[Apple], B=[Banana], C=[Cherry], D=[Date], E=[Elderberry]}\nCount by length: {4=1, 5=1, 6=2, 10=1}\n\n=== PartitioningBy Method ===\nEven and odd numbers: {false=[1, 3, 5, 7, 9], true=[2, 4, 6, 8, 10]}\nComplex partition: {false={0=[3, 9], 1=[1, 7], 2=[5]}, true={0=[6], 1=[4, 10], 2=[2, 8]}}\n\n=== Mapping Method ===\nNames: [Alice, Bob, Charlie]\nGrouped by age with names: {35=[Charlie], 25=[Alice], 30=[Bob]}\n\n=== CollectingAndThen Method ===\nList contains 5 elements\n\n=== Statistics Methods ===\nAverage: 5.5\nSum: 55\nStatistics - Count: 10, Min: 1, Max: 10, Average: 5.5, Sum: 55\n\n=== Parallel Streams ===\nSequential time: 0.1398 ms\nParallel time: 1.1439 ms\nResults equal: true"
-      }
-    ]
-  },
-  "variables-and-operators": {
-    "runs": [
-      {
-        "class": "org.baileyseyes._1.types.VariablesAndOperators",
-        "output": "=== Переменные ===\nИмя: Анна\nВозраст через год: 26\nГод рождения: 2000\n\n=== Арифметика ===\n10 + 3 = 13\n10 - 3 = 7\n10 * 3 = 30\n10 / 3 = 3\n10 % 3 = 1\n10.0 / 4 = 2.5\n(2 + 3) * 4 = 20\n\n=== Сравнение и логика ===\n10 > 3: true\n10 == 3: false\nВозраст от 18 до 65: true\nРабочий день: true\n\n=== Инкремент ===\ni++ вернул: 5, i стало: 6\n++i вернул: 7, i стало: 7\nsum += 10: 17"
-      }
-    ]
-  },
-  "string-builder": {
-    "runs": [
-      {
-        "class": "org.baileyseyes._1.types.StringBuilderDemo",
-        "output": "=== append ===\nJava Core\n\n=== Методы ===\nДлина: 9\nПервый символ: J\nПосле insert: Java 21 Core\nПосле replace: Java 17 Core\nПосле delete: Java Core\nПосле reverse: eroC avaJ\n\n=== Сборка в цикле ===\n1, 2, 3, 4, 5"
-      }
-    ]
-  },
-  "two-dimensional-arrays": {
-    "runs": [
-      {
-        "class": "org.baileyseyes._1.types.TwoDimensionalArrays",
-        "output": "=== Матрица 3x3 ===\n1 2 3\n4 5 6\n7 8 9\n\n=== Сумма и максимум ===\nСумма: 45\nМаксимум: 9\n\n=== Значения по умолчанию ===\n0 0 0\n0 0 0\nЧерез Arrays.deepToString: [[0, 0, 0], [0, 0, 0]]\n\n=== Ступенчатый массив ===\n*\n**\n***"
+        "output": "=== Метод без возвращаемого значения и без параметров ===\nЭтот метод ничего не возвращает и не принимает параметры\nОн просто выполняет действия\n\n=== Метод без возвращаемого значения, но с параметрами ===\nМетод с параметрами:\nИмя: Алексей\nВозраст: 25\n\n=== Метод с возвращаемым значением и без параметров ===\nЭтот метод возвращает целое число \nВозвращенное значение: 42\n\n=== Метод с возвращаемым значением и параметрами ===\nМетод с параметрами и возвращаемым значением\nПринятый возраст: 30\nУдвоенный возраст: 60\nВозвращенное значение: 60\n\n=== Метод с несколькими параметрами и возвращаемым значением ===\nМетод с несколькими параметрами:\nИмя: Мария\nВозраст: 28\nЖив: true\nВозвращенное значение: Человек: Мария, возраст 28, жив\n\n=== Метод проверки взрослости ===\nПроверка взрослости для возраста: 25\nРезультат: true\nЧеловек взрослый: true\n\n=== Метод увеличения возраста ===\nУвеличение возраста:\nСейчас: 30\nСтало: 31\nНовый возраст: 31\n\n=== Метод получения полной информации ===\nПолучение полной информации о человеке:\nИмя: Анна\nВозраст: 32\nРост: 170 см\nВес: 65 кг\nЖив: true\nПолная информация: Человек Анна, возраст 32 лет, рост 170 см, вес 65 кг, жив\n\n=== Метод сложения чисел ===\nСложение чисел:\nЧисло 1: 15\nЧисло 2: 25\nСумма: 40\nСумма: 40\n\n=== Метод вывода сообщения ===\nВывод сообщения:\nЭто тестовое сообщение"
       }
     ]
   },
@@ -242,6 +119,22 @@
       }
     ]
   },
+  "human-main": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._2.main.HumanMain",
+        "output": "Поддерживаемая версия\n \n=== Создание человека через метод createSimpleHuman ===\nСоздан человек: Human info - Name: John, Age: 25, Alive: true\n\n=== Создание человека через метод createHuman ===\nСоздан человек: Human info - Name: Alice, Age: 30, Alive: true\n\n=== Изменение данных человека ===\nИзначально: Human info - Name: John, Age: 25, Alive: true\nПосле изменений: Human info - Name: Bob, Age: 28, Alive: true\n\n=== Проверка взрослости ===\nЧеловек 1 (возраст 28) взрослый: true\nЧеловек 2 (возраст 30) взрослый: true\n\n=== Празднование дня рождения ===\nДо дня рождения: Human info - Name: Bob, Age: 28, Alive: true\nПосле дня рождения: Human info - Name: Bob, Age: 29, Alive: true\n\n=== Создание человеков с разными конструкторами ===\nЧеловек с именем и возрастом: Human info - Name: Charlie, Age: 22, Alive: false\nЧеловек только с возрастом: Human info - Name: null, Age: 35, Alive: false\n\n=== Создание человека с помощью Builder ===\nЧеловек через Builder: Human info - Name: Diana, Age: 27, Alive: true\n\n=== Обновление нескольких параметров ===\nИзначально: Human info - Name: null, Age: 35, Alive: false\nПосле обновления: Human info - Name: Eve, Age: 40, Alive: false"
+      }
+    ]
+  },
+  "interfaces": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._3.main.Main",
+        "output": "No."
+      }
+    ]
+  },
   "default-interface-methods": {
     "runs": [
       {
@@ -255,6 +148,22 @@
       {
         "class": "org.baileyseyes._3.AbstractVsInterface",
         "output": "=== Абстрактный класс ===\nКруг: площадь 78.5\nПрямоугольник: площадь 24.0\n\n=== Интерфейс ===\nРисуем круг"
+      }
+    ]
+  },
+  "enum-practice": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._3.enum_class.EnumPractice",
+        "output": "=== Базовое использование перечислений ===\nСегодня: MONDAY\nНазвание дня: MONDAY\nПорядковый номер: 0\nСегодня понедельник\nВсе дни недели:\nMONDAY (порядковый номер: 0)\nTUESDAY (порядковый номер: 1)\nWEDNESDAY (порядковый номер: 2)\nTHURSDAY (порядковый номер: 3)\nFRIDAY (порядковый номер: 4)\nSATURDAY (порядковый номер: 5)\nSUNDAY (порядковый номер: 6)\n\n=== Условное использование ===\n\n=== Использование в условных операторах ===\nРабочий день\nСегодня рабочий день\n\n=== Использование как константы ===\n\n=== Использование как константы ===\nПонедельник: MONDAY\nПятница: FRIDAY\nВоскресенье: SUNDAY\nПонедельник == Понедельник: true\nПятница != Воскресенье: true\n\n=== Перегрузка методов ===\n\n=== Перегрузка методов с енамми ===\nОбработка дня: MONDAY\nОбработка дня: WEDNESDAY - Среда\nОбработка дня: FRIDAY - Пятница (рабочий день: true)\n\n=== Методы перечислений ===\n\n=== Методы перечислений ===\nСегодня: THURSDAY\nНазвание: THURSDAY\nПорядковый номер: 3\nКоличество значений: 7\nРабочий день: true\nСледующий день: FRIDAY"
+      }
+    ]
+  },
+  "exceptions-intro": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._4.try_catch_finally.TryCatchFinally",
+        "output": "=== Демонстрация исключений try-catch ===\n=== Базовое использование try-catch ===\nПроизошло арифметическое исключение: / by zero\nИсключение типа: ArithmeticException\nПрограмма продолжает работу после обработки исключения\n\n=== Обработка нескольких типов исключений ===\nОшибка индекса массива: Index 10 out of bounds for length 5\n\n=== Блок finally ===\nВ блоке try\nРезультат: 5\nБлок finally всегда выполняется\nПрограмма продолжает работу\n\n=== Проверяемое исключение IOException ===\nОшибка ввода-вывода: nonexistent.txt (Не удается найти указанный файл)\nТип исключения: FileNotFoundException\n\n=== Обработка нескольких проверяемых исключений ===\nОшибка индекса массива: Index 5 out of bounds for length 3\n\n=== Работа с пользовательским вводом ===\nВведите число: Ошибка ввода: null\nПожалуйста, введите корректное число\n\n=== Собственное исключение ===\nВозраст 150 корректен\n\n=== Try-with-resources ===\nОшибка при работе с файлом: example.txt (Не удается найти указанный файл)\n\n=== Вложенные try-catch блоки ===\nВнешний try\nВнутренний try\nОбработка внутреннего исключения: / by zero\nОбработка внешнего исключения: / by zero\n\n=== Multi-catch (обработка нескольких исключений в одном блоке) ===\nОбщая обработка нескольких исключений: NullPointerException\nСообщение: Cannot invoke \"String.length()\" because \"str\" is null\n\n=== Ключевое слово throw ===\nПерехвачено исключение: Возраст не может быть отрицательным: -5\n\n=== Проверяемые исключения в методах ===\nОбработано исключение в методе: test.txt (Не удается найти указанный файл)"
       }
     ]
   },
@@ -283,11 +192,53 @@
       }
     ]
   },
+  "try-with-resources": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._4.try_catch_finally.TryWithResources",
+        "output": "=== Демонстрация try-with-resources ===\n=== Базовое использование try-with-resources ===\nОшибка при работе с файлом: example.txt (Не удается найти указанный файл)\n\n\n=== Try-with-resources с несколькими ресурсами ===\nОшибка при работе с файлами: input.txt (Не удается найти указанный файл)\n\n=== Try-with-resources с пользовательским ресурсом ===\nCustomResource создан\nCustomResource выполняет действие\nРабота с пользовательским ресурсом завершена\nCustomResource закрыт автоматически\n\n=== BufferedReader и PrintWriter ===\nОшибка при работе с файлами: input.txt (Не удается найти указанный файл)\n\n=== Обработка исключений в try-with-resources ===\nПерехвачено исключение: FileNotFoundException - nonexistent.txt (Не удается найти указанный файл)\n\n=== Автоматическое закрытие ресурсов ===\nРесурс 1 создан\nРесурс 2 создан\nРесурсы созданы и используются\nРесурс 1 выполняет работу\nРесурс 2 выполняет работу\nРабота с ресурсами завершена\nРесурс 2 закрыт\nРесурс 1 закрыт\n\n=== InputStream и OutputStream ===\nОшибка при работе с потоками: input.dat (Не удается найти указанный файл)\n\n=== Лучшие практики try-with-resources ===\nОшибка чтения файла: data.txt (Не удается найти указанный файл)"
+      }
+    ]
+  },
+  "custom-exceptions": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._4.exception.HumanWithExceptions",
+        "output": "=== Демонстрация исключений с классом Human ===\n\n=== Поиск человека ===\nНайден человек: Иван, возраст: 25\nОшибка: Ошибка при поиске человека: Человек с именем 'Анна' не найден\n\n=== Валидация возраста ===\nОшибка валидации: Возраст не может быть отрицательным: -5\nОшибка валидации: Возраст не может быть больше 150: 200\n\n=== Безопасное получение возраста ===\nВозраст: 25\nОшибка получения возраста: Человек не может быть null\nВозраст null человека: 0\n\n=== Создание человека с валидацией ===\nСоздан человек: Анна, возраст: 28\nОшибка валидации: Возраст не может быть отрицательным: -10\nНе удалось создать человека из-за ошибки валидации\n\n=== Работа с файлами ===\nЧеловек записан в файл"
+      }
+    ]
+  },
+  "list": {
+    "note": "Время выполнения в блоке Performance зависит от машины.",
+    "runs": [
+      {
+        "class": "org.baileyseyes._5.list.CollectionList",
+        "output": "=== Basics ===\nInitial list: [10, 1, 2, 3]\nSize: 4\nElement at index 1: 1\nElement at index 0: 10\nAfter setting index 1 to 20: [10, 20, 2, 3]\nAfter removing index 0: [20, 2, 3]\nAfter removing value 20: [2, 3]\n\n=== Methods ===\nContains 'Banana': true\nIs empty: false\n\n=== Iterator ===\nIterator traversal: 1 2 3 4 5 \nAfter removing 3: [1, 2, 4, 5]\nEnhanced for loop: 10 20 30 40 50 \n\n=== Iteration ===\nStandard for loop: A B C D E \nEnhanced for loop: A B C D E \nIterator: A B C D E \nListIterator: A B C D E \nStream API: A B C D E \n\n=== Sorting ===\nOriginal list: [5, 2, 8, 1, 9]\nSorted ascending: [1, 2, 5, 8, 9]\nSorted descending: [9, 8, 5, 2, 1]\nSorted case-insensitive: [apple, banana, cherry]\n\n=== Null Handling ===\nList with null: [First, null, Third]\nElement at index 1 (should be null): null\nFound null at index 1\nAfter removing null: [First, Third]\n\n=== Performance ===\nArrayList add time for 1000000 elements: 9.9601 ms\nArrayList get time for 100 accesses: 0.0389 ms\nArrayList insert in middle time: 123.3 ns\n\n=== Tricks ===\nFixed list: [1, 2, 3, 4, 5]\nCannot modify fixed list: null\nShuffled list: [3, 1, 5, 2, 4]\nCopied array: [1, 2, 3, 4, 5]\nList from array: [A, B, C]\nEven numbers: [2, 4, 6, 8, 10]\nAfter removing some fruits: [Apple, Cherry]\n\n=== Why LinkedList is Bad ===\n=== Why LinkedList is considered the worst collection ===\nLinkedList get time for 100 accesses: 4695.2 ns\nArrayList get time for 100 accesses: 35.2 ns\nArrayList is 133.38636363636363 times faster for get operations\n\n--- Cases where LinkedList might be better ---\n1. Frequent insertion/deletion at beginning/end\n2. Implementation of Deque interface (ArrayDeque often preferred)\n3. Complex list manipulation algorithms\n\nLinkedList addFirst time: 354.8 ns\nArrayList addFirst time: 2582.6 ns\nLinkedList is faster for addFirst operations\n\n--- Conclusion ---\nWhile LinkedList has advantages in specific cases (insertion/deletion at ends),\nit generally performs worse than ArrayList for most common operations.\nArrayList is recommended for general use unless specific characteristics of LinkedList are needed."
+      }
+    ]
+  },
   "iterating-collections": {
     "runs": [
       {
         "class": "org.baileyseyes._5.IteratingCollections",
         "output": "=== for-each ===\njava\nsql\ngit\n\n=== Iterator ===\nДо удаления: [Анна, Борис, Вера]\nУдалён: Борис\nПосле удаления: [Анна, Вера]\n\n=== removeIf ===\n[Борис]\n\n=== Map ===\njava=3\nsql=2\ngit=1"
+      }
+    ]
+  },
+  "set": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._5.set.CollectionSet",
+        "output": "=== Basics ===\nSet after adding elements: [Apple, Cherry, Banana]\nSize: 3\nContains 'Banana': true\nContains 'Grape': false\nRemoved 'Banana': true\nSet after removal: [Apple, Cherry]\nRemoved 'NonExistent': false\n\n=== Getting Value With Contains ===\nFound value: Banana\nProcessed value: BANANA\nFound number: 20\nDoubled value: 40\n\n=== Null Handling ===\nSet with null: [null, Third, First]\nContains null: true\nAdded second null: false\nSet after second null attempt: [null, Third, First]"
+      }
+    ]
+  },
+  "map": {
+    "note": "Время выполнения в блоке Performance зависит от машины.",
+    "runs": [
+      {
+        "class": "org.baileyseyes._5.map.CollectionMap",
+        "output": "=== Basics ===\nInitial map: {Apple=5, Cherry=8, Date=12, Banana=3}\nSize: 4\nApples count: 5\nGrapes count: null\nContains key 'Banana': true\nContains value 8: true\nAfter updating apples: {Apple=10, Cherry=8, Date=12, Banana=3}\nRemoved Cherry value: 8\nAfter removal: {Apple=10, Date=12, Banana=3}\nRemoved NonExistent: null\n\n=== Methods ===\nIs empty: false\nSize: 3\nKeys: [A, B, C]\nValues: [1, 2, 3]\nEntries: [A=1, B=2, C=3]\nAfter clear: {}\nIs empty after clear: true\n\n=== Iteration ===\nIterating by keys: A=1 B=2 C=3 D=4 \nIterating by values: 1 2 3 4 \nIterating by entrySet: A=1 B=2 C=3 D=4 \nStream API: A=1 B=2 C=3 D=4 \n\n=== Null Handling ===\nMap with nulls: {null=NullKey, Key2=null, Key1=Value1, Key3=Value3}\nValue for null key: NullKey\nValue for Key2 (null): null\nContains null key: true\nContains null value: true\n\n=== Map Operations ===\nMerged map: {A=1, B=20, C=30, D=4}\nMaps equal: false\nCopy of map1: {A=1, B=2, C=3}\n\n=== Tricks ===\nEven numbers: {Four=4, Two=2}\nDefault value for missing key: Default Value\nUpdated scores: {Player2=200, Player1=150}\n\n=== HashMap Advantages ===\n=== Advantages of HashMap ===\n1. Fast access (O(1) average case):\n   Adding 100,000 elements took: 16.7809 ms\n\n2. Unique keys guarantee:\n   Map with duplicate key: {Key2=2, Key1=3}\n   Size after duplicate key: 2\n\n3. Fast lookup (containsKey, containsValue):\n   Found element in 100,000 element map: true (in 8.8 ns)\n\n4. Efficient for large datasets:\n   Created map of 1,000,000 key-value pairs\n\n5. Simple and intuitive API:\n   Basic operations: put, get, remove, containsKey, size\n\n6. Integration with Stream API:\n   Count of even values in map: 2\n\n7. Common in algorithms:\n   Frequency map of array: {1=1, 2=2, 3=2, 4=2, 5=2, 6=1}\n   Original array: [1, 2, 3, 4, 5, 2, 3, 4, 5, 6]\n\n8. Null support:\n   Map with null key and value: {null=NullKey, Key2=null, Key1=Value1}\n\n9. Cache implementation:\n   Cached data retrieval: UserData123\n\n10. Flexible key/value types:\n   Complex map with List values: {1=[Item1, Item2], 2=[Item3, Item4, Item5]}"
       }
     ]
   },
@@ -316,12 +267,34 @@
       }
     ]
   },
+  "thread-vs-runnable": {
+    "note": "Порядок строк может отличаться при каждом запуске.",
+    "runs": [
+      {
+        "class": "org.baileyseyes._6.extends_thread.ExtendsThread",
+        "output": "Thread-1 - Iteration 1\nThread-2 - Iteration 1\nThread-2 - Iteration 2\nThread-1 - Iteration 2\nThread-2 - Iteration 3\nThread-2 - Iteration 4\nThread-1 - Iteration 3\nThread-2 - Iteration 5\nThread-1 - Iteration 4\nThread-2 finished execution\nThread-1 - Iteration 5\nThread-1 finished execution\nAll threads completed"
+      },
+      {
+        "class": "org.baileyseyes._6.implements_runnable.ImplementsRunnable",
+        "output": "Runnable-1 - Iteration 1\nRunnable-2 - Iteration 1\nRunnable-2 - Iteration 2\nRunnable-1 - Iteration 2\nRunnable-2 - Iteration 3\nRunnable-2 - Iteration 4\nRunnable-1 - Iteration 3\nRunnable-2 - Iteration 5\nRunnable-1 - Iteration 4\nRunnable-2 finished execution\nRunnable-1 - Iteration 5\nRunnable-1 finished execution\nAll threads completed"
+      }
+    ]
+  },
   "executor-service": {
     "note": "Порядок выполнения задач может отличаться при каждом запуске.",
     "runs": [
       {
         "class": "org.baileyseyes._6.ExecutorServiceDemo",
         "output": "=== execute ===\nЗадача выполняется в пуле\n\n=== submit и Future ===\nРезультат: 42\n\n=== invokeAll ===\nСумма: 6"
+      }
+    ]
+  },
+  "callable-future": {
+    "note": "Порядок выполнения задач может отличаться.",
+    "runs": [
+      {
+        "class": "org.baileyseyes._6.implements_callable.ImplementsCallable",
+        "output": "Callable-1 - Executing:\nCallable-1 - Iteration 1\nCallable-1 - Iteration 2\nCallable-1 - Iteration 3\nCallable-1 - Completed\nCallable-2 - Executing:\nCallable-2 - Iteration 1\nCallable-2 - Iteration 2\nCallable-2 - Iteration 3\nCallable-2 - Completed\nAll tasks completed"
       }
     ]
   },
@@ -334,6 +307,15 @@
       }
     ]
   },
+  "synchronized": {
+    "note": "Порядок строк и итоговые значения могут отличаться при каждом запуске.",
+    "runs": [
+      {
+        "class": "org.baileyseyes._6.synchronized_method.SynchronizedMethods",
+        "output": "=== Synchronization Demonstration ===\nInstance counter: 1\nInstance counter: 2\nStatic counter: 1\nInstance counter: 3\nStatic counter: 2\nInstance counter: 4\nStatic counter: 3\nInstance counter: 5\nStatic counter: 4\nInstance counter: 6\nStatic counter: 5\nInstance counter: 7\nStatic counter: 6\nInstance counter: 8\nStatic counter: 7\nInstance counter: 9\nStatic counter: 8\nInstance counter: 10\nStatic counter: 9\nInstance counter: 11\nStatic counter: 10\nInstance counter: 12\nStatic counter: 11\nInstance counter: 13\nStatic counter: 12\nInstance counter: 14\nStatic counter: 13\nInstance counter: 15\nStatic counter: 14\nStatic counter: 15\nFinal counters - Instance: 15, Static: 15\n\n=== Volatile Demonstration ===\nReading volatile variables: counter=100, flag=true\nUpdated volatile variables: counter=100, flag=true\nVolatile demonstration completed"
+      }
+    ]
+  },
   "lambdas": {
     "runs": [
       {
@@ -342,11 +324,62 @@
       }
     ]
   },
+  "optional-and-friends": {
+    "note": "Дата и время в выводе зависят от момента запуска.",
+    "runs": [
+      {
+        "class": "org.baileyseyes._7.Else",
+        "output": "=== Optional Demonstration ===\nOptional with value present: true\nOptional empty present: false\nValue with default: Hello, Default\nException thrown: No value\nHello\nLength of optional value: 5\nFiltered value: Hello\n\n=== Predicate Demonstration ===\nStrings starting with J: [Java]\nStrings starting with J and longer than 5: []\nStrings containing 'a': 3\n\n=== Comparator Demonstration ===\nNatural order: [Apple, Banana, Cherry, Date]\nReverse order: [Date, Cherry, Banana, Apple]\nSorted by length: [Date, Apple, Banana, Cherry]\nSorted with nulls last: [Apple, Banana, Cherry, null]\n\n=== Stream API Demonstration ===\nEven squares: [4, 16, 36, 64, 100]\nSum of numbers: 55\nMaximum: 10\nEven/odd grouping: {false=[1, 3, 5, 7, 9], true=[2, 4, 6, 8, 10]}\n\n=== DateTime Demonstration ===\nCurrent datetime: 2026-11-26T17:34:27.915738500\nFormatted datetime: 2026-11-26 17:34:27\nToday: 2026-11-26, Tomorrow: 2026-11-27\nCurrent time: 17:34:27.918241200\n\n=== Annotations Demonstration ===\nAnnotations demonstrated"
+      }
+    ]
+  },
+  "stream-api": {
+    "note": "Время выполнения параллельного стрима зависит от машины.",
+    "runs": [
+      {
+        "class": "org.baileyseyes._7.StreamAPI",
+        "output": "=== Stream Creation ===\nStream from collection: [A, B, C, D]\nStream from array: [X, Y, Z]\nStream from values: [P, Q, R]\n\n=== Filter Method ===\nEven numbers: [2, 4, 6, 8, 10]\nWords longer than 4 chars: [Hello, Stream, Programming]\nNumbers between 3 and 8: [4, 5, 6, 7]\n\n=== Map Method ===\nSquares: [1, 4, 9, 16, 25]\nWord lengths: [5, 5, 4, 6]\nUppercase words: [HELLO, WORLD, JAVA, STREAM]\n\n=== FlatMap Method ===\nFlattened list: [1, 2, 3, 4, 5, 6]\nWords from sentences: [Hello, World, Java, Stream, API, Example]\n\n=== Distinct Method ===\nUnique numbers: [1, 2, 3, 4, 5]\nUnique words: [Apple, Banana, Cherry]\n\n=== Sorted Method ===\nAlphabetically sorted: [Apple, Banana, Cherry, Date]\nReverse sorted: [Date, Cherry, Banana, Apple]\nSorted by length: [Date, Apple, Banana, Cherry]\n\n=== Limit and Skip Methods ===\nFirst 5 numbers: [1, 2, 3, 4, 5]\nNumbers after skipping first 5: [6, 7, 8, 9, 10]\nSkip 2, take 3: [3, 4, 5]\n\n=== Peek Method ===\nProcessing: 1\nAfter map: 2\nProcessing: 2\nAfter map: 4\nProcessing: 3\nAfter map: 6\nProcessing: 4\nAfter map: 8\nProcessing: 5\nAfter map: 10\nFinal result: [2, 4, 6, 8, 10]\n\n=== Reduce Method ===\nSum: 15\nSum with initial value 10: 25\nSentence: Hello World!\nMaximum: 5\n\n=== Collect Method ===\nCollected to list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nCollected to array: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nCollected to set: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nCollected to map: {1=Number_1, 2=Number_2, 3=Number_3, 4=Number_4, 5=Number_5, 6=Number_6, 7=Number_7, 8=Number_8, 9=Number_9, 10=Number_10}\nJoined string: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10\n\n=== Min and Max Methods ===\nMinimum: 1\nMaximum: 10\nShortest word: Date\n\n=== Terminal Operations ===\nTotal count: 10\nAny even number: true\nAll even numbers: false\nNo negative numbers: true\nFirst element: 1\nAny element: 1\n\n=== GroupingBy Method ===\nGrouped by length: {4=[Date], 5=[Apple], 6=[Banana, Cherry], 10=[Elderberry]}\nGrouped by first letter: {A=[Apple], B=[Banana], C=[Cherry], D=[Date], E=[Elderberry]}\nCount by length: {4=1, 5=1, 6=2, 10=1}\n\n=== PartitioningBy Method ===\nEven and odd numbers: {false=[1, 3, 5, 7, 9], true=[2, 4, 6, 8, 10]}\nComplex partition: {false={0=[3, 9], 1=[1, 7], 2=[5]}, true={0=[6], 1=[4, 10], 2=[2, 8]}}\n\n=== Mapping Method ===\nNames: [Alice, Bob, Charlie]\nGrouped by age with names: {35=[Charlie], 25=[Alice], 30=[Bob]}\n\n=== CollectingAndThen Method ===\nList contains 5 elements\n\n=== Statistics Methods ===\nAverage: 5.5\nSum: 55\nStatistics - Count: 10, Min: 1, Max: 10, Average: 5.5, Sum: 55\n\n=== Parallel Streams ===\nSequential time: 0.1698 ms\nParallel time: 1.1606 ms\nResults equal: true"
+      }
+    ]
+  },
   "date-time": {
     "runs": [
       {
         "class": "org.baileyseyes._7.DateTimeDemo",
         "output": "=== LocalDate ===\nДата: 2024-03-15\nПлюс 10 дней: 2024-03-25\nДень недели: FRIDAY\nВисокосный год: true\n\n=== Period и Duration ===\nПериод: P11M30D\nДлительность: PT2H30M\n\n=== Форматирование ===\n15.03.2024"
+      }
+    ]
+  },
+  "io-streams": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._8.io.StreamsDemo",
+        "output": "=== Потоки ввода-вывода ===\n=== Байтовые потоки ===\nБайтов записано: 5\nПервый байт: 74 ('J')\nОсталось байтов: 4\n\n=== Символьные потоки ===\nСимволов: 27, байтов UTF-8: 45\n1: Привет, Java!\n2: Вторая строка\n\n=== try-with-resources ===\nONE TWO THREE / слов: 3\nreport closed"
+      }
+    ]
+  },
+  "nio-files": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._8.io.NioFilesDemo",
+        "output": "=== NIO: Path, Files, каналы ===\n=== Files: быстрые операции ===\nЗаписано строк: 2\nРазмер: 51 байт\n1: Первая строка\n2: Вторая строка\nКопия существует: true\n\n=== Канал и буфер ===\nЗаписано байтов: 3\nПрочитано байтов: 3\nСодержимое: NIO\n\n=== Обход директории ===\n  channel.txt\n  copy.txt\n  note.txt"
+      }
+    ]
+  },
+  "reflection-annotations": {
+    "runs": [
+      {
+        "class": "org.baileyseyes._8.reflection.ReflectionAnnotationsDemo",
+        "output": "=== Рефлексия и аннотации ===\n=== Аннотация через reflection ===\nАвтор: Java Core\nВерсия: 2\n\n=== Поля класса ===\npages (int) = 416\ntitle (String) = Effective Java\n\n=== Методы класса ===\ndescribe -> String\ngetTitle -> String\ninvoke describe(): Effective Java, страниц: 416"
+      }
+    ]
+  },
+  "jvm-internals": {
+    "note": "Размер heap и число процессоров зависят от машины.",
+    "runs": [
+      {
+        "class": "org.baileyseyes._8.jvm.JvmInternalsDemo",
+        "output": "=== Как устроена JVM ===\n=== Загрузка классов ===\nString loader: bootstrap\nНаш loader: app\nРодитель: platform\nSuperclass Demo: Object\n\n=== Память JVM ===\nПроцессоров: 12\nHeap max, МБ: 8092\nHeap используется, МБ: 2\nСтек и метаданные классов находятся вне heap.\n\n=== Сборка мусора ===\nСоздано объектов: 10000 (ссылки больше не нужны)\nSystem.gc() — только подсказка, JVM решает сама.\n\n=== JIT-компиляция ===\nСумма: 499999500000\nГорячий цикл JIT компилирует в машинный код по ходу работы."
       }
     ]
   }

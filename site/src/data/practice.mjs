@@ -2745,5 +2745,110 @@ FRIDAY
       ],
       minTokens: 3
     }
+  },
+
+  'io-streams': {
+    starter: `import java.io.*;
+import java.nio.charset.StandardCharsets;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        byte[] data = "Java\\nIO".getBytes(StandardCharsets.UTF_8);
+        // TODO: прочитай data через ByteArrayInputStream и BufferedReader
+        // TODO: выведи строки в формате "1: Java" и "2: IO"
+    }
+}`,
+    expected: `1: Java
+2: IO`,
+    check: {
+      includes: [
+        { pattern: 'ByteArrayInputStream', message: 'Создай ByteArrayInputStream из массива байтов.' },
+        { pattern: 'InputStreamReader', message: 'Свяжи байты и символы через InputStreamReader.' },
+        { pattern: 'BufferedReader', message: 'Оберни чтение в BufferedReader.' },
+        { pattern: 'StandardCharsets\\.UTF_8', message: 'Укажи кодировку UTF-8.' },
+        { pattern: 'readLine\\s*\\(', message: 'Читай строки через readLine().' }
+      ],
+      minTokens: 4
+    }
+  },
+
+  'nio-files': {
+    starter: `import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        Path file = Files.createTempFile("nio-", ".txt");
+        // TODO: запиши "one\\ntwo" через Files.writeString
+        // TODO: прочитай через Files.readAllLines и выведи строки
+        Files.deleteIfExists(file);
+    }
+}`,
+    expected: `Строк: 2
+one
+two`,
+    check: {
+      includes: [
+        { pattern: 'Files\\.writeString', message: 'Запиши текст через Files.writeString.' },
+        { pattern: 'Files\\.readAllLines', message: 'Прочитай строки через Files.readAllLines.' },
+        { pattern: 'StandardCharsets\\.UTF_8', message: 'Укажи кодировку UTF-8.' },
+        { pattern: 'lines\\.size\\s*\\(', message: 'Выведи количество строк через lines.size().' },
+        { pattern: 'Files\\.deleteIfExists', message: 'Удали временный файл.' }
+      ],
+      minTokens: 4
+    }
+  },
+
+  'reflection-annotations': {
+    starter: `import java.lang.annotation.*;
+import java.lang.reflect.Field;
+
+public class Main {
+    // TODO: объяви аннотацию @Secret с @Retention(RUNTIME) и @Target(FIELD)
+
+    static class Config {
+        // TODO: поставь @Secret над полем token
+        private String token = "abc";
+        private int timeout = 30;
+    }
+
+    public static void main(String[] args) {
+        // TODO: найди поля с @Secret и выведи их имена
+    }
+}`,
+    expected: `token`,
+    check: {
+      includes: [
+        { pattern: '@interface\\s+Secret', message: 'Объяви аннотацию через @interface Secret.' },
+        { pattern: 'RetentionPolicy\\.RUNTIME', message: 'Поставь retention RUNTIME.' },
+        { pattern: 'ElementType\\.FIELD', message: 'Ограничь цель аннотации полем.' },
+        { pattern: 'getDeclaredFields', message: 'Получи поля через getDeclaredFields.' },
+        { pattern: 'isAnnotationPresent', message: 'Проверь наличие аннотации через isAnnotationPresent.' }
+      ],
+      minTokens: 4
+    }
+  },
+
+  'jvm-internals': {
+    starter: `public class Main {
+    public static void main(String[] args) {
+        // TODO: получи загрузчик класса String
+        // TODO: выведи "String loader: bootstrap", если он null
+        // TODO: выведи максимум heap в МБ
+    }
+}`,
+    expected: `String loader: bootstrap
+Heap max, МБ: зависит от машины`,
+    check: {
+      includes: [
+        { pattern: 'String\\.class\\.getClassLoader', message: 'Получи загрузчик через String.class.getClassLoader().' },
+        { pattern: '==\\s*null', message: 'Проверь, что bootstrap-загрузчик равен null.' },
+        { pattern: 'Runtime\\.getRuntime\\(\\)\\.maxMemory', message: 'Получи максимум heap через Runtime.getRuntime().maxMemory().' },
+        { pattern: '/\\s*1024\\s*/\\s*1024', message: 'Переведи байты в мегабайты.' }
+      ],
+      minTokens: 3
+    }
   }
 };

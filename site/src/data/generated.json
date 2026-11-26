@@ -1,11 +1,11 @@
 {
   "stats": {
-    "files": 89,
-    "lines": 13168,
-    "methods": 695,
-    "lessons": 54,
+    "files": 93,
+    "lines": 13600,
+    "methods": 718,
+    "lessons": 58,
     "extras": 28,
-    "usedFiles": 89
+    "usedFiles": 93
   },
   "files": {
     "Main.java": {
@@ -6992,6 +6992,263 @@
           "start": 518,
           "end": 537,
           "signature": "public static void main(String[] args) {",
+          "isMain": true
+        }
+      ],
+      "todos": [],
+      "hasMain": true
+    },
+    "_8/io/NioFilesDemo.java": {
+      "path": "_8/io/NioFilesDemo.java",
+      "package": "org.baileyseyes._8.io",
+      "lines": 117,
+      "code": "package org.baileyseyes._8.io;\n\nimport java.io.IOException;\nimport java.nio.ByteBuffer;\nimport java.nio.channels.FileChannel;\nimport java.nio.charset.StandardCharsets;\nimport java.nio.file.Files;\nimport java.nio.file.Path;\nimport java.nio.file.StandardCopyOption;\nimport java.nio.file.StandardOpenOption;\nimport java.util.Comparator;\nimport java.util.List;\nimport java.util.stream.Stream;\n\n/**\n * NIO на минимальном уровне:\n * — Path и Files вместо старого File;\n * — чтение и запись текста в пару строк;\n * — канал FileChannel и буфер ByteBuffer;\n * — обход директории.\n *\n * @see org.baileyseyes._8.io.StreamsDemo Предыдущая часть\n * @see org.baileyseyes._8.reflection.ReflectionAnnotationsDemo Следующая часть\n */\npublic class NioFilesDemo {\n\n    /**\n     * Files — это набор готовых операций над Path.\n     * Для текста чаще всего достаточно writeString, readString и readAllLines.\n     */\n    public static void demonstrateFiles(Path dir) throws IOException {\n        System.out.println(\"=== Files: быстрые операции ===\");\n\n        Path note = dir.resolve(\"note.txt\");\n        Files.writeString(note, \"Первая строка\\nВторая строка\", StandardCharsets.UTF_8);\n        System.out.println(\"Записано строк: 2\");\n        System.out.println(\"Размер: \" + Files.size(note) + \" байт\");\n\n        List<String> lines = Files.readAllLines(note, StandardCharsets.UTF_8);\n        for (int i = 0; i < lines.size(); i++) {\n            System.out.println((i + 1) + \": \" + lines.get(i));\n        }\n\n        Path copy = dir.resolve(\"copy.txt\");\n        Files.copy(note, copy, StandardCopyOption.REPLACE_EXISTING);\n        System.out.println(\"Копия существует: \" + Files.exists(copy));\n    }\n\n    /**\n     * Канал читает и пишет байты, а ByteBuffer хранит их в памяти.\n     * position — текущая позиция, flip() переключает буфер с записи на чтение.\n     */\n    public static void demonstrateChannel(Path dir) throws IOException {\n        System.out.println(\"\\n=== Канал и буфер ===\");\n\n        Path file = dir.resolve(\"channel.txt\");\n        ByteBuffer buffer = ByteBuffer.allocate(32);\n        buffer.put(\"NIO\".getBytes(StandardCharsets.UTF_8));\n        buffer.flip();\n\n        try (FileChannel channel = FileChannel.open(\n                file,\n                StandardOpenOption.CREATE,\n                StandardOpenOption.WRITE,\n                StandardOpenOption.TRUNCATE_EXISTING)) {\n            channel.write(buffer);\n        }\n        System.out.println(\"Записано байтов: \" + Files.size(file));\n\n        ByteBuffer readBuffer = ByteBuffer.allocate(32);\n        int read;\n        try (FileChannel channel = FileChannel.open(file, StandardOpenOption.READ)) {\n            read = channel.read(readBuffer);\n        }\n        System.out.println(\"Прочитано байтов: \" + read);\n\n        readBuffer.flip();\n        byte[] data = new byte[readBuffer.remaining()];\n        readBuffer.get(data);\n        System.out.println(\"Содержимое: \" + new String(data, StandardCharsets.UTF_8));\n    }\n\n    /**\n     * Files.walk возвращает Stream путей: его тоже нужно закрывать.\n     */\n    public static void demonstrateWalk(Path dir) throws IOException {\n        System.out.println(\"\\n=== Обход директории ===\");\n\n        try (Stream<Path> paths = Files.walk(dir)) {\n            paths.filter(Files::isRegularFile)\n                    .map(path -> path.getFileName().toString())\n                    .sorted()\n                    .forEach(name -> System.out.println(\"  \" + name));\n        }\n    }\n\n    public static void main(String[] args) throws IOException {\n        Path dir = Files.createTempDirectory(\"java-nio-\");\n        try {\n            System.out.println(\"=== NIO: Path, Files, каналы ===\");\n            demonstrateFiles(dir);\n            demonstrateChannel(dir);\n            demonstrateWalk(dir);\n        } finally {\n            try (Stream<Path> paths = Files.walk(dir)) {\n                paths.sorted(Comparator.reverseOrder()).forEach(path -> {\n                    try {\n                        Files.deleteIfExists(path);\n                    } catch (IOException ignored) {\n                        // временная директория: ошибку удаления не считаем критичной\n                    }\n                });\n            }\n        }\n    }\n}",
+      "types": [
+        {
+          "kind": "class",
+          "name": "NioFilesDemo",
+          "start": 15,
+          "end": 116
+        }
+      ],
+      "methods": [
+        {
+          "name": "demonstrateFiles",
+          "start": 27,
+          "end": 47,
+          "signature": "public static void demonstrateFiles(Path dir) throws IOException {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateChannel",
+          "start": 49,
+          "end": 81,
+          "signature": "public static void demonstrateChannel(Path dir) throws IOException {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateWalk",
+          "start": 83,
+          "end": 95,
+          "signature": "public static void demonstrateWalk(Path dir) throws IOException {",
+          "isMain": false
+        },
+        {
+          "name": "main",
+          "start": 97,
+          "end": 115,
+          "signature": "public static void main(String[] args) throws IOException {",
+          "isMain": true
+        }
+      ],
+      "todos": [],
+      "hasMain": true
+    },
+    "_8/io/StreamsDemo.java": {
+      "path": "_8/io/StreamsDemo.java",
+      "package": "org.baileyseyes._8.io",
+      "lines": 115,
+      "code": "package org.baileyseyes._8.io;\n\nimport java.io.BufferedInputStream;\nimport java.io.BufferedOutputStream;\nimport java.io.BufferedReader;\nimport java.io.ByteArrayInputStream;\nimport java.io.ByteArrayOutputStream;\nimport java.io.IOException;\nimport java.io.InputStream;\nimport java.io.InputStreamReader;\nimport java.io.OutputStream;\nimport java.io.OutputStreamWriter;\nimport java.io.StringReader;\nimport java.io.StringWriter;\nimport java.io.Writer;\nimport java.nio.charset.StandardCharsets;\n\n/**\n * Потоки ввода-вывода на минимальном уровне:\n * — байтовые потоки InputStream/OutputStream;\n * — символьные потоки Reader/Writer;\n * — буферы и кодировка UTF-8;\n * — try-with-resources для автоматического закрытия.\n *\n * @see org.baileyseyes._8.io.NioFilesDemo Следующая часть\n */\npublic class StreamsDemo {\n\n    /**\n     * Байтовые потоки работают с сырыми байтами: файлами, картинками, сетью.\n     * ByteArrayOutputStream позволяет собрать байты в памяти без диска.\n     */\n    public static void demonstrateByteStreams() throws IOException {\n        System.out.println(\"=== Байтовые потоки ===\");\n\n        ByteArrayOutputStream buffer = new ByteArrayOutputStream();\n        try (OutputStream output = new BufferedOutputStream(buffer)) {\n            output.write(\"Java\".getBytes(StandardCharsets.UTF_8));\n            output.write('!');\n        }\n\n        byte[] bytes = buffer.toByteArray();\n        System.out.println(\"Байтов записано: \" + bytes.length);\n\n        try (InputStream input = new BufferedInputStream(new ByteArrayInputStream(bytes))) {\n            int first = input.read();\n            System.out.println(\"Первый байт: \" + first + \" ('\" + (char) first + \"')\");\n            System.out.println(\"Осталось байтов: \" + input.readAllBytes().length);\n        }\n    }\n\n    /**\n     * Reader/Writer работают с символами и учитывают кодировку.\n     * InputStreamReader и OutputStreamWriter — мост между байтами и символами.\n     */\n    public static void demonstrateCharacterStreams() throws IOException {\n        System.out.println(\"\\n=== Символьные потоки ===\");\n\n        String text = \"Привет, Java!\\nВторая строка\";\n        ByteArrayOutputStream raw = new ByteArrayOutputStream();\n        try (Writer writer = new OutputStreamWriter(raw, StandardCharsets.UTF_8)) {\n            writer.write(text);\n        }\n\n        byte[] utf8 = raw.toByteArray();\n        System.out.println(\"Символов: \" + text.length() + \", байтов UTF-8: \" + utf8.length);\n\n        try (BufferedReader reader = new BufferedReader(\n                new InputStreamReader(new ByteArrayInputStream(utf8), StandardCharsets.UTF_8))) {\n            String line;\n            int number = 1;\n            while ((line = reader.readLine()) != null) {\n                System.out.println(number++ + \": \" + line);\n            }\n        }\n    }\n\n    /**\n     * Свой ресурс — это просто класс с методом close().\n     * try-with-resources вызывает close() автоматически, даже если внутри была ошибка.\n     */\n    public static void demonstrateTryWithResources() {\n        System.out.println(\"\\n=== try-with-resources ===\");\n\n        try (Report report = new Report();\n             StringReader reader = new StringReader(\"one two three\");\n             BufferedReader buffered = new BufferedReader(reader);\n             StringWriter writer = new StringWriter()) {\n            String line = buffered.readLine();\n            writer.write(line.toUpperCase());\n            writer.write(\" / слов: \" + line.split(\" \").length);\n            System.out.println(writer);\n        } catch (IOException e) {\n            System.out.println(\"Ошибка чтения: \" + e.getMessage());\n        }\n    }\n\n    /**\n     * Минимальный AutoCloseable: кроме close() ничего не нужно.\n     */\n    static class Report implements AutoCloseable {\n        @Override\n        public void close() {\n            System.out.println(\"report closed\");\n        }\n    }\n\n    public static void main(String[] args) throws IOException {\n        System.out.println(\"=== Потоки ввода-вывода ===\");\n        demonstrateByteStreams();\n        demonstrateCharacterStreams();\n        demonstrateTryWithResources();\n    }\n}",
+      "types": [
+        {
+          "kind": "class",
+          "name": "StreamsDemo",
+          "start": 18,
+          "end": 114
+        },
+        {
+          "kind": "class",
+          "name": "Report",
+          "start": 98,
+          "end": 106
+        }
+      ],
+      "methods": [
+        {
+          "name": "demonstrateByteStreams",
+          "start": 29,
+          "end": 50,
+          "signature": "public static void demonstrateByteStreams() throws IOException {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateCharacterStreams",
+          "start": 52,
+          "end": 76,
+          "signature": "public static void demonstrateCharacterStreams() throws IOException {",
+          "isMain": false
+        },
+        {
+          "name": "InputStreamReader",
+          "start": 69,
+          "end": 75,
+          "signature": "new InputStreamReader(new ByteArrayInputStream(utf8), StandardCharsets.UTF_8))) {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateTryWithResources",
+          "start": 78,
+          "end": 96,
+          "signature": "public static void demonstrateTryWithResources() {",
+          "isMain": false
+        },
+        {
+          "name": "close",
+          "start": 102,
+          "end": 105,
+          "signature": "@Override",
+          "isMain": false
+        },
+        {
+          "name": "main",
+          "start": 108,
+          "end": 113,
+          "signature": "public static void main(String[] args) throws IOException {",
+          "isMain": true
+        }
+      ],
+      "todos": [],
+      "hasMain": true
+    },
+    "_8/jvm/JvmInternalsDemo.java": {
+      "path": "_8/jvm/JvmInternalsDemo.java",
+      "package": "org.baileyseyes._8.jvm",
+      "lines": 98,
+      "code": "package org.baileyseyes._8.jvm;\n\n/**\n * Минимальная картина устройства JVM:\n * — загрузка классов через ClassLoader;\n * — память: heap, stack и метаданные классов;\n * — сборка мусора;\n * — JIT-компиляция горячего кода.\n *\n * @see org.baileyseyes._8.reflection.ReflectionAnnotationsDemo Предыдущая часть\n */\npublic class JvmInternalsDemo {\n\n    static class Demo {\n        private final int value;\n\n        Demo(int value) {\n            this.value = value;\n        }\n\n        int value() {\n            return value;\n        }\n    }\n\n    /**\n     * JVM загружает .class-файлы через цепочку ClassLoader.\n     * Bootstrap-загрузчик отвечает за базовые классы JDK, поэтому у String он null.\n     */\n    public static void demonstrateClassLoading() {\n        System.out.println(\"=== Загрузка классов ===\");\n\n        System.out.println(\"String loader: \" + loaderName(String.class.getClassLoader()));\n        System.out.println(\"Наш loader: \" + loaderName(JvmInternalsDemo.class.getClassLoader()));\n        System.out.println(\"Родитель: \" + loaderName(JvmInternalsDemo.class.getClassLoader().getParent()));\n        System.out.println(\"Superclass Demo: \" + Demo.class.getSuperclass().getSimpleName());\n    }\n\n    /**\n     * Heap — общая память для объектов. Stack — кадры методов и локальные переменные.\n     * Точные размеры зависят от машины и флагов -Xms/-Xmx.\n     */\n    public static void demonstrateMemory() {\n        System.out.println(\"\\n=== Память JVM ===\");\n\n        Runtime runtime = Runtime.getRuntime();\n        System.out.println(\"Процессоров: \" + runtime.availableProcessors());\n        System.out.println(\"Heap max, МБ: \" + runtime.maxMemory() / 1024 / 1024);\n        System.out.println(\n                \"Heap используется, МБ: \" + (runtime.totalMemory() - runtime.freeMemory()) / 1024 / 1024);\n        System.out.println(\"Стек и метаданные классов находятся вне heap.\");\n    }\n\n    /**\n     * Объект удаляется, когда на него не осталось ссылок.\n     * GC работает сам, а System.gc() — только подсказка, которую JVM может проигнорировать.\n     */\n    public static void demonstrateGarbageCollector() {\n        System.out.println(\"\\n=== Сборка мусора ===\");\n\n        int created = 0;\n        for (int i = 0; i < 10_000; i++) {\n            Demo demo = new Demo(i);\n            created++;\n        }\n        System.out.println(\"Создано объектов: \" + created + \" (ссылки больше не нужны)\");\n        System.gc();\n        System.out.println(\"System.gc() — только подсказка, JVM решает сама.\");\n    }\n\n    /**\n     * JIT замечает горячие методы и компилирует их байткод в машинный код.\n     * Поэтому первые запуски могут быть медленнее последующих.\n     */\n    public static void demonstrateJit() {\n        System.out.println(\"\\n=== JIT-компиляция ===\");\n\n        long sum = 0;\n        for (int i = 0; i < 1_000_000; i++) {\n            sum += i;\n        }\n        System.out.println(\"Сумма: \" + sum);\n        System.out.println(\"Горячий цикл JIT компилирует в машинный код по ходу работы.\");\n    }\n\n    static String loaderName(ClassLoader loader) {\n        return loader == null ? \"bootstrap\" : loader.getName();\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"=== Как устроена JVM ===\");\n        demonstrateClassLoading();\n        demonstrateMemory();\n        demonstrateGarbageCollector();\n        demonstrateJit();\n    }\n}",
+      "types": [
+        {
+          "kind": "class",
+          "name": "JvmInternalsDemo",
+          "start": 3,
+          "end": 97
+        },
+        {
+          "kind": "class",
+          "name": "Demo",
+          "start": 14,
+          "end": 24
+        }
+      ],
+      "methods": [
+        {
+          "name": "value",
+          "start": 21,
+          "end": 23,
+          "signature": "int value() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateClassLoading",
+          "start": 26,
+          "end": 37,
+          "signature": "public static void demonstrateClassLoading() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateMemory",
+          "start": 39,
+          "end": 52,
+          "signature": "public static void demonstrateMemory() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateGarbageCollector",
+          "start": 54,
+          "end": 69,
+          "signature": "public static void demonstrateGarbageCollector() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateJit",
+          "start": 71,
+          "end": 84,
+          "signature": "public static void demonstrateJit() {",
+          "isMain": false
+        },
+        {
+          "name": "loaderName",
+          "start": 86,
+          "end": 88,
+          "signature": "static String loaderName(ClassLoader loader) {",
+          "isMain": false
+        },
+        {
+          "name": "main",
+          "start": 90,
+          "end": 96,
+          "signature": "public static void main(String[] args) {",
+          "isMain": true
+        }
+      ],
+      "todos": [],
+      "hasMain": true
+    },
+    "_8/reflection/ReflectionAnnotationsDemo.java": {
+      "path": "_8/reflection/ReflectionAnnotationsDemo.java",
+      "package": "org.baileyseyes._8.reflection",
+      "lines": 102,
+      "code": "package org.baileyseyes._8.reflection;\n\nimport java.lang.annotation.ElementType;\nimport java.lang.annotation.Retention;\nimport java.lang.annotation.RetentionPolicy;\nimport java.lang.annotation.Target;\nimport java.lang.reflect.Field;\nimport java.lang.reflect.Method;\nimport java.util.Arrays;\n\n/**\n * Рефлексия и аннотации на минимальном уровне:\n * — своя аннотация с retention RUNTIME;\n * — чтение аннотации через reflection;\n * — поля и методы класса во время выполнения;\n * — вызов метода по имени.\n *\n * @see org.baileyseyes._8.io.NioFilesDemo Предыдущая часть\n * @see org.baileyseyes._8.jvm.JvmInternalsDemo Следующая часть\n */\npublic class ReflectionAnnotationsDemo {\n\n    /**\n     * Аннотация — это метаданные. Без RUNTIME её не будет видно через reflection.\n     */\n    @Retention(RetentionPolicy.RUNTIME)\n    @Target(ElementType.TYPE)\n    @interface Info {\n        String author();\n\n        int version() default 1;\n    }\n\n    @Info(author = \"Java Core\", version = 2)\n    static class Book {\n        private String title = \"Effective Java\";\n        private int pages = 416;\n\n        public String getTitle() {\n            return title;\n        }\n\n        public String describe() {\n            return title + \", страниц: \" + pages;\n        }\n    }\n\n    /**\n     * Class — точка входа в reflection. Через него читаем аннотацию класса.\n     */\n    public static void demonstrateAnnotation() {\n        System.out.println(\"=== Аннотация через reflection ===\");\n\n        Info info = Book.class.getAnnotation(Info.class);\n        System.out.println(\"Автор: \" + info.author());\n        System.out.println(\"Версия: \" + info.version());\n    }\n\n    /**\n     * getDeclaredFields возвращает все поля, включая private.\n     * setAccessible(true) разрешает прочитать значение, но ломает инкапсуляцию.\n     */\n    public static void demonstrateFields() throws IllegalAccessException {\n        System.out.println(\"\\n=== Поля класса ===\");\n\n        Book book = new Book();\n        Field[] fields = Book.class.getDeclaredFields();\n        Arrays.sort(fields, (left, right) -> left.getName().compareTo(right.getName()));\n\n        for (Field field : fields) {\n            field.setAccessible(true);\n            System.out.println(\n                    field.getName() + \" (\" + field.getType().getSimpleName() + \") = \" + field.get(book));\n        }\n    }\n\n    /**\n     * Метод можно найти по имени и вызвать через invoke().\n     * Так работают многие фреймворки и библиотеки.\n     */\n    public static void demonstrateMethods() throws ReflectiveOperationException {\n        System.out.println(\"\\n=== Методы класса ===\");\n\n        Method[] methods = Book.class.getDeclaredMethods();\n        Arrays.sort(methods, (left, right) -> left.getName().compareTo(right.getName()));\n        for (Method method : methods) {\n            System.out.println(method.getName() + \" -> \" + method.getReturnType().getSimpleName());\n        }\n\n        Method describe = Book.class.getDeclaredMethod(\"describe\");\n        Object result = describe.invoke(new Book());\n        System.out.println(\"invoke describe(): \" + result);\n    }\n\n    public static void main(String[] args) throws ReflectiveOperationException {\n        System.out.println(\"=== Рефлексия и аннотации ===\");\n        demonstrateAnnotation();\n        demonstrateFields();\n        demonstrateMethods();\n    }\n}",
+      "types": [
+        {
+          "kind": "class",
+          "name": "ReflectionAnnotationsDemo",
+          "start": 11,
+          "end": 101
+        },
+        {
+          "kind": "annotation",
+          "name": "Info",
+          "start": 28,
+          "end": 32
+        },
+        {
+          "kind": "class",
+          "name": "Book",
+          "start": 35,
+          "end": 46
+        }
+      ],
+      "methods": [
+        {
+          "name": "getTitle",
+          "start": 39,
+          "end": 41,
+          "signature": "public String getTitle() {",
+          "isMain": false
+        },
+        {
+          "name": "describe",
+          "start": 43,
+          "end": 45,
+          "signature": "public String describe() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateAnnotation",
+          "start": 48,
+          "end": 57,
+          "signature": "public static void demonstrateAnnotation() {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateFields",
+          "start": 59,
+          "end": 75,
+          "signature": "public static void demonstrateFields() throws IllegalAccessException {",
+          "isMain": false
+        },
+        {
+          "name": "demonstrateMethods",
+          "start": 77,
+          "end": 93,
+          "signature": "public static void demonstrateMethods() throws ReflectiveOperationException {",
+          "isMain": false
+        },
+        {
+          "name": "main",
+          "start": 95,
+          "end": 100,
+          "signature": "public static void main(String[] args) throws ReflectiveOperationException {",
           "isMain": true
         }
       ],

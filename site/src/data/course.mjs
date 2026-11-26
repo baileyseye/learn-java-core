@@ -6,10 +6,11 @@ import module4 from './lessons/module-4.mjs';
 import module5 from './lessons/module-5.mjs';
 import module6 from './lessons/module-6.mjs';
 import module7 from './lessons/module-7.mjs';
+import module8 from './lessons/module-8.mjs';
 import extras from './extras.mjs';
 import { practiceExtras } from './practice.mjs';
 
-const groups = [module1, module2, module3, module4, module5, module6, module7];
+const groups = [module1, module2, module3, module4, module5, module6, module7, module8];
 
 let runningOrder = 0;
 export const lessons = groups.flatMap((group, index) =>
