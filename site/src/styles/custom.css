@@ -100,6 +100,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--sl-nav-height) + var(--sl-mobile-toc-height) + 4.75rem);
 }
 
 body {
@@ -895,7 +896,146 @@ button[data-open-modal] kbd {
   display: flex;
   flex-wrap: wrap;
   gap: 0.6rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.4rem;
+}
+
+/* ===== этапы урока ===== */
+
+.lesson-stages {
+  position: sticky;
+  top: calc(var(--sl-nav-height) + var(--sl-mobile-toc-height) + 0.35rem);
+  z-index: 5;
+  margin: 0 0 2rem;
+  padding: 0.4rem 0.45rem 0.5rem;
+  border: 1px solid var(--course-border);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--course-paper) 92%, transparent);
+  box-shadow: 0 12px 30px -24px rgba(28, 36, 48, 0.55);
+  backdrop-filter: blur(14px) saturate(1.15);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .lesson-stages {
+    background: var(--course-paper);
+  }
+}
+
+.lesson-stages-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.3rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lesson-stage {
+  min-width: 0;
+}
+
+.lesson-stage-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2.4rem;
+  padding: 0.42rem 0.55rem;
+  border-radius: 9px;
+  color: var(--course-muted);
+  font-size: 0.8rem;
+  font-weight: 650;
+  line-height: 1.2;
+  text-decoration: none;
+  transition:
+    background 0.16s ease,
+    color 0.16s ease,
+    box-shadow 0.16s ease;
+}
+
+.lesson-stage-link:hover {
+  background: var(--course-paper-2);
+  color: var(--course-ink);
+}
+
+.lesson-stage-link:focus-visible {
+  outline: 2px solid var(--course-accent);
+  outline-offset: 1px;
+}
+
+.lesson-stage-num {
+  flex: 0 0 auto;
+  color: var(--course-muted);
+  font-family: var(--sl-font-mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transition: color 0.16s ease;
+}
+
+.lesson-stage-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lesson-stage-dot {
+  flex: 0 0 auto;
+  width: 0.4rem;
+  height: 0.4rem;
+  margin-left: auto;
+  border-radius: 50%;
+  background: var(--course-border-strong);
+  opacity: 0.55;
+  transition:
+    background 0.16s ease,
+    opacity 0.16s ease,
+    box-shadow 0.16s ease;
+}
+
+.lesson-stage.is-active .lesson-stage-link {
+  background: var(--course-accent-soft);
+  color: var(--course-accent-strong);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--course-accent) 24%, transparent);
+}
+
+.lesson-stage.is-active .lesson-stage-num {
+  color: var(--course-accent);
+}
+
+.lesson-stage.is-active .lesson-stage-dot {
+  background: var(--course-accent);
+  opacity: 1;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--course-accent) 18%, transparent);
+}
+
+.lesson-stage.is-done .lesson-stage-link {
+  color: var(--course-ink);
+}
+
+.lesson-stage.is-done .lesson-stage-num {
+  color: var(--course-muted);
+}
+
+.lesson-stage.is-done .lesson-stage-dot {
+  background: var(--course-green);
+  opacity: 1;
+}
+
+.lesson-stages-track {
+  overflow: hidden;
+  height: 3px;
+  margin: 0.4rem 0.2rem 0;
+  border-radius: 999px;
+  background: var(--course-paper-2);
+}
+
+.lesson-stages-fill {
+  display: block;
+  width: 25%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--course-accent), var(--course-accent-strong));
+  transition: width 0.28s ease;
 }
 
 .lesson-section {
@@ -1038,11 +1178,33 @@ button[data-open-modal] kbd {
 
 .expressive-code {
   --ec-lineNumbers-fg: color-mix(in srgb, var(--ec-gtrFg) 52%, var(--ec-codeFg));
+  max-width: 100%;
   margin: 0 0 1.2rem;
 }
 
 .expressive-code code {
   font-family: var(--sl-font-mono);
+}
+
+.expressive-code pre {
+  border-color: color-mix(in srgb, var(--course-border) 82%, var(--course-border-strong));
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--course-border-strong) 90%, transparent) transparent;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Копирование кода: кнопка видна всегда, а не только по наведению. */
+@media (hover: hover) {
+  .expressive-code .frame .copy button {
+    opacity: 0.55;
+  }
+
+  .expressive-code .frame:hover .copy button,
+  .expressive-code .frame .copy button:hover,
+  .expressive-code .frame .copy button:focus-visible {
+    opacity: 1;
+  }
 }
 
 .output-block {
@@ -2469,6 +2631,10 @@ button[data-open-modal] kbd {
     flex-direction: column;
   }
 
+  .lesson-source-head code {
+    font-size: 0.7rem;
+  }
+
   .lesson-nav-next,
   .module-nav-next {
     text-align: left;
@@ -2499,9 +2665,46 @@ button[data-open-modal] kbd {
     padding: 0.9rem;
   }
 
+  .quiz-question {
+    padding: 1rem 0.95rem;
+  }
+
+  .quiz-question legend {
+    font-size: 0.94rem;
+  }
+
+  .quiz-option {
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0.68rem 0.7rem;
+    font-size: 0.9rem;
+  }
+
+  .quiz-option input {
+    flex: 0 0 auto;
+    width: 1.05rem;
+    height: 1.05rem;
+    margin-top: 0;
+  }
+
   .quiz-actions {
-    align-items: flex-start;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  .quiz-actions .course-btn {
+    width: 100%;
+  }
+
+  .expressive-code {
+    --ec-codeFontSize: 0.78rem;
+    --ec-codePadInl: 0.8rem;
+  }
+
+  .expressive-code .frame .header {
+    font-size: 0.72rem;
   }
 
   .practice-codemirror .cm-editor {
@@ -2515,6 +2718,62 @@ button[data-open-modal] kbd {
 
   .practice-actions .course-btn {
     flex: 1 1 auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .lesson-stages {
+    margin-bottom: 1.5rem;
+    padding: 0.3rem;
+    border-radius: 12px;
+  }
+
+  .lesson-stages-list {
+    gap: 0.15rem;
+  }
+
+  .lesson-stage-link {
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.14rem;
+    min-height: 2.9rem;
+    padding: 0.4rem 0.1rem 0.45rem;
+    font-size: 0.62rem;
+    text-align: center;
+  }
+
+  .lesson-stage-num {
+    font-size: 0.56rem;
+    letter-spacing: 0.05em;
+  }
+
+  .lesson-stage-label {
+    overflow: visible;
+    text-overflow: clip;
+    white-space: nowrap;
+  }
+
+  .lesson-stage-dot {
+    position: absolute;
+    top: 0.34rem;
+    right: 0.38rem;
+    width: 0.34rem;
+    height: 0.34rem;
+    margin: 0;
+  }
+
+  .lesson-stages-track {
+    margin-top: 0.35rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .lesson-stage-link {
+    font-size: 0.58rem;
+  }
+
+  .lesson-stage-num {
+    display: none;
   }
 }
 

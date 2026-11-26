@@ -6,6 +6,7 @@ import SourceCode from './SourceCode.astro';
 import FullSource from './FullSource.astro';
 import LessonNav from './LessonNav.astro';
 import PracticeEditor from './PracticeEditor.astro';
+import LessonStages from './LessonStages.astro';
 import outputs from '../data/outputs.json';
 import { courseStats } from '../data/course.mjs';
 import { githubSourcePath, moduleUrl } from '../utils/url.js';
@@ -44,6 +45,8 @@ function inline(value) {
     <ProgressToggle lessonId={lesson.id} />
     <a class="course-btn course-btn-ghost" href={moduleUrl(module)}>Все уроки модуля</a>
   </div>
+
+  <LessonStages />
 
   <section class="lesson-section lesson-goal">
     <h2 id="goal">Цель урока</h2>

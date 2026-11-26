@@ -1,0 +1,36 @@
+---
+const stages = [
+  { id: 'goal', num: '01', label: 'Цель' },
+  { id: 'code', num: '02', label: 'Код' },
+  { id: 'practice', num: '03', label: 'Практика' },
+  { id: 'quiz', num: '04', label: 'Самопроверка' }
+];
+---
+
+<nav class="lesson-stages" aria-label="Этапы урока" data-lesson-stages>
+  <ol class="lesson-stages-list">
+    {
+      stages.map((stage, index) => (
+        <li class:list={['lesson-stage', index === 0 && 'is-active']} data-stage={stage.id}>
+          <a
+            class="lesson-stage-link"
+            href={`#${stage.id}`}
+            data-stage-link
+            aria-current={index === 0 ? 'step' : undefined}
+          >
+            <span class="lesson-stage-num" aria-hidden="true">{stage.num}</span>
+            <span class="lesson-stage-label">{stage.label}</span>
+            <span class="lesson-stage-dot" aria-hidden="true" />
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+  <div class="lesson-stages-track" aria-hidden="true">
+    <span class="lesson-stages-fill" data-stages-fill></span>
+  </div>
+</nav>
+
+<script>
+  import '../scripts/stages.js';
+</script>

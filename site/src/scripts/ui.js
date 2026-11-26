@@ -7,6 +7,21 @@ function fixSearchLabel() {
   button.title = `Поиск (${isMac ? '⌘K' : 'Ctrl+K'})`;
 }
 
-document.addEventListener('DOMContentLoaded', fixSearchLabel);
-document.addEventListener('astro:page-load', fixSearchLabel);
-fixSearchLabel();
+function localizeCopyButtons() {
+  document.querySelectorAll('.expressive-code .copy button').forEach((button) => {
+    if (button.dataset.localized === 'true') return;
+    button.dataset.localized = 'true';
+    button.title = 'Копировать';
+    button.dataset.copied = 'Скопировано';
+    button.setAttribute('aria-label', 'Копировать код');
+  });
+}
+
+function enhance() {
+  fixSearchLabel();
+  localizeCopyButtons();
+}
+
+document.addEventListener('DOMContentLoaded', enhance);
+document.addEventListener('astro:page-load', enhance);
+enhance();
